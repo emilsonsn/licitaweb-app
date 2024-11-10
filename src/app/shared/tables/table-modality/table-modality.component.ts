@@ -92,7 +92,6 @@ export class TableModalityComponent {
       .getModalities(this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe((res) => {
-        debugger
         this.modality = res.data;
 
         this.pageControl.page = res.current_page - 1;

@@ -1,13 +1,12 @@
 // layout-private.component.ts
-import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { IMenuItem } from "@models/ItemsMenu";
-import { SidebarService } from '@services/sidebar.service';
-import { Subscription } from "rxjs";
-import { User } from "@models/user";
-import { UserService } from "@services/user.service";
-import { ApiResponse } from "@models/application";
-import { SessionService } from '@store/session.service';
-import { SessionQuery } from '@store/session.query';
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {IMenuItem} from "@models/ItemsMenu";
+import {SidebarService} from '@services/sidebar.service';
+import {Subscription} from "rxjs";
+import {User} from "@models/user";
+import {UserService} from "@services/user.service";
+import {SessionService} from '@store/session.service';
+import {SessionQuery} from '@store/session.query';
 
 @Component({
   selector: 'app-layout-private',
@@ -28,6 +27,7 @@ export class LayoutPrivateComponent {
     {
       label: 'Editais',
       icon: 'fa-solid fa-box',
+      route: null,
       children: [
         {
           label: 'Edital',
@@ -46,46 +46,46 @@ export class LayoutPrivateComponent {
         }
       ]
     },
-    {
-      label: 'Pedidos',
-      icon: 'fa-solid fa-box',
-      route: '/painel/orders'
-    },
-    {
-      label: 'Solicitações',
-      icon: 'fa-solid fa-bookmark',
-      route: '/painel/requests'
-    },
-    {
-      label: 'Colaboradores',
-      icon: 'fa-solid fa-users',
-      route: '/painel/collaborator'
-    },
-    {
-      label: 'Fornecedores',
-      icon: 'fa-solid fa-truck',
-      route: '/painel/provider'
-    },
-    {
-      label: 'Obras',
-      icon: 'fa-solid fa-person-digging',
-      route: '/painel/construction'
-    },
-    {
-      label: 'Clientes/Contratantes',
-      icon: 'fa-solid fa-user-tie',
-      route: '/painel/client'
-    },
-    {
-      label: 'Serviços',
-      icon: 'fa-solid fa-tools',
-      route: '/painel/services'
-    },
-    {
-      label: 'Tarefas',
-      icon: 'fa-solid fa-tasks',
-      route: '/painel/tasks'
-    }
+    /*    {
+          label: 'Pedidos',
+          icon: 'fa-solid fa-box',
+          route: '/painel/orders'
+        },
+        {
+          label: 'Solicitações',
+          icon: 'fa-solid fa-bookmark',
+          route: '/painel/requests'
+        },
+        {
+          label: 'Colaboradores',
+          icon: 'fa-solid fa-users',
+          route: '/painel/collaborator'
+        },
+        {
+          label: 'Fornecedores',
+          icon: 'fa-solid fa-truck',
+          route: '/painel/provider'
+        },
+        {
+          label: 'Obras',
+          icon: 'fa-solid fa-person-digging',
+          route: '/painel/construction'
+        },
+        {
+          label: 'Clientes/Contratantes',
+          icon: 'fa-solid fa-user-tie',
+          route: '/painel/client'
+        },
+        {
+          label: 'Serviços',
+          icon: 'fa-solid fa-tools',
+          route: '/painel/services'
+        },
+        {
+          label: 'Tarefas',
+          icon: 'fa-solid fa-tasks',
+          route: '/painel/tasks'
+        }*/
   ];
 
   protected isMobile: boolean = window.innerWidth >= 1000;
@@ -99,7 +99,8 @@ export class LayoutPrivateComponent {
     private readonly _userService: UserService,
     private readonly _sessionService: SessionService,
     private readonly _sessionQuery: SessionQuery
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     document.getElementById('template').addEventListener('click', () => {

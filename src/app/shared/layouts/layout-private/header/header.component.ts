@@ -4,8 +4,8 @@ import {IMenuItem} from "@models/ItemsMenu";
 import {SidebarService} from '@services/sidebar.service';
 import {User} from "@models/user";
 import {AuthService} from "@services/auth.service";
-import { SessionService } from '@store/session.service';
-import { SessionQuery } from '@store/session.query';
+import {SessionService} from '@store/session.service';
+import {SessionQuery} from '@store/session.query';
 
 @Component({
   selector: 'app-header',
@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit {
     protected router: Router,
     private readonly _sidebarService: SidebarService,
     private readonly _authService: AuthService,
-    private readonly _sessionService : SessionService,
-    private readonly _sessionQuery : SessionQuery
+    private readonly _sessionService: SessionService,
+    private readonly _sessionQuery: SessionQuery
   ) {
   }
 
@@ -44,8 +44,22 @@ export class HeaderComponent implements OnInit {
 
   private updateActiveLabel() {
     const currentUrl = this.router.url;
-    const activeItem = this.menuItem.find(item => item.route === currentUrl);
+    const activeItem = this.findActiveItem(this.menuItem, currentUrl);
     this.activeLabel = activeItem ? activeItem.label : '';
+  }
+
+  findActiveItem(menuItems: IMenuItem[], currentUrl: string): IMenuItem | undefined {
+    for (let item of menuItems) {
+      if (currentUrl.match(item.route) && item.label) {
+        return item;
+      } else if (item.children) {
+        const childItem = this.findActiveItem(item.children, currentUrl);
+        if (childItem) {
+          return childItem;
+        }
+      }
+    }
+    return undefined;
   }
 
   protected readonly console = console;

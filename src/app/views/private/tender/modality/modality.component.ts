@@ -35,7 +35,6 @@ export class ModalityComponent {
       })
       .afterClosed()
       .subscribe((res) => {
-        debugger
         if (res) {
           if (res.id) {
             this._patchModality(res);

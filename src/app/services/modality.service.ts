@@ -25,7 +25,7 @@ export class ModalityService {
     const paginate = Utils.mountPageControl(pageControl);
     const filterParams = Utils.mountPageControl(filters);
 
-    return this._http.get<ApiResponsePageable<Modality>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
+    return this._http.get<ApiResponsePageable<Modality>>(`${environment.api}/${this.sessionEndpoint}/all?${paginate}${filterParams}`);
   }
 
   public postModality(modality: Modality): Observable<ApiResponse<Modality>> {
