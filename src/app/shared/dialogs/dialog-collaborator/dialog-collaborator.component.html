@@ -10,6 +10,7 @@
 
   <form [formGroup]="form">
     <div class="row">
+      <!-- Profile Image Upload -->
       <div class="col-12 mb-3">
         <div class="profile-upload">
           <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" hidden>
@@ -27,43 +28,55 @@
         </div>
       </div>
 
+      <!-- Name Field -->
       <div class="col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Nome</mat-label>
-          <input matInput type="text" formControlName="name">
+          <input matInput type="text" formControlName="name" required>
         </mat-form-field>
       </div>
+
+      <!-- Email Field -->
       <div class="col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>E-mail</mat-label>
-          <input matInput type="email" formControlName="email" pattern="{{ utils.patternEmail }}">
+          <input matInput type="email" formControlName="email" required>
         </mat-form-field>
       </div>
+
+      <!-- CPF/CNPJ Field -->
       <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>CPF/CNPJ</mat-label>
           <input matInput type="text" formControlName="cpf_cnpj" mask="000.000.000-00||00.000.000/0000-00">
         </mat-form-field>
       </div>
-      <div class=" col-md-6 col-12 mb-3">
+
+      <!-- Birth Date Field -->
+      <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Data de nascimento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="birth_date">
+          <input matInput [matDatepicker]="picker" formControlName="birth_date" maxlength="10" readonly>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-md-6 col-12 mb-3">
+
+
+      <!-- Company Position Field -->
+      <!--<div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Cargo</mat-label>
           <mat-select formControlName="company_position_id">
             <mat-option *ngFor="let type of userPositionEnum" [value]="type.id">
-              {{ type.position | companyPosition}}
+              {{ type.position | companyPosition }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div class="col-md-6 col-12 mb-3">
+      </div>-->
+
+      <!-- Sector Field with Add Option -->
+      <!--<div class="col-md-6 col-12 mb-3">
         <div class="d-flex align-items-center gap-3">
           <mat-form-field appearance="outline">
             <mat-label>Setor</mat-label>
@@ -73,34 +86,32 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-
           <div matRipple class="plusButton" (click)="openDialogUserSector()">
             <i class="fa-solid fa-plus"></i>
           </div>
         </div>
-      </div>
+      </div>-->
+
+      <!-- WhatsApp Field -->
       <div class="col-md-6 col-12 mb-3">
-        <mat-form-field appearance="outline" required>
+        <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
-          <input type="text" formControlName="whatsapp" matInput mask="(00)00000-0000"
-            title="Digite um número de celular válido (xx)xxxxx-xxxx" required />
-          <mat-error *ngIf="form.get('whatsapp')?.value === '' || !validateCellphoneNumber(form.get('whatsapp'))">
-            Digite um número de celular válido (xx)xxxxx-xxxx
-          </mat-error>
+          <input matInput type="text" formControlName="whatsapp" mask="(00) 0 0000-0000" title="Digite um número de celular válido (xx) x xxxx-xxxx">
+          <mat-error *ngIf="form.get('whatsapp')?.invalid">Digite um número de celular válido (xx) x xxxx-xxxx</mat-error>
         </mat-form-field>
       </div>
+
+      <!-- Phone Field -->
       <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Telefone</mat-label>
-          <input type="text" formControlName="phone" matInput mask="(00)0000-0000"
-            title="Digite um número de telefone válido (xx)xxxx-xxxx ou (xx)xxxxx-xxxx" />
-          <mat-error *ngIf="form.get('phone')?.value === '' || !validatePhoneNumber(form.get('phone'))">O telefone deve
-            estar no formato válido
-            (xx)xxxx-xxxx.</mat-error>
+          <input matInput type="text" formControlName="phone" mask="(00) 0000-0000" title="Digite um número de telefone válido (xx) xxxx-xxxx ou (xx) x xxxx-xxxx">
+          <mat-error *ngIf="form.get('phone')?.invalid">O telefone deve estar no formato válido (xx)xxxx-xxxx.</mat-error>
         </mat-form-field>
       </div>
     </div>
   </form>
+
 
 </mat-dialog-content>
 <mat-dialog-actions>

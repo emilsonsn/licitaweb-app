@@ -6,6 +6,7 @@ import {User} from '@models/user';
 import {DialogTypeUserSectorComponent} from '../dialog-type-user-sector/dialog-type-user-sector.component';
 import dayjs from 'dayjs';
 import {Utils} from '@shared/utils';
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-dialog-collaborator',
@@ -21,8 +22,6 @@ export class DialogCollaboratorComponent {
   public profileImageFile: File | null = null;
   profileImage: string | ArrayBuffer = null;
   isDragOver: boolean = false;
-  public userPositionEnum;
-  public userSectorsEnum;
 
   public utils = Utils;
 
@@ -31,8 +30,6 @@ export class DialogCollaboratorComponent {
     private readonly _data: { user: User },
     private readonly _dialogRef: MatDialogRef<DialogCollaboratorComponent>,
     private readonly _fb: FormBuilder,
-    private readonly _dialog: MatDialog,
-    private readonly _userService: UserService
   ) {
   }
 
@@ -43,10 +40,8 @@ export class DialogCollaboratorComponent {
       name: [null, [Validators.required]],
       cpf_cnpj: [null, [Validators.required]],
       birth_date: [null, [Validators.required]],
-      company_position_id: [null, [Validators.required]],
-      sector_id: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
-      whatsapp: [null, [Validators.required]],
+      phone: [null],
+      whatsapp: [null],
       email: [null, [Validators.required]],
     })
 
@@ -58,9 +53,33 @@ export class DialogCollaboratorComponent {
         this.profileImage = this._data.user.photo
       }
     }
+  }
 
-    this.updateSectorsUser();
-    this.getPositionsUser();
+
+  applyDateMask(event: any): void {
+    let value = event.target.value;
+
+    // Remove qualquer coisa que não seja número
+    // value = value.replace(/\D/g, '');
+
+    console.log(value);
+    console.log(value.length);
+
+    // Adiciona a máscara 'dd/MM/yyyy' conforme o valor do input
+    if (value.length <= 2) {
+      value = value.replace(/(\d{2})(\d{1,})/, '$1/$2');
+    }
+    // Second condition: format as MM/DD/
+    else if (value.length <= 4) {
+      value = value.replace(/(\d{2})(\d{2})(\d{0,})/, '$1/$2/');
+    }
+    // Third condition: format as MM/DD/YYYY
+    else {
+      value = value.replace(/(\d{2})(\d{2})(\d{2})(\d{0,})/, '$1/$2/$3');
+    }
+
+    // Atualiza o valor do input
+    event.target.value = value;
   }
 
   onFileSelected(event: Event): void {
@@ -130,8 +149,6 @@ export class DialogCollaboratorComponent {
       formData.append('name', form.get('name')?.value);
       formData.append('cpf_cnpj', form.get('cpf_cnpj')?.value);
       formData.append('birth_date', dayjs(form.get('birth_date')?.value).format('YYYY-MM-DD'));
-      formData.append('company_position_id', form.get('company_position_id')?.value);
-      formData.append('sector_id', form.get('sector_id')?.value);
       formData.append('phone', form.get('phone')?.value);
       formData.append('whatsapp', form.get('whatsapp')?.value);
       formData.append('email', form.get('email')?.value);
@@ -140,42 +157,6 @@ export class DialogCollaboratorComponent {
 
       this._dialogRef.close(formData)
     }
-  }
-
-  public openDialogUserSector() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '1000px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogTypeUserSectorComponent,
-        {
-          ...dialogConfig
-        })
-      .afterClosed()
-      .subscribe((res) => {
-        if (!res) {
-          this.updateSectorsUser();
-        }
-      })
-  }
-
-  // Utils
-  public getPositionsUser() {
-    this._userService.getPositionsUser()
-      .subscribe(res => {
-        this.userPositionEnum = res.data;
-      })
-  }
-
-  public updateSectorsUser() {
-    this._userService.getSectorsUser()
-      .subscribe(res => {
-        this.userSectorsEnum = res.data;
-      })
   }
 
   validateCellphoneNumber(control: any) {

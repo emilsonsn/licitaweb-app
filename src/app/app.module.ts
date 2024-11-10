@@ -1,26 +1,43 @@
 import {DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import player from 'lottie-web';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {ToastrModule} from "ngx-toastr";
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {provideLottieOptions} from "ngx-lottie";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { provideNgxMask } from 'ngx-mask';
-import { CURRENCY_MASK_CONFIG, CurrencyMaskConfig, CurrencyMaskModule } from 'ng2-currency-mask';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptorService } from '@services/auth-interceptor.service';
-import { BrowserstateInterceptor } from './interceptors/browserstate.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  NativeDateAdapter,
+  provideNativeDateAdapter
+} from '@angular/material/core';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {provideNgxMask} from 'ngx-mask';
+import {CURRENCY_MASK_CONFIG, CurrencyMaskConfig, CurrencyMaskModule} from 'ng2-currency-mask';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthInterceptorService} from '@services/auth-interceptor.service';
+import {BrowserstateInterceptor} from './interceptors/browserstate.interceptor';
+import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 
 registerLocaleData(localePt, 'pt-BR');
+
+const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "right",
@@ -31,6 +48,23 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   suffix: "",
   thousands: "."
 };
+
+export class CustomDateAdapter extends NativeDateAdapter {
+  // Personalize o comportamento do adaptador de data, se necessário
+  parse(value: any): Date | null {
+    const str = value;
+    if (str && typeof str === 'string') {
+      const parts = str.split('/');
+      if (parts.length === 3) {
+        const day = Number(parts[0]);
+        const month = Number(parts[1]) - 1;  // O mês começa em 0 no JavaScript
+        const year = Number(parts[2]);
+        return new Date(year, month, day);
+      }
+    }
+    return super.parse(value);
+  }
+}
 
 @NgModule({
   declarations: [
@@ -57,6 +91,12 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
       useValue: 'pt-BR'
     },
     {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'pt-BR'
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+    {provide: DateAdapter, useClass: CustomDateAdapter},
+    {
       provide: DEFAULT_CURRENCY_CODE,
       useValue: 'BRL'
     },
@@ -71,9 +111,9 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     //   provide: DATE_PIPE_DEFAULT_OPTIONS,
     //   useValue: {timezone: '-0300'}
     // },
-    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: BrowserstateInterceptor, multi: true },
+    {provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: BrowserstateInterceptor, multi: true},
     provideAnimationsAsync(),
     provideAnimations(),
     provideNativeDateAdapter(),
@@ -81,4 +121,5 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

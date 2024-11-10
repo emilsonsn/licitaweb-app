@@ -91,7 +91,6 @@ export class TableModalityComponent {
   }
 
   search(): void {
-    debugger
     this._initOrStopLoading();
 
     this._modality
