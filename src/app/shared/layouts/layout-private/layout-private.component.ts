@@ -46,6 +46,21 @@ export class LayoutPrivateComponent {
         }
       ]
     },
+    {
+      label: 'Usuários',
+      icon: 'fa-solid fa-users',
+      route: '/painel/users'
+    },
+/*    {
+      label: 'Tarefas',
+      icon: 'fa-solid fa-tasks',
+      route: '/painel/tasks'
+    },*/
+  /*  {
+      label: 'Configuração',
+      icon: 'fa-solid fa-gear',
+      route: '/painel/settings'
+    },*/
     /*    {
           label: 'Pedidos',
           icon: 'fa-solid fa-box',
