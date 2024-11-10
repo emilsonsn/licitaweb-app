@@ -4,4 +4,5 @@ export interface IMenuItem {
   route?: string;
   active?: boolean;
   children?: IMenuItem[];
+  isOpen?: boolean;
 }

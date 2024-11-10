@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {IMenuItem} from "@models/ItemsMenu";
-import { SidebarService } from '@services/sidebar.service';
+import {SidebarService} from '@services/sidebar.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sidebar',
@@ -11,17 +12,24 @@ export class SidebarComponent {
   @Input() menuItem: IMenuItem[] = []
 
   constructor(
-    protected readonly _sidebarService : SidebarService
-  ) {}
-
-  public submenuVisible: boolean[] = [];
-
-  toggleSubmenu(index: number): void {
-    this.submenuVisible[index] = !this.submenuVisible[index];
+    protected readonly _sidebarService: SidebarService,
+    protected readonly router: Router
+  ) {
   }
 
   public toggleShowSidebar() {
     this._sidebarService.showSidebar.set(false);
   }
 
+  public toggleDropdown(item: IMenuItem): void {
+    item.isOpen = !item.isOpen;
+  }
+
+  public navigateToRoute(route: string | undefined, event?: Event): void {
+    event.stopPropagation();
+
+    if (route) {
+      this.router.navigate([route]).then();
+    }
+  }
 }
