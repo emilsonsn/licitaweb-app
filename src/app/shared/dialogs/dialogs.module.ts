@@ -37,6 +37,8 @@ import {DialogTaskComponent} from './dialog-task/dialog-task.component';
 import {MatIcon} from "@angular/material/icon";
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dialog-order-solicitation.component';
+import { DialogNoticesComponent } from './dialog-notices/dialog-notices.component';
+import { DialogModalityComponent } from './dialog-modality/dialog-modality.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dial
     DialogTypeServiceComponent,
     DialogTypeUserSectorComponent,
     DialogTaskComponent,
-    DialogOrderSolicitationComponent
+    DialogOrderSolicitationComponent,
+    DialogNoticesComponent,
+    DialogModalityComponent
   ],
   imports: [
     CommonModule,

@@ -14,6 +14,12 @@ export class SidebarComponent {
     protected readonly _sidebarService : SidebarService
   ) {}
 
+  public submenuVisible: boolean[] = [];
+
+  toggleSubmenu(index: number): void {
+    this.submenuVisible[index] = !this.submenuVisible[index];
+  }
+
   public toggleShowSidebar() {
     this._sidebarService.showSidebar.set(false);
   }

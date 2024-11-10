@@ -10,7 +10,7 @@ import {HomeModule} from "@app/views/private/home/home.module";
   imports: [
     CommonModule,
     PrivateRoutingModule,
-    HomeModule
+    HomeModule,
   ]
 })
 export class PrivateModule { }

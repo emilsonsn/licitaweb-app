@@ -1,10 +1,11 @@
-import {Component, ElementRef, Renderer2} from '@angular/core';
-import {IMenuItem} from "@models/ItemsMenu";
-import {SidebarService} from '@services/sidebar.service';
-import {Subscription} from "rxjs";
-import {User} from "@models/user";
-import {UserService} from "@services/user.service";
-import {ApiResponse} from "@models/application";
+// layout-private.component.ts
+import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { IMenuItem } from "@models/ItemsMenu";
+import { SidebarService } from '@services/sidebar.service';
+import { Subscription } from "rxjs";
+import { User } from "@models/user";
+import { UserService } from "@services/user.service";
+import { ApiResponse } from "@models/application";
 import { SessionService } from '@store/session.service';
 import { SessionQuery } from '@store/session.query';
 
@@ -23,6 +24,27 @@ export class LayoutPrivateComponent {
       icon: 'fa-solid fa-house',
       route: '/painel/home',
       active: true
+    },
+    {
+      label: 'Editais',
+      icon: 'fa-solid fa-box',
+      children: [
+        {
+          label: 'Edital',
+          icon: 'fa-solid fa-calendar-check',
+          route: '/painel/tender/tender'
+        },
+        {
+          label: 'Modalidade',
+          icon: 'fa-solid fa-calendar-check',
+          route: '/painel/tender/modality'
+        },
+        {
+          label: 'Etapa',
+          icon: 'fa-solid fa-calendar-check',
+          route: '/painel/tender/stage'
+        }
+      ]
     },
     {
       label: 'Pedidos',
@@ -64,7 +86,7 @@ export class LayoutPrivateComponent {
       icon: 'fa-solid fa-tasks',
       route: '/painel/tasks'
     }
-  ]
+  ];
 
   protected isMobile: boolean = window.innerWidth >= 1000;
   private resizeSubscription: Subscription;
@@ -76,38 +98,32 @@ export class LayoutPrivateComponent {
     private readonly _sidebarService: SidebarService,
     private readonly _userService: UserService,
     private readonly _sessionService: SessionService,
-    private readonly _sessionQuery : SessionQuery
+    private readonly _sessionQuery: SessionQuery
   ) { }
 
-
   ngOnInit(): void {
-
     document.getElementById('template').addEventListener('click', () => {
       this._sidebarService.retractSidebar();
     });
 
     this._sessionQuery.user$.subscribe(user => {
-      if(user) {
+      if (user) {
         this.user = user;
-
-        if(user?.company_position.position == 'Requester')
+        if (user?.company_position.position == 'Requester')
           this.permitedMenuItem = this.menuItem.filter(item =>
             item.label == 'Pedidos' ||
-            item.label == 'Solicitações' || 
+            item.label == 'Solicitações' ||
             item.label == 'Fornecedores'
           );
         else
           this.permitedMenuItem = this.menuItem;
       }
     })
-
   }
-
 
   ngOnDestroy(): void {
     if (this.resizeSubscription) {
       this.resizeSubscription.unsubscribe();
     }
   }
-
 }

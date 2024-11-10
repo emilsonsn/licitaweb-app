@@ -1,0 +1,127 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{ title }}</span>
+
+
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="form" class="row">
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Número do Edital *</span>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="editNumber" placeholder="0" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Órgão Emitente *</span>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="issuingAgency" placeholder="Órgão emitente" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Modalidade *</span>
+      <div class="d-flex align-items-center gap-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Modalidade</mat-label>
+          <mat-select formControlName="sector_id">
+            <mat-option *ngFor="let type of tenderModalityEnum" [value]="type.id">
+              {{ type.sector }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div matRipple class="plusButton">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Data do Cadastro *</span>
+      <mat-form-field appearance="outline">
+        <input matInput [matDatepicker]="pickerRegistration" formControlName="registrationDate" placeholder="DD/MM/YYYY"
+          readonly />
+        <mat-datepicker-toggle matSuffix [for]="pickerRegistration"></mat-datepicker-toggle>
+        <mat-datepicker #pickerRegistration></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Data do Certame *</span>
+      <mat-form-field appearance="outline">
+        <input matInput [matDatepicker]="pickerCertame" formControlName="certameDate" placeholder="DD/MM/YYYY"
+          readonly />
+        <mat-datepicker-toggle matSuffix [for]="pickerCertame"></mat-datepicker-toggle>
+        <mat-datepicker #pickerCertame></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Objeto do Edital *</span>
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="editObject" placeholder="Descreva o objeto do edital" rows="3"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Valor Estimado *</span>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="estimatedValue" type="number" placeholder="Valor estimado" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Status *</span>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="sector_id">
+          <mat-option *ngFor="let type of tenderModalityEnum" [value]="type.id">
+            {{ type.sector }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Responsável Interno *</span>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="internalResponsible" placeholder="Responsável interno" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Quantidade de Itens *</span>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="itemQuantity" type="number" placeholder="Quantidade de itens" />
+      </mat-form-field>
+    </div>
+
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      @if(loading) {
+      <div matRipple class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
+        <mat-spinner></mat-spinner>
+      </div>
+      }
+
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit(form)">{{isNewTender ? 'Criar' :
+            'Salvar'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

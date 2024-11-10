@@ -65,8 +65,8 @@ export class DialogOrderComponent {
   public bancos = signal<Banco[]>([]);
   public categories = signal<any[]>([]);
 
-  public isAdmin = false; 
-  public hasGranatum = false; 
+  public isAdmin = false;
+  public hasGranatum = false;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     protected readonly _data,
@@ -175,7 +175,7 @@ export class DialogOrderComponent {
       if(user && user?.company_position.position !== 'Requester') {
         this.isAdmin = true;
       }else{
-        this.form.get('purchase_status').disable();        
+        this.form.get('purchase_status').disable();
       }
     })
   }

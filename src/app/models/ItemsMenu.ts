@@ -3,4 +3,5 @@ export interface IMenuItem {
   icon?: string;
   route?: string;
   active?: boolean;
+  children?: IMenuItem[];
 }

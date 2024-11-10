@@ -1,0 +1,15 @@
+<div class="mt-5 d-flex justify-content-end">
+  <button matRipple class="button yellow" (click)="openDialogModality()">
+    <i class="fa-solid fa-plus"></i> Nova Modalidade
+  </button>
+</div>
+
+
+<div id="componentTable" class="col-12 mt-4">
+  <app-table-modality
+  [loading]="loading"
+  (onModalityClick)="openDialogModality($event)"
+  (onDeleteModalityClick)="_deleteCollaborator($event)">
+
+  </app-table-modality>
+</div>

@@ -19,6 +19,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'tender',
+        loadChildren: () => import('./tender/tender.module').then(m => m.TenderModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'tender'
+        }
+      },
+      {
         path: 'requests',
         loadChildren: () => import('./requests/requests.module').then(m => m.RequestsModule),
         canActivate: [permissionGuard],
@@ -99,7 +107,7 @@ export class PrivateRoutingModule {
 
   constructor(
     private readonly _sessionService: SessionService
-  ) {}
+  ) { }
 
 }
 
