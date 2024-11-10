@@ -21,6 +21,7 @@ import { TableUserComponent } from './table-users/table-users.component';
 import {SharedModule} from "@shared/shared.module";
 import {AvatarModule} from "@shared/components/avatar/avatar.module";
 import { TableModalityComponent } from './table-modality/table-modality.component';
+import { TableTenderComponent } from './table-tender/table-tender.component';
 
 const tables = [
   TableOrdersComponent,
@@ -34,7 +35,8 @@ const tables = [
   TableTypeServiceComponent,
   TableUserComponent,
   TableTypeUserSectorComponent,
-  TableModalityComponent
+  TableModalityComponent,
+  TableTenderComponent,
 ]
 
 @NgModule({

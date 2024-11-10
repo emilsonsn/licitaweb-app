@@ -1,7 +1,9 @@
 <mat-dialog-content>
   <div class="d-flex align-items-center justify-content-between">
     <span class="fw-bold fs-5">{{ title }}</span>
-
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
 
   </div>
 
@@ -33,21 +35,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
-        <div matRipple class="plusButton">
-          <i class="fa-solid fa-plus"></i>
-        </div>
       </div>
-    </div>
-
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Data do Cadastro *</span>
-      <mat-form-field appearance="outline">
-        <input matInput [matDatepicker]="pickerRegistration" formControlName="registrationDate" placeholder="DD/MM/YYYY"
-          readonly />
-        <mat-datepicker-toggle matSuffix [for]="pickerRegistration"></mat-datepicker-toggle>
-        <mat-datepicker #pickerRegistration></mat-datepicker>
-      </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
@@ -67,21 +55,66 @@
       </mat-form-field>
     </div>
 
+    <div class="col-12" formArrayName="items">
+      <span class="fw-bolder">Itens *</span>
+      @for(item of items.controls; track item) {
+        <div class="d-flex flex-row gap-4 mb-2" [formGroupName]="$index">
+          <div class="d-flex flex-md-row flex-column gap-2 w-75 ">
+            <div class=" col-md-4 col-12">
+              <mat-form-field appearance="outline">
+                <input matInput type="text" formControlName="name" placeholder="Nome">
+              </mat-form-field>
+            </div>
+            <div class=" col-md-4 col-12">
+              <mat-form-field appearance="outline">
+                <input type="text" formControlName="quantity" matInput placeholder="Quantidade" mask="0*" />
+              </mat-form-field>
+            </div>
+            <div class=" col-md-4 col-12">
+              <mat-form-field appearance="outline">
+                <input type="text" formControlName="unit_value" matInput placeholder="R$ 0,00" currencyMask />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            @if(true) {
+              <button class="mt-1" color="warn" *ngIf="true " mat-icon-button (click)="onDeleteItem($index)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            }
+          </div>
+        </div>
+      }
+      <div class="col-auto my-2">
+        <div matRipple id="addItem">
+          <button color="primary" *ngIf="true" (click)="!isToEdit ? pushItem() : null">
+            Adicionar item <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Valor Estimado *</span>
+      <span class="fw-bolder">Valor Total *</span>
       <mat-form-field appearance="outline">
-        <input matInput formControlName="estimatedValue" type="number" placeholder="Valor estimado" />
+        <input type="text" formControlName="total_value" matInput currencyMask placeholder="R$ 0,00" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Quantidade de Itens *</span>
+      <mat-form-field appearance="outline">
+        <input type="text" formControlName="quantity_items" matInput mask="0*" [allowNegativeNumbers]="false" placeholder="0" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Status *</span>
       <mat-form-field appearance="outline">
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="sector_id">
-          <mat-option *ngFor="let type of tenderModalityEnum" [value]="type.id">
-            {{ type.sector }}
-          </mat-option>
+        <mat-select formControlName="status" placeholder="Status">
+          @for (status of Status; track status) {
+            <mat-option [value]="status">{{ status | statusLicitaWeb }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>
@@ -93,13 +126,42 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Quantidade de Itens *</span>
-      <mat-form-field appearance="outline">
-        <input matInput formControlName="itemQuantity" type="number" placeholder="Quantidade de itens" />
-      </mat-form-field>
-    </div>
+    <div class="">
+      <span class="fw-bolder">Anexos</span>
+      <div id="files">
+        @for(img of filesFromBack; track img) {
+          <div class="file" matTooltip="{{img.name}}" (click)="openImgInAnotherTab(img.path)">
+            <div class="delete">
+              <i class="fa-solid fa-close" (click)="prepareFileToRemoveFromBack(img.id, $index);"></i>
+            </div>
+              <img [src]="img.path" alt="{{img.name}}" style="max-width: 100%; max-height: 100%;" />
+          </div>
+        }
 
+        @for(img of filesToSend; track img) {
+          <div class="file" matTooltip="{{img.file.name}}">
+            <div class="delete">
+              <i class="fa-solid fa-close" (click)="removeFileFromSendToFiles($index);"></i>
+            </div>
+            @if(img.preview) {
+              <img [src]="img.preview" alt="{{img.file.name}}" style="max-width: 100%; max-height: 100%;" />
+            }
+            @else {
+              <i class="fa-solid fa-file"></i>
+            }
+          </div>
+        }
+      </div>
+      <div matRipple id="inputFileAdd" class="mt-2">
+        <div id="text">
+          <i class="fa-solid fa-plus"></i>
+          <span>Adicionar Arquivo</span>
+        </div>
+        @if(!isToEdit) {
+          <input type="file" (change)="onFileSelected($event)" [multiple]="true" title=" " />
+        }
+      </div>
+    </div>
 
   </form>
 </mat-dialog-content>

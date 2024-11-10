@@ -1,25 +1,18 @@
-import { style } from '@angular/animations';
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Order, PageControl } from '@models/application';
-import { Modality } from '@models/modality';
-import { ModalityService } from '@services/modality.service';
+import { Tender } from '@models/tender';
+import { TenderService } from '@services/tender.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'app-table-modality',
-  templateUrl: './table-modality.component.html',
-  styleUrl: './table-modality.component.scss'
+  selector: 'app-table-tender',
+  templateUrl: './table-tender.component.html',
+  styleUrl: './table-tender.component.scss'
 })
-export class TableModalityComponent {
+export class TableTenderComponent {
   @Input()
   searchTerm?: string = '';
-
-  @Output()
-  onModalityClick: EventEmitter<Modality> = new EventEmitter<Modality>();
-
-  @Output()
-  onDeleteModalityClick: EventEmitter<number> = new EventEmitter<number>();
 
   @Input()
   loading: boolean = false;
@@ -27,20 +20,62 @@ export class TableModalityComponent {
   @Input()
   filters: any;
 
-  public modality: Modality[] = [];
+  @Output()
+  onUserClick: EventEmitter<Tender> = new EventEmitter<Tender>();
+
+  @Output()
+  onDeleteUserClick: EventEmitter<number> = new EventEmitter<number>();
+
+  public tender: Tender[] = [];
 
   public columns = [
     {
-      slug: "name",
+      slug: "organ",
       order: true,
-      title: "Nome",
-      align: "center",
+      title: "Órgão Emitente",
+      align: "start",
+    },
+    {
+      slug: "contest_date",
+      order: true,
+      title: "Data do Certame",
+      align: "justify-content-center",
+    },
+    {
+      slug: "items_count",
+      order: true,
+      title: "Quantidade de Itens",
+      align: "justify-content-center",
+    },
+    {
+      slug: "number",
+      order: true,
+      title: "Número do Edital",
+      align: "justify-content-center",
+    },
+    {
+      slug: "estimated_value",
+      order: true,
+      title: "Valor Estimado",
+      align: "justify-content-center",
+    },
+    {
+      slug: "status",
+      order: true,
+      title: "Status",
+      align: "justify-content-center",
+    },
+    {
+      slug: "internal_responsible",
+      order: true,
+      title: "Responsável Interno",
+      align: "justify-content-center",
     },
     {
       slug: "",
       order: true,
       title: "Ações",
-      align: "justify-content-end",
+      align: "justify-content-center",
     },
   ];
 
@@ -55,12 +90,8 @@ export class TableModalityComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _modality: ModalityService,
+    private readonly _tenderService: TenderService,
   ) {}
-
-  ngOnInit(): void {
-    this._onSearch(); // Chamada inicial para garantir a busca
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const { filters, searchTerm, loading } = changes;
@@ -74,6 +105,7 @@ export class TableModalityComponent {
     else if(filters?.previousValue && filters?.currentValue) {
 			this._onSearch();
 		}
+
   }
 
   private _initOrStopLoading(): void {
@@ -91,14 +123,13 @@ export class TableModalityComponent {
   }
 
   search(): void {
-    debugger
     this._initOrStopLoading();
 
-    this._modality
-      .getModalities(this.pageControl, this.filters)
+    this._tenderService
+      .getTenders(this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe((res) => {
-        this.modality = res.data;
+        this.tender = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;
@@ -127,5 +158,4 @@ export class TableModalityComponent {
     this.pageControl.take = $event.pageSize;
     this.search();
   }
-
 }

@@ -22,6 +22,7 @@ import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { DialogFilterRequestComponent } from './dialog-filter-request/dialog-filter-request.component';
+import { DialogFilterTenderComponent } from './dialog-filter-tender/dialog-filter-tender.component';
 
 const filters = [
   DialogFilterOrderComponent,
@@ -31,7 +32,8 @@ const filters = [
 @NgModule({
   declarations: [
     filters,
-    DialogFilterRequestComponent
+    DialogFilterRequestComponent,
+    DialogFilterTenderComponent
   ],
   imports: [
     CommonModule,

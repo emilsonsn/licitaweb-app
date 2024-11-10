@@ -2,9 +2,11 @@ import { Component, computed, Signal, signal } from '@angular/core';
 import { OrderData } from "@models/dashboard";
 import { ISmallInformationCard } from "@models/cardInformation";
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DialogOrderComponent } from '@shared/dialogs/dialog-order/dialog-order.component';
 import { DialogNoticesComponent } from '@shared/dialogs/dialog-notices/dialog-notices.component';
+import { DialogFilterOrderComponent, OrderFilters } from '@shared/dialogs/filters/dialog-filter-order/dialog-filter-order.component';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-tender',
@@ -13,6 +15,8 @@ import { DialogNoticesComponent } from '@shared/dialogs/dialog-notices/dialog-no
 })
 export class TenderComponent {
   public loading: boolean = false;
+  public filtersFromDialog: FormGroup;
+  public filters: OrderFilters;
 
   dashboardCards = signal<OrderData>(
     {
@@ -57,6 +61,36 @@ export class TenderComponent {
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
   ) { }
+
+  public openOrderFilterDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '550px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogFilterOrderComponent, {
+        data: {...this.filtersFromDialog.getRawValue()},
+        ...dialogConfig
+      })
+      .afterClosed()
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.filters = {
+              ...res.filters,
+              start_date: res.filters?.start_date ? dayjs(res.filters.start_date).format('YYYY-MM-DD') : '',
+              end_date: res.filters?.end_date ? dayjs(res.filters.end_date).format('YYYY-MM-DD') : '',
+            };
+
+            !res.clear ? this.filtersFromDialog.patchValue(res.filters) : this.filtersFromDialog.reset();
+          }
+        }
+      })
+  }
 
   public openOrderDialog(data?) {
     const dialogConfig: MatDialogConfig = {

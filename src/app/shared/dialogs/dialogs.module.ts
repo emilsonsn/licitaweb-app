@@ -57,7 +57,7 @@ import { DialogModalityComponent } from './dialog-modality/dialog-modality.compo
     DialogTaskComponent,
     DialogOrderSolicitationComponent,
     DialogNoticesComponent,
-    DialogModalityComponent
+    DialogModalityComponent,
   ],
   imports: [
     CommonModule,

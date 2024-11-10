@@ -8,6 +8,7 @@ import { PhoneMaskPipe } from './phone-mask.pipe';
 import { CpfCnpjMaskPipe } from './cpf-cnpj-mask.pipe';
 import { SolicitationStatusPipe } from './solicitation-status.pipe';
 import { CompanyPositionPipe } from './company-position.pipe';
+import { StatusLicitaWebPipe } from './status-licita-web.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -17,13 +18,14 @@ const pipes = [
   PhoneMaskPipe,
   CpfCnpjMaskPipe,
   SolicitationStatusPipe,
-  CompanyPositionPipe
+  CompanyPositionPipe,
+  StatusLicitaWebPipe
 ];
 
 @NgModule({
   declarations: [
     pipes,
-    CompanyPositionPipe
+    CompanyPositionPipe,
   ],
   imports: [
     CommonModule

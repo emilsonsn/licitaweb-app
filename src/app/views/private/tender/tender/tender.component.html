@@ -17,9 +17,9 @@
 
     <div id="options">
       @if (true) {
-      <div id="filter" matRipple>
-        <i class="fa-solid fa-filter"></i>
-      </div>
+        <div id="filter" matRipple (click)="openOrderFilterDialog()">
+          <i class="fa-solid fa-filter"></i>
+        </div>
       }
 
       <div id="buttons">
@@ -33,7 +33,7 @@
 </div>
 
 <div id="componentTable" class="col-12 mt-4">
-  <app-table-orders>
-  </app-table-orders>
+  <app-table-tender>
+  </app-table-tender>
 </div>
 <router-outlet></router-outlet>

@@ -11,7 +11,8 @@ import {LayoutsModule} from "@shared/layouts/layouts.module";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     ComponentsModule,
