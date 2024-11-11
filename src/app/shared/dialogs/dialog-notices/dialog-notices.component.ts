@@ -2,17 +2,11 @@ import {Component, Inject} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import dayjs from 'dayjs';
-import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
-import { dateValidator } from '@shared/validators/date';
-import { DialogOrderSolicitationComponent } from '../dialog-order-solicitation/dialog-order-solicitation.component';
-import { RequestService } from '@services/request.service';
-import { RequestStatus } from '@models/request';
-import { SessionQuery } from '@store/session.query';
-import { TenderService } from '@services/tender.service';
-import { StatusLicitaWeb } from '@models/statusLicitaWeb';
-import { ModalityService } from '@services/modality.service';
-import { Modality } from '@models/modality';
+import {ToastrService} from 'ngx-toastr';
+import {TenderService} from '@services/tender.service';
+import {StatusLicitaWeb} from '@models/statusLicitaWeb';
+import {ModalityService} from '@services/modality.service';
+import {Modality} from '@models/modality';
 
 @Component({
   selector: 'app-dialog-notices',
@@ -44,9 +38,9 @@ export class DialogNoticesComponent {
 
   public modalities: Modality[];
 
-  protected filesToRemove : number[] = [];
-  protected filesFromBack : {
-    index : number,
+  protected filesToRemove: number[] = [];
+  protected filesFromBack: {
+    index: number,
     id: number,
     name: string,
     path: string, // Wasabi
@@ -59,8 +53,9 @@ export class DialogNoticesComponent {
     private readonly _dialogRef: MatDialogRef<DialogNoticesComponent>,
     private _tender: TenderService,
     private _modalityService: ModalityService,
-    private readonly _toastr : ToastrService,
-  ) { }
+    private readonly _toastr: ToastrService,
+  ) {
+  }
 
   ngOnInit() {
     this.form = this._fb.group({
@@ -123,9 +118,9 @@ export class DialogNoticesComponent {
 
   public getModalities() {
     this._modalityService.getModalities()
-    .subscribe((modalities) => {
-      this.modalities = modalities.data;
-    });    
+      .subscribe((modalities) => {
+        this.modalities = modalities.data;
+      });
   }
 
   public openImgInAnotherTab(url: string) {
