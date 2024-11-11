@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
 
   findActiveItem(menuItems: IMenuItem[], currentUrl: string): IMenuItem | undefined {
     for (let item of menuItems) {
-      if (currentUrl.match(item.route) && item.label) {
+      if (item.active && item.label) {
         return item;
       } else if (item.children) {
         const childItem = this.findActiveItem(item.children, currentUrl);
@@ -61,8 +61,6 @@ export class HeaderComponent implements OnInit {
     }
     return undefined;
   }
-
-  protected readonly console = console;
 
 
   toggleDropdown(event: Event) {

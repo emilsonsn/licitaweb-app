@@ -6,7 +6,7 @@ import { StageComponent } from './stage/stage.component';
 
 const routes: Routes = [
   {
-    path: 'tender',
+    path: '',
     component: TenderComponent
   },
   {

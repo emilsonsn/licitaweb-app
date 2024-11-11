@@ -10,7 +10,7 @@
 
   <ul class="components">
     <li [ngClass]="item.children ? 'dropdown' : 'menu'" *ngFor="let item of menuItem" [routerLinkActive]="'active'"
-        (click)="item.children ? toggleDropdown(item) : navigateToRoute(item.route, $event)">
+        (click)="item.children ? toggleDropdown(item) : navigateToRoute(item, $event)">
       <a [routerLink]="item.children ? null : item.route">
         <i [class]="item.icon"></i>
         <span class="d-flex align-items-center w-100" style="justify-content: space-between">
@@ -24,8 +24,8 @@
 
       <ul *ngIf="item.children && item.isOpen" class="components submenu-components">
         @for (child of item.children; track child) {
-          <li class="menu" [ngClass]="router.url.match(child.route) ? 'activated' : ''"
-              (click)="navigateToRoute(child.route, $event)">
+          <li class="menu" [ngClass]="routerActive(router.url, child) ? 'activated' : ''"
+              (click)="navigateToRoute(child, $event)">
             <a class="submenu" [routerLink]="child.route">
               <i [class]="child.icon"></i>
               <span>{{ child.label }}</span>

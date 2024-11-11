@@ -17,6 +17,17 @@ export class SidebarComponent {
   ) {
   }
 
+  ngOnInit() {
+    this.menuItem.forEach(item => {
+      item.active = this.router.url === item.route;
+
+      if (item.children) {
+        item.children.forEach(child => child.active = this.router.url === child.route);
+      }
+
+    });
+  }
+
   public toggleShowSidebar() {
     this._sidebarService.showSidebar.set(false);
   }
@@ -25,11 +36,29 @@ export class SidebarComponent {
     item.isOpen = !item.isOpen;
   }
 
-  public navigateToRoute(route: string | undefined, event?: Event): void {
+  public navigateToRoute(item: IMenuItem, event?: Event): void {
     event.stopPropagation();
 
-    if (route) {
-      this.router.navigate([route]).then();
+    this.menuItem.forEach(item => {
+      item.active = false;
+
+      if (item.children) {
+        item.children.forEach(child => child.active = false);
+      }
+
+    });
+
+    if (item.route) {
+      this.router.navigate([item.route]).then(_ => {
+        item.active = true;
+      });
     }
+  }
+
+  routerActive(url: string, child: IMenuItem) {
+    const urls = url.split('/');
+    const routes = child.route.split('/');
+
+    return urls[urls.length - 1] === routes[routes.length - 1];
   }
 }

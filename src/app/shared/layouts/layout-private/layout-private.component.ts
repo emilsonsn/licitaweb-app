@@ -22,7 +22,6 @@ export class LayoutPrivateComponent {
       label: 'Home',
       icon: 'fa-solid fa-house',
       route: '/painel/home',
-      active: true
     },
     {
       label: 'Editais',
@@ -32,7 +31,7 @@ export class LayoutPrivateComponent {
         {
           label: 'Edital',
           icon: 'fa-solid fa-clipboard-list',
-          route: '/painel/tender/tender'
+          route: '/painel/tender'
         },
         {
           label: 'Modalidade',
