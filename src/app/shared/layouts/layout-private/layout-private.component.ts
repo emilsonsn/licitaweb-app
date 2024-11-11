@@ -26,24 +26,19 @@ export class LayoutPrivateComponent {
     },
     {
       label: 'Editais',
-      icon: 'fa-solid fa-box',
+      icon: 'fa-solid fa-landmark',
       route: null,
       children: [
         {
           label: 'Edital',
-          icon: 'fa-solid fa-calendar-check',
+          icon: 'fa-solid fa-clipboard-list',
           route: '/painel/tender/tender'
         },
         {
           label: 'Modalidade',
-          icon: 'fa-solid fa-calendar-check',
+          icon: 'fa-solid fa-sheet-plastic',
           route: '/painel/tender/modality'
         },
-        {
-          label: 'Etapa',
-          icon: 'fa-solid fa-calendar-check',
-          route: '/painel/tender/stage'
-        }
       ]
     },
     {
