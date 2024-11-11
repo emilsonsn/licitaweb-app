@@ -25,6 +25,19 @@ export class TenderService {
     return this._http.get<ApiResponsePageable<Tender>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
+
+  public postTender(tender: FormData): Observable<ApiResponse<Tender>> {
+    return this._http.post<ApiResponse<Tender>>(`${environment.api}/${this.sessionEndpoint}/create`, tender);
+  }
+
+  public patchTender(id: number, tender: FormData): Observable<ApiResponse<Tender>> {
+    return this._http.patch<ApiResponse<Tender>>(`${environment.api}/${this.sessionEndpoint}/${id}`, tender);
+  }
+
+  public deleteTender(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/${id}`);
+  }
+
   public deleteItem(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/deleteItem/${id}`);
   }

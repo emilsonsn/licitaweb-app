@@ -17,9 +17,6 @@ export class ModalityService {
     private readonly _http: HttpClient
   ) { }
 
-  public getModality(): Observable<ApiResponse<Modality>> {
-    return this._http.get<ApiResponse<Modality>>(`${environment.api}/${this.sessionEndpoint}/me`);
-  }
 
   public getModalities(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<Modality>> {
     const paginate = Utils.mountPageControl(pageControl);

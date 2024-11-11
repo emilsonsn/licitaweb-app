@@ -12,9 +12,6 @@ export interface Tender {
   user_id: string;
   items: string;
   attachments?: string;
-
-  sector?: UserSector;
-  company_position?: UserPosition;
 }
 
 export interface UserPosition {
