@@ -21,6 +21,8 @@ import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
 import { TenderService } from '@services/tender.service';
 import { StatusLicitaWeb } from '@models/statusLicitaWeb';
+import { ModalityService } from '@services/modality.service';
+import { Modality } from '@models/modality';
 
 @Component({
   selector: 'app-dialog-notices',
@@ -32,7 +34,6 @@ export class DialogNoticesComponent {
   public title: string = 'Novo Edital';
   public isNewTender: boolean = true;
   public loading: boolean = false;
-  public tenderModalityEnum;
   protected Status = Object.values(StatusLicitaWeb);
   protected isToEdit : boolean = false;
   public allowedTypes = [
@@ -51,6 +52,8 @@ export class DialogNoticesComponent {
     file: File,
   }[] = [];
 
+  public modalities: Modality[];
+
   protected filesToRemove : number[] = [];
   protected filesFromBack : {
     index : number,
@@ -64,6 +67,7 @@ export class DialogNoticesComponent {
     private _fb: FormBuilder,
     private readonly _dialogRef: MatDialogRef<DialogNoticesComponent>,
     private _tender: TenderService,
+    private _modalityService: ModalityService,
     private readonly _toastr : ToastrService,
   ) { }
 
@@ -72,14 +76,12 @@ export class DialogNoticesComponent {
       editNumber: ['', Validators.required],
       issuingAgency: ['', Validators.required],
       certameDate: ['', Validators.required],
-      editObject: ['', Validators.required],
+      object: ['', Validators.required],
       estimatedValue: [null, [Validators.required, Validators.min(0)]],
       internalResponsible: ['', Validators.required],
       itemQuantity: [null, [Validators.required, Validators.min(1)]],
       status: ['', Validators.required],
       items: this._fb.array([]),
-      quantity_items: [null, Validators.required],
-      estimated_value: [null, Validators.required],
       total_value: [null, Validators.required],
     });
 
@@ -110,7 +112,7 @@ export class DialogNoticesComponent {
     this.form.get('items').valueChanges.subscribe((items) => {
       if(!items[items.length - 1]?.unit_value && !items[items.length - 1]?.quantity) return
 
-      this.form.get('quantity_items').setValue(0);
+      this.form.get('itemQuantity').setValue(0);
       this.form.get('total_value').setValue(0);
 
       let newTotal = 0;
@@ -121,9 +123,18 @@ export class DialogNoticesComponent {
         newTotal += (+item?.quantity);
       });
 
-      this.form.get('quantity_items').setValue(+newTotal.toFixed(2));
+      this.form.get('itemQuantity').setValue(+newTotal.toFixed(2));
       this.form.get('total_value').setValue(+newValue.toFixed(2));
     });
+
+    this.getModalities();
+  }
+
+  public getModalities() {
+    this._modalityService.getModalities()
+    .subscribe((modalities) => {
+      this.modalities = modalities.data;
+    });    
   }
 
   public openImgInAnotherTab(url: string) {
@@ -176,6 +187,7 @@ export class DialogNoticesComponent {
   onSubmit(form) {
     if (!form.valid) {
       form.markAllAsTouched();
+      console.log(form.controls);
     } else {
       const formData = new FormData();
 
@@ -184,7 +196,7 @@ export class DialogNoticesComponent {
       formData.append('issuingAgency', form.get('issuingAgency')?.value);
       formData.append('registrationDate', dayjs(form.get('registrationDate')?.value).format('YYYY-MM-DD'));
       formData.append('certameDate', dayjs(form.get('certameDate')?.value).format('YYYY-MM-DD'));
-      formData.append('editObject', form.get('editObject')?.value);
+      formData.append('object', form.get('object')?.value);
       formData.append('estimatedValue', form.get('estimatedValue')?.value);
       formData.append('internalResponsible', form.get('internalResponsible')?.value);
       formData.append('itemQuantity', form.get('itemQuantity')?.value);

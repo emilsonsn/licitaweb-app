@@ -7,6 +7,8 @@ import { DialogOrderComponent } from '@shared/dialogs/dialog-order/dialog-order.
 import { DialogNoticesComponent } from '@shared/dialogs/dialog-notices/dialog-notices.component';
 import { DialogFilterOrderComponent, OrderFilters } from '@shared/dialogs/filters/dialog-filter-order/dialog-filter-order.component';
 import dayjs from 'dayjs';
+import { TenderService } from '@services/tender.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tender',
@@ -60,6 +62,8 @@ export class TenderComponent {
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
+    private readonly _tenderService: TenderService,
+    private readonly _toastr: ToastrService
   ) { }
 
   public openOrderFilterDialog() {
@@ -110,13 +114,35 @@ export class TenderComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            this.loading = true
-            setTimeout(() => {
-              this.loading = false;
-            }, 300);
+            if(res.id) this.tenderPatch(res.id, res); 
+            else this.tenderStore(res);
           }
         }
       })
+  }
+
+  private tenderStore(tender){
+    this._tenderService.postTender(tender)
+    .subscribe({
+      next: (res) => {
+        this._toastr.success('Edital cadastrado com sucesso!');
+      },
+      error: (err) => {
+        this._toastr.error(err.error.error);
+      },
+    });
+  }
+
+  private tenderPatch(id, tender){
+    this._tenderService.patchTender(id, tender)
+    .subscribe({
+      next: (res) => {
+        this._toastr.success(res.message);
+      },
+      error: (err) => {
+        this._toastr.error(err.error.error);
+      },
+    });
   }
 
 }

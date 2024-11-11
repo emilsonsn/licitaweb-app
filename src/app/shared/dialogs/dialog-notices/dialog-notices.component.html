@@ -11,35 +11,35 @@
 
   <form [formGroup]="form" class="row">
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Número do Edital *</span>
+      <span class="fw-bolder">Número do Edital</span>
       <mat-form-field appearance="outline">
-        <input matInput formControlName="editNumber" placeholder="0" />
+        <input matInput formControlName="editNumber" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Órgão Emitente *</span>
+      <span class="fw-bolder">Órgão Emitente</span>
       <mat-form-field appearance="outline">
         <input matInput formControlName="issuingAgency" placeholder="Órgão emitente" />
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Modalidade *</span>
+    <div class="col-md-4 mb-3">
+      <span class="fw-bolder">Modalidade</span>
       <div class="d-flex align-items-center gap-3">
         <mat-form-field appearance="outline">
           <mat-label>Modalidade</mat-label>
           <mat-select formControlName="sector_id">
-            <mat-option *ngFor="let type of tenderModalityEnum" [value]="type.id">
-              {{ type.sector }}
+            <mat-option *ngFor="let modality of modalities" [value]="modality.id">
+              {{ modality.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Data do Certame *</span>
+    <div class="col-md-4 mb-3">
+      <span class="fw-bolder">Data do Certame</span>
       <mat-form-field appearance="outline">
         <input matInput [matDatepicker]="pickerCertame" formControlName="certameDate" placeholder="DD/MM/YYYY"
           readonly />
@@ -48,15 +48,22 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Objeto do Edital *</span>
+    <div class="col-md-4 mb-3">
+      <span class="fw-bolder">Valor Estimado</span>
       <mat-form-field appearance="outline">
-        <textarea matInput formControlName="editObject" placeholder="Descreva o objeto do edital" rows="3"></textarea>
+        <input type="text" formControlName="estimatedValue" matInput currencyMask placeholder="R$ 0,00" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-12 mb-3">
+      <span class="fw-bolder">Objeto do Edital</span>
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="object" placeholder="Objeto do edital" rows="3"></textarea>
       </mat-form-field>
     </div>
 
     <div class="col-12" formArrayName="items">
-      <span class="fw-bolder">Itens *</span>
+      <span class="fw-bolder">Itens</span>
       @for(item of items.controls; track item) {
         <div class="d-flex flex-row gap-4 mb-2" [formGroupName]="$index">
           <div class="d-flex flex-md-row flex-column gap-2 w-75 ">
@@ -95,21 +102,21 @@
     </div>
 
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Valor Total *</span>
+      <span class="fw-bolder">Valor Total</span>
       <mat-form-field appearance="outline">
         <input type="text" formControlName="total_value" matInput currencyMask placeholder="R$ 0,00" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Quantidade de Itens *</span>
+      <span class="fw-bolder">Quantidade de Itens</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="quantity_items" matInput mask="0*" [allowNegativeNumbers]="false" placeholder="0" />
+        <input type="text" formControlName="itemQuantity" matInput mask="0*" [allowNegativeNumbers]="false" placeholder="0" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Status *</span>
+      <span class="fw-bolder">Status</span>
       <mat-form-field appearance="outline">
         <mat-select formControlName="status" placeholder="Status">
           @for (status of Status; track status) {
@@ -120,7 +127,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Responsável Interno *</span>
+      <span class="fw-bolder">Responsável Interno</span>
       <mat-form-field appearance="outline">
         <input matInput formControlName="internalResponsible" placeholder="Responsável interno" />
       </mat-form-field>
