@@ -1,16 +1,6 @@
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import {afterNextRender, Component, inject, Inject, Injector, signal, ViewChild} from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {ApiResponse, PaymentForm} from '@models/application';
-import { Construction } from '@models/construction';
-import { Supplier, SupplierType } from '@models/supplier';
-import {Banco, OrderResponsible, RequestOrder, RequestOrderStatus, RequestOrderType} from '@models/requestOrder';
-import { User } from '@models/user';
-import { ConstructionService } from '@services/construction.service';
-import { OrderService } from '@services/order.service';
-import { SupplierService } from '@services/supplier.service';
-import { UserService } from '@services/user.service';
+import {Component, Inject} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -35,7 +25,7 @@ export class DialogNoticesComponent {
   public isNewTender: boolean = true;
   public loading: boolean = false;
   protected Status = Object.values(StatusLicitaWeb);
-  protected isToEdit : boolean = false;
+  protected isToEdit: boolean = false;
   public allowedTypes = [
     'image/png',
     'image/jpeg',
@@ -46,7 +36,7 @@ export class DialogNoticesComponent {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Excel (.xlsx)
     'application/vnd.ms-excel' // Excel (.xls)
   ];
-  protected filesToSend : {
+  protected filesToSend: {
     id: number,
     preview: string,
     file: File,
@@ -58,9 +48,10 @@ export class DialogNoticesComponent {
   protected filesFromBack : {
     index : number,
     id: number,
-    name : string,
+    name: string,
     path: string, // Wasabi
   }[] = [];
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     protected readonly _data,
@@ -95,7 +86,7 @@ export class DialogNoticesComponent {
         });
       }
 
-      if(!this._data.edit) {
+      if (!this._data.edit) {
         this.isToEdit = true;
         this.form.disable();
 
@@ -110,7 +101,7 @@ export class DialogNoticesComponent {
     }
 
     this.form.get('items').valueChanges.subscribe((items) => {
-      if(!items[items.length - 1]?.unit_value && !items[items.length - 1]?.quantity) return
+      if (!items[items.length - 1]?.unit_value && !items[items.length - 1]?.quantity) return
 
       this.form.get('itemQuantity').setValue(0);
       this.form.get('total_value').setValue(0);
@@ -140,6 +131,7 @@ export class DialogNoticesComponent {
   public openImgInAnotherTab(url: string) {
     window.open(url, '_blank');
   }
+
   public prepareFileToRemoveFromBack(fileId, index) {
     this.filesFromBack.splice(index, 1);
     this.filesToRemove.push(fileId);
@@ -157,7 +149,7 @@ export class DialogNoticesComponent {
 
     for (const file of fileArray) {
       if (this.allowedTypes.includes(file.type)) {
-        let base64 : string = null;
+        let base64: string = null;
 
         if (file.type.startsWith('image/')) {
           base64 = await this.convertFileToBase64(file);
@@ -168,8 +160,7 @@ export class DialogNoticesComponent {
           preview: base64,
           file: file,
         });
-      }
-      else
+      } else
         this._toastr.error(`${file.type} não é permitido`);
     }
   }
@@ -229,7 +220,7 @@ export class DialogNoticesComponent {
   private createItemFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
-      name: [{ value: item.key}, [Validators.required]],
+      name: [{value: item.key}, [Validators.required]],
       unit_value: [item.unit_value, [Validators.required]],
       quantity: [item.type, [Validators.required]],
     });
@@ -255,7 +246,7 @@ export class DialogNoticesComponent {
   // Items
   public createItem(): FormGroup {
     return this._fb.group({
-      id : [null],
+      id: [null],
       name: [null, Validators.required],
       unit_value: [null, Validators.required],
       quantity: [null, Validators.required]
@@ -266,16 +257,16 @@ export class DialogNoticesComponent {
     this.items.push(this.createItem());
   }
 
-  private deleteItem(index){
+  private deleteItem(index) {
     this._tender.deleteItem(this.items.value[index].id)
-    .subscribe({
-      next: () => {
-        this._toastr.success("Item deletado com sucesso");
-        this.items.removeAt(index);
-      },
-      error: (err) => {
-        this._toastr.error(err.error.error);
-      }
-    })
+      .subscribe({
+        next: () => {
+          this._toastr.success("Item deletado com sucesso");
+          this.items.removeAt(index);
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        }
+      })
   }
 }

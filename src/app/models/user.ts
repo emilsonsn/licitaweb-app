@@ -8,15 +8,13 @@ export interface User {
   birth_date: Date;
   company_position_id: string;
   sector_id: string;
-  whatsapp: number;
+  whatsapp: string;
   status : UserStatus;
   createdAt : string;
   updatedAt : string;
   admin?: boolean;
   photo?: string;
-
-  sector?: UserSector;
-  company_position?: UserPosition;
+  role?: UserRole;
 }
 
 export interface UserPosition {
@@ -41,10 +39,8 @@ export enum UserStatus {
 	BLOQUEADO = 'BLOCKED',
 }
 
-
-export enum Positions { //Gerente/Gestor/Adm/Tiago
+export enum UserRole { //Admin,Manager,Collaborator
   Admin = 'Admin',
-  Financial = 'Financial',
-  Supplies = 'Supplies',
-  Requester = 'Requester'
+  Manager = 'Manager',
+  Collaborator = 'Collaborator',
 }

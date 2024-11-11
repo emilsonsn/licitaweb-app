@@ -69,17 +69,20 @@
               </td>
               <td>
                 <div class="text-center">
-                  {{ collaborator?.company_position?.position }}
+                  @if (collaborator.role) {
+                    {{ collaborator?.role | companyPosition }}
+                  } @else {
+                    ---
+                  }
                 </div>
               </td>
               <td>
                 <div class="text-center">
-                  {{ collaborator?.sector?.sector }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ collaborator?.whatsapp | phoneMask }}
+                  @if (collaborator?.whatsapp === "null") {
+                    ---
+                  } @else {
+                    {{ Number(collaborator?.whatsapp) | phoneMask }}
+                  }
                 </div>
               </td>
               <td>
@@ -89,10 +92,6 @@
               </td>
               <td>
                 <div class="d-flex justify-content-end">
-                  <div matRipple class="buttonTemplate" (click)="onUserClick.emit(collaborator)">
-                    <i class="fa-solid fa-eye"></i>
-                  </div>
-
                   <div matRipple class="buttonTemplate" (click)="onUserClick.emit(collaborator)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>

@@ -1,12 +1,9 @@
 import {Component, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {UserService} from '@services/user.service';
-import {User} from '@models/user';
-import {DialogTypeUserSectorComponent} from '../dialog-type-user-sector/dialog-type-user-sector.component';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {User, UserRole} from '@models/user';
 import dayjs from 'dayjs';
 import {Utils} from '@shared/utils';
-import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-dialog-collaborator',
@@ -16,7 +13,7 @@ import {formatDate} from "@angular/common";
 export class DialogCollaboratorComponent {
 
   public isNewCollaborator: boolean = true;
-  public title: string = 'Novo colaborador';
+  public title: string = 'Novo Usuário';
   public form: FormGroup;
   public loading: boolean = false;
   public profileImageFile: File | null = null;
@@ -40,6 +37,7 @@ export class DialogCollaboratorComponent {
       name: [null, [Validators.required]],
       cpf_cnpj: [null, [Validators.required]],
       birth_date: [null, [Validators.required]],
+      role: [null, [Validators.required]],
       phone: [null],
       whatsapp: [null],
       email: [null, [Validators.required]],
@@ -47,7 +45,7 @@ export class DialogCollaboratorComponent {
 
     if (this._data?.user) {
       this.isNewCollaborator = false;
-      this.title = 'Editar colaborador';
+      this.title = 'Editar Usuário';
       this._fillForm(this._data.user);
       if (this._data.user.photo) {
         this.profileImage = this._data.user.photo
@@ -152,7 +150,7 @@ export class DialogCollaboratorComponent {
       formData.append('phone', form.get('phone')?.value);
       formData.append('whatsapp', form.get('whatsapp')?.value);
       formData.append('email', form.get('email')?.value);
-
+      formData.append('role', form.get('role')?.value);
       formData.append('photo', this.profileImageFile);
 
       this._dialogRef.close(formData)
@@ -174,4 +172,7 @@ export class DialogCollaboratorComponent {
     }
     return true;
   }
+
+  protected readonly Object = Object;
+  protected readonly UserRole = UserRole;
 }

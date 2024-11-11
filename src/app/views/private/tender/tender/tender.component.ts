@@ -1,11 +1,13 @@
-import { Component, computed, Signal, signal } from '@angular/core';
-import { OrderData } from "@models/dashboard";
-import { ISmallInformationCard } from "@models/cardInformation";
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DialogOrderComponent } from '@shared/dialogs/dialog-order/dialog-order.component';
-import { DialogNoticesComponent } from '@shared/dialogs/dialog-notices/dialog-notices.component';
-import { DialogFilterOrderComponent, OrderFilters } from '@shared/dialogs/filters/dialog-filter-order/dialog-filter-order.component';
+import {Component, computed, Signal, signal} from '@angular/core';
+import {OrderData} from "@models/dashboard";
+import {ISmallInformationCard} from "@models/cardInformation";
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {DialogNoticesComponent} from '@shared/dialogs/dialog-notices/dialog-notices.component';
+import {
+  DialogFilterOrderComponent,
+  OrderFilters
+} from '@shared/dialogs/filters/dialog-filter-order/dialog-filter-order.component';
 import dayjs from 'dayjs';
 import { TenderService } from '@services/tender.service';
 import { ToastrService } from 'ngx-toastr';
@@ -107,7 +109,7 @@ export class TenderComponent {
 
     this._dialog
       .open(DialogNoticesComponent, {
-        data: data ? { ...data } : null,
+        data: data ? {...data} : null,
         ...dialogConfig
       })
       .afterClosed()
