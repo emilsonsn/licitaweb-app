@@ -30,7 +30,7 @@ export class ModalityComponent {
       .open(DialogModalityComponent, {
         data: { modality },
         width: '80%',
-        maxWidth: '850px',
+        maxWidth: '650px',
         maxHeight: '90%',
       })
       .afterClosed()

@@ -30,6 +30,7 @@ export class DialogModalityComponent {
     this.form = this._fb.group({
       id: [null],
       name: ['', [Validators.required]],
+      description: [''],
     });
 
     if (this._data?.modality) {
@@ -54,6 +55,7 @@ export class DialogModalityComponent {
       const formData = new FormData();
       formData.append('id', form.get('id')?.value);
       formData.append('name', form.get('name')?.value);
+      formData.append('description', form.get('description')?.value);
 
       this._dialogRef.close(formData)
     }

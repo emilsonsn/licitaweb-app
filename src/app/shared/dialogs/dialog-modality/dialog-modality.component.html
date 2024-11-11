@@ -7,10 +7,17 @@
 
   <form [formGroup]="form" class="row">
 
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Nome da Modalidade *</span>
+    <div class="col-md-12 mb-3">
+      <span class="fw-bolder">Nome da Modalidade</span>
       <mat-form-field appearance="outline">
         <input matInput formControlName="name" placeholder="Modalidade" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-12 mb-3">
+      <span class="fw-bolder">Descrição</span>
+      <mat-form-field appearance="outline">
+        <textarea matInput formControlName="description" placeholder="Descrição" rows="3"></textarea>
       </mat-form-field>
     </div>
 

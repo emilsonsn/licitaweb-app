@@ -37,6 +37,12 @@ export class TableModalityComponent {
       align: "center",
     },
     {
+      slug: "description",
+      order: true,
+      title: "Descrição",
+      align: "center",
+    },
+    {
       slug: "",
       order: true,
       title: "Ações",
