@@ -54,12 +54,6 @@ export class TableUserComponent {
       align: "justify-content-center",
     },
     {
-      slug: "sector",
-      order: true,
-      title: "Setor",
-      align: "justify-content-center",
-    },
-    {
       slug: "cellphone",
       order: true,
       title: "Whatsapp",
@@ -158,4 +152,6 @@ export class TableUserComponent {
     this.pageControl.take = $event.pageSize;
     this.search();
   }
+
+  protected readonly Number = Number;
 }

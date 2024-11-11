@@ -1,21 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Positions, UserPosition } from '@models/user';
+import {Pipe, PipeTransform} from '@angular/core';
+import {UserRole} from "@models/user";
 
 @Pipe({
   name: 'companyPosition'
 })
 export class CompanyPositionPipe implements PipeTransform {
 
-  transform(value: Positions) {
+  transform(value: UserRole) {
     switch (value) {
-      case Positions.Admin:
+      case UserRole.Admin:
         return 'Administrador';
-      case Positions.Financial:
-        return 'Financeiro';
-      case Positions.Supplies:
-        return 'Gerente';
-      case Positions.Requester:
+      case UserRole.Collaborator:
         return 'Colaborador';
+      case UserRole.Manager:
+        return 'Manager';
 
       default:
         return value;
