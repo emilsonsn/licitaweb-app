@@ -1,12 +1,12 @@
-import {Component, Inject} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import dayjs from 'dayjs';
-import {ToastrService} from 'ngx-toastr';
-import {TenderService} from '@services/tender.service';
-import {StatusLicitaWeb} from '@models/statusLicitaWeb';
-import {ModalityService} from '@services/modality.service';
-import {Modality} from '@models/modality';
+import { ToastrService } from 'ngx-toastr';
+import { TenderService } from '@services/tender.service';
+import { StatusLicitaWeb } from '@models/statusLicitaWeb';
+import { ModalityService } from '@services/modality.service';
+import { Modality } from '@models/modality';
 import { UserService } from '@services/user.service';
 import { User } from '@models/user';
 
@@ -73,7 +73,6 @@ export class DialogNoticesComponent {
       items_count: [null, [Validators.required, Validators.min(1)]],
       status: ['', Validators.required],
       items: this._fb.array([]),
-      attachments: this._fb.array([]),
     });
 
     if (this._data) {
@@ -203,7 +202,16 @@ export class DialogNoticesComponent {
       form.get('items')?.value.forEach((element, index) => {
         formData.append(`items[${index}]`, JSON.stringify(element));
       });
-      formData.append('attachments', form.get('attachments')?.value);
+
+      let tender_files: File[] = [];
+      debugger
+      for (let file of this.filesToSend) {
+        tender_files.push(file.file);
+      }
+
+      tender_files?.forEach((element, index) => {
+        formData.append(`attachments[${index}]`, element);
+      });
 
       /* // Adicionando imagem de perfil, se existir
       if (this.profileImageFile) {
@@ -233,7 +241,7 @@ export class DialogNoticesComponent {
   private createItemFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
-      name: [{value: item.key}, [Validators.required]],
+      item: [{ value: item.key }, [Validators.required]],
       unit_value: [item.unit_value, [Validators.required]],
       quantity: [item.type, [Validators.required]],
     });
@@ -260,7 +268,7 @@ export class DialogNoticesComponent {
   public createItem(): FormGroup {
     return this._fb.group({
       id: [null],
-      name: [null, Validators.required],
+      item: [null, Validators.required],
       unit_value: [null, Validators.required],
       quantity: [null, Validators.required]
     });
