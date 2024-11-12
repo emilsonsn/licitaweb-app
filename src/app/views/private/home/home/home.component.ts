@@ -39,7 +39,7 @@ export class HomeComponent {
       background: '#FC9108',
       title: formatCurrency(+this.dashboardCards().ordersByDay.toString(), 'pt-BR', 'R$'),
       category: 'Compras',
-      description: 'Total de compras do dia',
+      description: 'Total de Editais do dia',
     },
     {
       icon: 'fa-solid fa-truck-fast',
@@ -47,7 +47,7 @@ export class HomeComponent {
       background: '#4CA750',
       title: formatCurrency(+this.dashboardCards().ordersByWeek.toString(), 'pt-BR', 'R$'),
       category: 'Compras',
-      description: 'Total de compras da semana',
+      description: 'Total de Editais da semana',
     },
     {
       icon: 'fa-solid fa-shop',
@@ -55,7 +55,7 @@ export class HomeComponent {
       background: '#E9423E',
       title: formatCurrency(+this.dashboardCards().ordersByMonth.toString(), 'pt-BR', 'R$'),
       category: 'Compras',
-      description: 'Total de compras do mês',
+      description: 'Total de Editais do mês',
     },
     {
       icon: 'fa-solid fa-money-check-dollar',
@@ -63,7 +63,7 @@ export class HomeComponent {
       background: '#0AB2C7',
       title: formatCurrency(+this.dashboardCards().ordersByYear.toString(), 'pt-BR', 'R$'),
       category: 'Compras',
-      description: 'Total de compras do ano',
+      description: 'Total de Editais do ano',
     },
   ]);
   itemsRequests: Signal<ISmallInformationCard[]> = computed<ISmallInformationCard[]>(() => [
@@ -71,15 +71,15 @@ export class HomeComponent {
       icon: 'fa-solid fa-clock',
       background: '#FC9108',
       title: this.dashboardCards().pendingOrders,
-      category: 'Pedidos',
-      description: 'Pedidos pendentes',
+      category: 'Editais',
+      description: 'Editais pendentes',
     },
     {
       icon: 'fa-solid fa-envelope-open',
       // icon_description: 'fa-solid fa-calendar-day',
       // background: '#17a2b8',
       title: this.dashboardCards().awaitingFinanceOrders,
-      category: 'Pedidos',
+      category: 'Editais',
       description: 'Solicitações em aberto',
     },
     {
@@ -87,15 +87,15 @@ export class HomeComponent {
       // icon_description: 'fa-solid fa-calendar-day',
       background: '#dc3545',
       title: this.dashboardCards().solicitationPendings,
-      category: 'Pedidos',
-      description: 'Pedidos vencidos',
+      category: 'Editais',
+      description: 'Editais vencidos',
     }, {
       icon: 'fa-solid fa-check-circle',
       // icon_description: 'fa-solid fa-calendar-day',
       background: '#28a745',
       title: this.dashboardCards().solicitationFinished,
-      category: 'Pedidos',
-      description: 'Pedidos resolvidos',
+      category: 'Editais',
+      description: 'Editais resolvidos',
     },
   ]);
 
@@ -105,7 +105,7 @@ export class HomeComponent {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [{
         label: 'Compras',
-        data: [], // Dados de compras por mês
+        data: [], // Dados de Editais por mês
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -132,8 +132,8 @@ export class HomeComponent {
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [{
-        label: 'Pedidos',
-        data: [10, 150, 180, 300, 170, 80, 240, 250, 150, 210, 180, 190], // Dados de compras por mês
+        label: 'Editais',
+        data: [10, 150, 180, 300, 170, 80, 240, 250, 150, 210, 180, 190], // Dados de Editais por mês
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1

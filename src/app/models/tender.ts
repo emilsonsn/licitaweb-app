@@ -1,4 +1,5 @@
 import { StatusLicitaWeb } from "./statusLicitaWeb";
+import { User } from "./user";
 
 export interface Tender {
   id? : number;
@@ -10,6 +11,7 @@ export interface Tender {
   status: StatusLicitaWeb;
   items_count: number;
   user_id: string;
+  user?: User;
   items: string;
   attachments?: string;
 }

@@ -204,7 +204,6 @@ export class DialogNoticesComponent {
       });
 
       let tender_files: File[] = [];
-      debugger
       for (let file of this.filesToSend) {
         tender_files.push(file.file);
       }

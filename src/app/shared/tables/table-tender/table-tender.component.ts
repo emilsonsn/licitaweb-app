@@ -32,25 +32,25 @@ export class TableTenderComponent {
     {
       slug: "number",
       order: true,
-      title: "Número do Edital",
+      title: "Número",
       align: "justify-content-center",
     },
     {
       slug: "organ",
       order: true,
-      title: "Órgão Emitente",
+      title: "Órgão",
       align: "start",
     },
     {
       slug: "contest_date",
       order: true,
-      title: "Data do Certame",
+      title: "Certame",
       align: "justify-content-center",
     },
     {
       slug: "items_count",
       order: true,
-      title: "Quantidade de Itens",
+      title: "Qtd. Itens",
       align: "justify-content-center",
     },
     {
@@ -68,7 +68,7 @@ export class TableTenderComponent {
     {
       slug: "internal_responsible",
       order: true,
-      title: "Responsável Interno",
+      title: "Responsável",
       align: "justify-content-center",
     },
     {
