@@ -13,23 +13,22 @@
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Número do Edital</span>
       <mat-form-field appearance="outline">
-        <input matInput formControlName="editNumber" />
+        <input matInput formControlName="number" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Órgão Emitente</span>
       <mat-form-field appearance="outline">
-        <input matInput formControlName="issuingAgency" placeholder="Órgão emitente" />
+        <input matInput formControlName="organ" placeholder="Órgão emitente" />
       </mat-form-field>
     </div>
 
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
       <span class="fw-bolder">Modalidade</span>
       <div class="d-flex align-items-center gap-3">
         <mat-form-field appearance="outline">
-          <mat-label>Modalidade</mat-label>
-          <mat-select formControlName="sector_id">
+          <mat-select formControlName="modality_id" placeholder="Modalidade">
             <mat-option *ngFor="let modality of modalities" [value]="modality.id">
               {{ modality.name }}
             </mat-option>
@@ -38,20 +37,13 @@
       </div>
     </div>
 
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
       <span class="fw-bolder">Data do Certame</span>
       <mat-form-field appearance="outline">
-        <input matInput [matDatepicker]="pickerCertame" formControlName="certameDate" placeholder="DD/MM/YYYY"
+        <input matInput [matDatepicker]="pickerCertame" formControlName="contest_date" placeholder="DD/MM/YYYY"
           readonly />
         <mat-datepicker-toggle matSuffix [for]="pickerCertame"></mat-datepicker-toggle>
         <mat-datepicker #pickerCertame></mat-datepicker>
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4 mb-3">
-      <span class="fw-bolder">Valor Estimado</span>
-      <mat-form-field appearance="outline">
-        <input type="text" formControlName="estimatedValue" matInput currencyMask placeholder="R$ 0,00" />
       </mat-form-field>
     </div>
 
@@ -104,14 +96,14 @@
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Valor Total</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="total_value" matInput currencyMask placeholder="R$ 0,00" />
+        <input type="text" formControlName="estimated_value" matInput currencyMask placeholder="R$ 0,00" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Quantidade de Itens</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="itemQuantity" matInput mask="0*" [allowNegativeNumbers]="false" placeholder="0" />
+        <input type="text" formControlName="items_count" matInput mask="0*" [allowNegativeNumbers]="false" placeholder="0" />
       </mat-form-field>
     </div>
 
@@ -128,9 +120,15 @@
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Responsável Interno</span>
-      <mat-form-field appearance="outline">
-        <input matInput formControlName="internalResponsible" placeholder="Responsável interno" />
-      </mat-form-field>
+      <div class="d-flex align-items-center gap-3">
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="user_id" placeholder="Responsável Interno">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="">

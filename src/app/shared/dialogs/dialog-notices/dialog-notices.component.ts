@@ -7,6 +7,8 @@ import {TenderService} from '@services/tender.service';
 import {StatusLicitaWeb} from '@models/statusLicitaWeb';
 import {ModalityService} from '@services/modality.service';
 import {Modality} from '@models/modality';
+import { UserService } from '@services/user.service';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-dialog-notices',
@@ -37,13 +39,14 @@ export class DialogNoticesComponent {
   }[] = [];
 
   public modalities: Modality[];
+  public users: User[];
 
   protected filesToRemove: number[] = [];
   protected filesFromBack: {
     index: number,
     id: number,
     name: string,
-    path: string, // Wasabi
+    path: string,
   }[] = [];
 
   constructor(
@@ -53,22 +56,24 @@ export class DialogNoticesComponent {
     private readonly _dialogRef: MatDialogRef<DialogNoticesComponent>,
     private _tender: TenderService,
     private _modalityService: ModalityService,
+    private _user: UserService,
     private readonly _toastr: ToastrService,
   ) {
   }
 
   ngOnInit() {
     this.form = this._fb.group({
-      editNumber: ['', Validators.required],
-      issuingAgency: ['', Validators.required],
-      certameDate: ['', Validators.required],
+      number: ['', Validators.required],
+      modality_id: ['', Validators.required],
+      organ: ['', Validators.required],
+      contest_date: ['', Validators.required],
       object: ['', Validators.required],
-      estimatedValue: [null, [Validators.required, Validators.min(0)]],
-      internalResponsible: ['', Validators.required],
-      itemQuantity: [null, [Validators.required, Validators.min(1)]],
+      estimated_value: [null, [Validators.required, Validators.min(0)]],
+      user_id: ['', Validators.required],
+      items_count: [null, [Validators.required, Validators.min(1)]],
       status: ['', Validators.required],
       items: this._fb.array([]),
-      total_value: [null, Validators.required],
+      attachments: this._fb.array([]),
     });
 
     if (this._data) {
@@ -98,8 +103,8 @@ export class DialogNoticesComponent {
     this.form.get('items').valueChanges.subscribe((items) => {
       if (!items[items.length - 1]?.unit_value && !items[items.length - 1]?.quantity) return
 
-      this.form.get('itemQuantity').setValue(0);
-      this.form.get('total_value').setValue(0);
+      this.form.get('items_count').setValue(0);
+      this.form.get('estimated_value').setValue(0);
 
       let newTotal = 0;
       let newValue = 0;
@@ -109,11 +114,19 @@ export class DialogNoticesComponent {
         newTotal += (+item?.quantity);
       });
 
-      this.form.get('itemQuantity').setValue(+newTotal.toFixed(2));
-      this.form.get('total_value').setValue(+newValue.toFixed(2));
+      this.form.get('items_count').setValue(+newTotal.toFixed(2));
+      this.form.get('estimated_value').setValue(+newValue.toFixed(2));
     });
 
     this.getModalities();
+    this.getUsers();
+  }
+
+  public getUsers() {
+    this._user.getUsers()
+      .subscribe((user) => {
+        this.users = user.data;
+      });
   }
 
   public getModalities() {
@@ -178,14 +191,17 @@ export class DialogNoticesComponent {
       const formData = new FormData();
 
       // Mapeando os campos do novo formulário
-      formData.append('editNumber', form.get('editNumber')?.value);
-      formData.append('issuingAgency', form.get('issuingAgency')?.value);
-      formData.append('registrationDate', dayjs(form.get('registrationDate')?.value).format('YYYY-MM-DD'));
-      formData.append('certameDate', dayjs(form.get('certameDate')?.value).format('YYYY-MM-DD'));
+      formData.append('number', form.get('number')?.value);
+      formData.append('organ', form.get('organ')?.value);
+      formData.append('modality_id', form.get('modality_id')?.value);
+      formData.append('contest_date', dayjs(form.get('contest_date')?.value).format('YYYY-MM-DD'));
       formData.append('object', form.get('object')?.value);
-      formData.append('estimatedValue', form.get('estimatedValue')?.value);
-      formData.append('internalResponsible', form.get('internalResponsible')?.value);
-      formData.append('itemQuantity', form.get('itemQuantity')?.value);
+      formData.append('estimated_value', form.get('estimated_value')?.value);
+      formData.append('status', form.get('status')?.value);
+      formData.append('items_count', form.get('items_count')?.value);
+      formData.append('user_id', form.get('user_id')?.value);
+      formData.append('items', form.get('items')?.value);
+      formData.append('attachments', form.get('attachments')?.value);
 
       /* // Adicionando imagem de perfil, se existir
       if (this.profileImageFile) {

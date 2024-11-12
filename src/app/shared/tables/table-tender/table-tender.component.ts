@@ -30,6 +30,12 @@ export class TableTenderComponent {
 
   public columns = [
     {
+      slug: "number",
+      order: true,
+      title: "Número do Edital",
+      align: "justify-content-center",
+    },
+    {
       slug: "organ",
       order: true,
       title: "Órgão Emitente",
@@ -45,12 +51,6 @@ export class TableTenderComponent {
       slug: "items_count",
       order: true,
       title: "Quantidade de Itens",
-      align: "justify-content-center",
-    },
-    {
-      slug: "number",
-      order: true,
-      title: "Número do Edital",
       align: "justify-content-center",
     },
     {
