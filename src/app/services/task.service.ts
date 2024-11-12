@@ -20,23 +20,23 @@ export class TaskService {
   }
 
   getStatusTasks(): Observable<ApiResponse<TaskStatus[]>> {
-    return this._http.get<ApiResponse<TaskStatus[]>>(`${environment.api}/task/status`);
+    return this._http.get<ApiResponse<TaskStatus[]>>(`${environment.api}/status/all`);
   }
 
-  updateTask(task: Task): Observable<ApiResponse<Task>> {
-    return this._http.patch<ApiResponse<Task>>(`${environment.api}/task/${task?.id}`, task);
+  updateTask(task: Task): Observable<ApiResponse<TaskStatus>> {
+    return this._http.patch<ApiResponse<TaskStatus>>(`${environment.api}/status/${task?.id}`, task);
   }
 
-  createTask(task: FormData): Observable<ApiResponse<Task>> {
-    return this._http.post<ApiResponse<Task>>(`${environment.api}/task/create`, task);
+  createTask(task: TaskStatus): Observable<ApiResponse<TaskStatus>> {
+    return this._http.post<ApiResponse<TaskStatus>>(`${environment.api}/status/create`, task);
   }
 
   deleteTask(task: Task): Observable<ApiResponse<Task>> {
     return this._http.delete<ApiResponse<Task>>(`${environment.api}/task/${task?.id}`);
   }
 
-  putTask(id: number, task: FormData): Observable<ApiResponse<Task>> {
-    return this._http.post<ApiResponse<Task>>(`${environment.api}/task/${id}update?_method=PATCH`, task);
+  putTask(id: number, task: TaskStatus): Observable<ApiResponse<Task>> {
+    return this._http.post<ApiResponse<Task>>(`${environment.api}/status/${id}update?_method=PATCH`, task);
   }
 
   public deleteFile(id: number): Observable<DeleteApiResponse> {

@@ -124,3 +124,14 @@ mat-spinner {
   }
 
 }
+
+.color-picker {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  flex-direction: column;
+
+  p {
+    margin: 0;
+  }
+}

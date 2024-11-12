@@ -33,14 +33,6 @@ const routes: Routes = [
           page: 'users'
         }
       },
-   /*   {
-        path: 'tasks',
-        loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'tasks'
-        }
-      },*/
  /*     {
         path: "settings",
         loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),

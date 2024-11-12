@@ -36,6 +36,7 @@ import {MatIcon} from "@angular/material/icon";
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {DialogNoticesComponent} from './dialog-notices/dialog-notices.component';
 import {DialogModalityComponent} from './dialog-modality/dialog-modality.component';
+import {ColorChromeModule} from "ngx-color/chrome";
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import {DialogModalityComponent} from './dialog-modality/dialog-modality.compone
     NgxMaskDirective,
     NgxMaskPipe,
     NgxMatSelectSearchModule,
-    MatIcon
+    MatIcon,
+    ColorChromeModule
   ]
 })
 export class DialogsModule {

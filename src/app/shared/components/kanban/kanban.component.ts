@@ -16,6 +16,7 @@ export class KanbanComponent {
   @Output() taskMoved: EventEmitter<Task> = new EventEmitter<Task>();
   @Output() taskClicked: EventEmitter<Task> = new EventEmitter<Task>();
   @Output() taskDeleted: EventEmitter<Task> = new EventEmitter<Task>();
+  @Output() crateColumn: EventEmitter<Event> = new EventEmitter<Event>();
   @Input() status!: TaskStatus[];
 
   drop(event: CdkDragDrop<Task[]>) {
@@ -61,14 +62,8 @@ export class KanbanComponent {
     this.taskDeleted.emit(task);
   }
 
-  // Função para adicionar uma nova coluna
-  addColumn() {
-    const newStatus: TaskStatus = {
-      id: this.status.length + 1,
-      name: `New Column ${this.status.length + 1}`,
-      color: '#808080'
-    };
-    this.status.push(newStatus);
-    this.data[newStatus.name] = [];
+  addColumn(event: Event) {
+    event.stopPropagation();
+    this.crateColumn.emit(event);
   }
 }

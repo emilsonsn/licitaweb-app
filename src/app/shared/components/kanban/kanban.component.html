@@ -32,6 +32,9 @@
     </div>
   }
   <div class="kanban-container">
-    <button class="kanban-add-column" (click)="addColumn()">+ Adicionar Coluna</button>
+    <button class="kanban-add-column" (click)="addColumn($event)">
+      <i class="fa-solid fa-plus"></i>
+      <span>Etapa</span>
+    </button>
   </div>
 </div>
