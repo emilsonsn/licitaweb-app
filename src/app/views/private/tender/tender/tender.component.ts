@@ -11,6 +11,7 @@ import {
 import dayjs from 'dayjs';
 import { TenderService } from '@services/tender.service';
 import { ToastrService } from 'ngx-toastr';
+import { DialogFilterTenderComponent } from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
 
 @Component({
   selector: 'app-tender',
@@ -68,7 +69,7 @@ export class TenderComponent {
     private readonly _toastr: ToastrService
   ) { }
 
-  public openOrderFilterDialog() {
+  public openTenderFilterDialog() {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '550px',
@@ -78,7 +79,7 @@ export class TenderComponent {
     };
 
     this._dialog
-      .open(DialogFilterOrderComponent, {
+      .open(DialogFilterTenderComponent, {
         data: {...this.filtersFromDialog.getRawValue()},
         ...dialogConfig
       })
@@ -98,7 +99,7 @@ export class TenderComponent {
       })
   }
 
-  public openOrderDialog(data?) {
+  public openTenderDialog(data?) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '1000px',
@@ -116,7 +117,7 @@ export class TenderComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            if(res.id) this.tenderPatch(res.id, res); 
+            if(res.id) this.tenderPatch(res.id, res);
             else this.tenderStore(res);
           }
         }

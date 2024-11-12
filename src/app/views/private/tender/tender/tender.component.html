@@ -14,13 +14,13 @@
 
         <div id="options">
           @if (true) {
-            <div id="filter" matRipple (click)="openOrderFilterDialog()">
+            <div id="filter" matRipple (click)="openTenderFilterDialog()">
               <i class="fa-solid fa-filter"></i>
             </div>
           }
 
           <div id="buttons">
-            <button matRipple class="button yellow" (click)="openOrderDialog()">
+            <button matRipple class="button yellow" (click)="openTenderDialog()">
               <i class="fa-solid fa-plus"></i> Novo Edital
             </button>
           </div>
@@ -42,6 +42,6 @@
   <mat-tab label="Tarefas">
     <app-tender-task></app-tender-task>
   </mat-tab>
-  
+
 </mat-tab-group>
 
