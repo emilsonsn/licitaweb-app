@@ -200,7 +200,9 @@ export class DialogNoticesComponent {
       formData.append('status', form.get('status')?.value);
       formData.append('items_count', form.get('items_count')?.value);
       formData.append('user_id', form.get('user_id')?.value);
-      formData.append('items', form.get('items')?.value);
+      form.get('items')?.value.forEach((element, index) => {
+        formData.append(`items[${index}]`, JSON.stringify(element));
+      });
       formData.append('attachments', form.get('attachments')?.value);
 
       /* // Adicionando imagem de perfil, se existir
