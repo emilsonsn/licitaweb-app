@@ -39,10 +39,8 @@ export function getTaskStatus(task: Task): TaskStatusEnum | undefined {
 
 export interface TaskStatus {
   id: number;
-  name: TaskStatusEnum;
+  name: string;
   color: string;
-  created_at: Date;
-  updated_at: Date;
 }
 
 interface TaskFiles {

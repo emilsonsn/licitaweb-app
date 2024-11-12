@@ -1,39 +1,44 @@
-<div class="row mt-4">
-  @for (item of itemsRequests(); track item) {
-  <div class="col-lg-4 col-md-6">
-    <app-small-information-card [data]="item"></app-small-information-card>
-  </div>
-  }
-</div>
+<mat-tab-group>
 
-<div id="componentHeaderTemplate">
-  <div id="componentHeader">
+  <mat-tab label="Kanban">
+    <app-tender-kanban></app-tender-kanban>
+  </mat-tab>
 
-    <div>
-      <!-- <app-search-input
-        (onSearchInputChanged)="handleSearchTerm($event)">
-      </app-search-input> -->
-    </div>
+  <mat-tab label="Tabela">
+    <div id="componentHeaderTemplate">
+      <div id="componentHeader">
 
-    <div id="options">
-      @if (true) {
-        <div id="filter" matRipple (click)="openOrderFilterDialog()">
-          <i class="fa-solid fa-filter"></i>
+        <div>
+          <!-- <app-search-input
+            (onSearchInputChanged)="handleSearchTerm($event)">
+          </app-search-input> -->
         </div>
-      }
 
-      <div id="buttons">
-        <button matRipple class="button yellow" (click)="openOrderDialog()">
-          <i class="fa-solid fa-plus"></i> Novo Edital
-        </button>
+        <div id="options">
+          @if (true) {
+            <div id="filter" matRipple (click)="openOrderFilterDialog()">
+              <i class="fa-solid fa-filter"></i>
+            </div>
+          }
+
+          <div id="buttons">
+            <button matRipple class="button yellow" (click)="openOrderDialog()">
+              <i class="fa-solid fa-plus"></i> Novo Edital
+            </button>
+          </div>
+
+        </div>
       </div>
-
     </div>
-  </div>
-</div>
 
-<div id="componentTable" class="col-12 mt-4">
-  <app-table-tender>
-  </app-table-tender>
-</div>
-<router-outlet></router-outlet>
+    <div id="componentTable" class="col-12 mt-4">
+      <app-table-tender>
+      </app-table-tender>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Tarefas">
+    <app-tender-task></app-tender-task>
+  </mat-tab>
+</mat-tab-group>
+

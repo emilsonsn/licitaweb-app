@@ -29,14 +29,14 @@ export class LayoutPrivateComponent {
       route: null,
       children: [
         {
-          label: 'Edital',
-          icon: 'fa-solid fa-clipboard-list',
-          route: '/painel/tender'
-        },
-        {
           label: 'Modalidade',
           icon: 'fa-solid fa-sheet-plastic',
           route: '/painel/tender/modality'
+        },
+        {
+          label: 'Edital',
+          icon: 'fa-solid fa-clipboard-list',
+          route: '/painel/tender'
         },
       ]
     },

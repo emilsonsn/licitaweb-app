@@ -11,6 +11,11 @@ body {
   scroll-behavior: smooth;
 }
 
+.mat-mdc-tab-body-wrapper {
+  flex: 1 !important;
+  height: 100% !important;
+}
+
 .table-container{
   height: 100%;
   width: 100%;

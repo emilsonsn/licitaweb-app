@@ -1,0 +1,7 @@
+<app-kanban
+  [status]="status"
+  [data]="data"
+  (taskMoved)="taskMoved($event)"
+  (taskClicked)="openDialogTask($event)"
+  (taskDeleted)="deleteTask($event)"
+></app-kanban>

@@ -1,17 +1,17 @@
 import {Component, EventEmitter, HostListener, Input, Output, QueryList, ViewChildren} from '@angular/core';
 import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {Kanban} from "@models/Kanban";
-import {Task, TaskStatus, TaskStatusEnum} from "@models/Task";
+import {Task, TaskStatus} from "@models/Task";
 
 
 @Component({
   selector: 'app-kanban',
   templateUrl: './kanban.component.html',
-  styleUrl: './kanban.component.scss'
+  styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent {
   protected readonly Object = Object;
-  @Input() data: Kanban<Task> = {}
+  @Input() data: Kanban<Task> = {};
   @ViewChildren(CdkDropList) dropLists: QueryList<CdkDropList>;
   @Output() taskMoved: EventEmitter<Task> = new EventEmitter<Task>();
   @Output() taskClicked: EventEmitter<Task> = new EventEmitter<Task>();
@@ -19,25 +19,20 @@ export class KanbanComponent {
   @Input() status!: TaskStatus[];
 
   drop(event: CdkDragDrop<Task[]>) {
-    // const previousContainerIndex = this.getContainerIndex(event.previousContainer);
     const currentContainerIndex = this.getContainerIndex(event.container);
 
     if (event.previousContainer === event.container) {
-      // Quando muda de posição na mesma coluna
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      // Quando muda de coluna
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
-
     }
 
-    this.changeColumn(currentContainerIndex, event)
-
+    this.changeColumn(currentContainerIndex, event);
   }
 
   private changeColumn(currentContainerIndex: number, event: CdkDragDrop<Task[]>) {
@@ -52,35 +47,28 @@ export class KanbanComponent {
   }
 
 
-  getEmojiForStatus(status: string): string {
-    switch (status) {
-      case TaskStatusEnum.Pending:
-        return '⏳'; // Emoji de relógio de areia
-      case TaskStatusEnum.InProgress:
-        return '🚧'; // Emoji de obra
-      case TaskStatusEnum.Completed:
-        return '✅'; // Emoji de marca de verificação
-      case TaskStatusEnum.Canceled:
-        return '❌'; // Emoji de X vermelho
-      case TaskStatusEnum.Archived:
-        return '📁'; // Emoji de pasta
-      default:
-        return '❓'; // Emoji de interrogação para status desconhecido
-    }
-  }
-
   getBorderColor(task_status_id: number) {
-    return this.status[task_status_id - 1].color
+    return this.status[task_status_id - 1].color;
   }
 
   onBoxClick(item: Task) {
-    this.taskClicked.emit(item)
+    this.taskClicked.emit(item);
   }
 
   @HostListener("click", ["$event"])
-  public deleteTask(event: Event, task: Task): void
-  {
+  public deleteTask(event: Event, task: Task): void {
     event.stopPropagation();
-    this.taskDeleted.emit(task)
+    this.taskDeleted.emit(task);
+  }
+
+  // Função para adicionar uma nova coluna
+  addColumn() {
+    const newStatus: TaskStatus = {
+      id: this.status.length + 1,
+      name: `New Column ${this.status.length + 1}`,
+      color: '#808080'
+    };
+    this.status.push(newStatus);
+    this.data[newStatus.name] = [];
   }
 }

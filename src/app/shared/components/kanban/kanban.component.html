@@ -1,7 +1,7 @@
 <div cdkDropListGroup class="kanban-main">
   @for (key of Object.keys(data); track key) {
     <div class="kanban-container">
-      <h2>{{ getEmojiForStatus(key) }} {{ key }} {{ data[key].length }}</h2>
+      <h2>{{ key }} {{ data[key].length }}</h2>
       <div
         cdkDropList
         [cdkDropListData]="data[key]"
@@ -31,4 +31,7 @@
       </div>
     </div>
   }
+  <div class="kanban-container">
+    <button class="kanban-add-column" (click)="addColumn()">+ Adicionar Coluna</button>
+  </div>
 </div>
