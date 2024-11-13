@@ -38,6 +38,11 @@ export class LayoutPrivateComponent {
           icon: 'fa-solid fa-clipboard-list',
           route: '/painel/tender'
         },
+        {
+          label: 'Tarefas',
+          icon: 'fa-solid fa-clipboard-list',
+          route: '/painel/tender/task'
+        },
       ]
     },
     {
