@@ -36,7 +36,7 @@ export class ModalityComponent {
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          if (res.id) {
+          if (res.get("id")) {
             this._patchModality(res);
             return;
           }

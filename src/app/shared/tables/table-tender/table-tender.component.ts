@@ -21,10 +21,10 @@ export class TableTenderComponent {
   filters: any;
 
   @Output()
-  onUserClick: EventEmitter<Tender> = new EventEmitter<Tender>();
+  onTenderClick: EventEmitter<Tender> = new EventEmitter<Tender>();
 
   @Output()
-  onDeleteUserClick: EventEmitter<number> = new EventEmitter<number>();
+  onDeleteTenderClick: EventEmitter<number> = new EventEmitter<number>();
 
   public tender: Tender[] = [];
 

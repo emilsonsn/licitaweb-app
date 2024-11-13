@@ -9,6 +9,9 @@ import { ModalityService } from '@services/modality.service';
 import { Modality } from '@models/modality';
 import { UserService } from '@services/user.service';
 import { User } from '@models/user';
+import utc from 'dayjs/plugin/utc'; // Importa o plugin utc
+
+dayjs.extend(utc);
 
 @Component({
   selector: 'app-dialog-notices',
@@ -16,6 +19,7 @@ import { User } from '@models/user';
   styleUrl: './dialog-notices.component.scss'
 })
 export class DialogNoticesComponent {
+
   public form: FormGroup;
   public title: string = 'Novo Edital';
   public isNewTender: boolean = true;
@@ -79,22 +83,20 @@ export class DialogNoticesComponent {
       this.isNewTender = false;
       this.title = 'Editar Edital';
 
-      if (this._data.tender.items) {
-        this._data.tender.items.forEach(item => {
+      if (this._data.items) {
+        this._data.items.forEach(item => {
           this.items.push(this.createItemFromData(item));
         });
       }
 
       if (!this._data.edit) {
         this.isToEdit = true;
-        this.form.disable();
-
-        (this.items as FormArray).controls.forEach((item: AbstractControl) => {
-          item.disable();
-        });
       }
 
-      this.form.patchValue(this._data.tender);
+      const adjustedDate = dayjs(this._data.contest_date).local().format('YYYY-MM-DD');
+      this._data.contest_date = adjustedDate;
+
+      this.form.patchValue(this._data);
     } else {
       this.items.push(this.createItem());
     }

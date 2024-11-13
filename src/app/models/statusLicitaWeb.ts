@@ -1,10 +1,10 @@
 export enum StatusLicitaWeb {
-  Pending = 'Open',
+  Pending = 'Pending',
   InQuotation = 'InQuotation',
   Quoted = 'Quoted',
   ProposalSent = 'ProposalSent',
   Contract = 'Contract',
   Canceled = 'Canceled',
-  Challenged = 'Cchallenged',
+  Challenged = 'Challenged',
   Extended = 'Extended'
 }

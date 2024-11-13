@@ -93,15 +93,15 @@
               </td>
               <td>
                 <div class="d-flex justify-content-end">
-                  <div matRipple class="buttonTemplate" (click)="onUserClick.emit(tender)">
+                  <!-- <div matRipple class="buttonTemplate" (click)="onUserClick.emit(tender)">
                     <i class="fa-solid fa-eye"></i>
-                  </div>
+                  </div> -->
 
-                  <div matRipple class="buttonTemplate" (click)="onUserClick.emit(tender)">
+                  <div matRipple class="buttonTemplate" (click)="onTenderClick.emit(tender)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
 
-                  <div matRipple class="buttonTemplate" (click)="onDeleteUserClick.emit(tender?.id)">
+                  <div matRipple class="buttonTemplate" (click)="onDeleteTenderClick.emit(tender?.id)">
                     <i class="fa-solid fa-trash"></i>
                   </div>
                 </div>

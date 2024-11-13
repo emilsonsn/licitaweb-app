@@ -15,7 +15,7 @@
       <mat-form-field appearance="outline">
         <mat-select [formControl]="status" multiple placeholder="Selecionar todos">
           <mat-select-trigger>
-            {{ (status.value?.[0] | status ) || ''}}
+            {{ (status.value?.[0] | statusLicitaWeb ) || ''}}
             @if ((status.value?.length || 0) > 1) {
               <span>
                 (+{{(status.value?.length || 0) - 1}} {{status.value?.length === 2 ? 'outro' : 'outros'}})
@@ -25,44 +25,55 @@
 
           <mat-option (click)="resetStatusSelection()" class="no-checkbox">Limpar seleção</mat-option>
           @for (status of filterStatus; track status) {
-            <mat-option [value]="status">{{ status | status}}</mat-option>
+            <mat-option [value]="status">{{ StatusLicitaWeb[status] | statusLicitaWeb}}</mat-option>
           }
         </mat-select>
       </mat-form-field>
     </div>
 
-    <!-- <div class="col-12 mb-3">
-      <p class="fw-bold fs-6 mb-2">Data</p>
+    <div class="col-12 mb-3">
+      <p class="fw-bold fs-6 mb-2">Data do Certame</p>
       <mat-form-field>
         <mat-date-range-input [rangePicker]="picker">
-          <input formControlName="start_date" matStartDate  placeholder="Início" readonly >
-          <input formControlName="end_date" matEndDate placeholder="Fim" readonly >
+          <input formControlName="start_contest_date" matStartDate  placeholder="Início" readonly >
+          <input formControlName="end_contest_date" matEndDate placeholder="Fim" readonly >
         </mat-date-range-input>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
-    </div> -->
+    </div>
 
     <div class="col-12 mb-3">
       <p class="fw-bold fs-6 mb-2">Orgão Emitente</p>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="issuingAgency" matInput placeholder="Orgão Emitente"  />
+        <input type="text" formControlName="order" matInput placeholder="Orgão Emitente"  />
       </mat-form-field>
     </div>
 
     <div class="col-12 mb-3">
-      <p class="fw-bold fs-6 mb-2">Modalidade</p>
-      <mat-form-field appearance="outline">
-        <input type="text" formControlName="modality" matInput placeholder="Modalidade"  />
-      </mat-form-field>
+      <span class="fw-bolder">Modalidade</span>
+      <div class="d-flex align-items-center gap-3">
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="modality_id" placeholder="Modalidade">
+            <mat-option *ngFor="let modality of modalities" [value]="modality.id">
+              {{ modality.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
-
     <div class="col-12 mb-3">
-      <p class="fw-bold fs-6 mb-2">Responsável Interno</p>
-      <mat-form-field appearance="outline">
-        <input type="text" formControlName="internalResponsible" matInput placeholder="Responsável Interno"  />
-      </mat-form-field>
+      <span class="fw-bolder">Responsável Interno</span>
+      <div class="d-flex align-items-center gap-3">
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="user_id" placeholder="Responsável Interno">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
   </form>

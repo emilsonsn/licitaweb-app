@@ -1,3 +1,4 @@
+import { Tender } from '@models/tender';
 import {Component, computed, Signal, signal} from '@angular/core';
 import {OrderData} from "@models/dashboard";
 import {ISmallInformationCard} from "@models/cardInformation";
@@ -12,6 +13,8 @@ import dayjs from 'dayjs';
 import { TenderService } from '@services/tender.service';
 import { ToastrService } from 'ngx-toastr';
 import { DialogFilterTenderComponent } from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
+import { TenderFilters } from '@models/tenderFilters';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-tender',
@@ -20,8 +23,8 @@ import { DialogFilterTenderComponent } from '@shared/dialogs/filters/dialog-filt
 })
 export class TenderComponent {
   public loading: boolean = false;
-  public filtersFromDialog: FormGroup;
-  public filters: OrderFilters;
+  public filtersFromDialog;
+  public filters: TenderFilters;
 
   dashboardCards = signal<OrderData>(
     {
@@ -80,7 +83,7 @@ export class TenderComponent {
 
     this._dialog
       .open(DialogFilterTenderComponent, {
-        data: {...this.filtersFromDialog.getRawValue()},
+        data: {...this.filtersFromDialog},
         ...dialogConfig
       })
       .afterClosed()
@@ -89,11 +92,11 @@ export class TenderComponent {
           if (res) {
             this.filters = {
               ...res.filters,
-              start_date: res.filters?.start_date ? dayjs(res.filters.start_date).format('YYYY-MM-DD') : '',
-              end_date: res.filters?.end_date ? dayjs(res.filters.end_date).format('YYYY-MM-DD') : '',
+              start_contest_date: res.filters?.start_contest_date ? dayjs(res.filters.start_contest_date).format('YYYY-MM-DD') : '',
+              end_contest_date: res.filters?.end_contest_date ? dayjs(res.filters.end_contest_date).format('YYYY-MM-DD') : '',
             };
 
-            !res.clear ? this.filtersFromDialog.patchValue(res.filters) : this.filtersFromDialog.reset();
+            !res.clear ? this.filtersFromDialog = (res.filters) : this.filtersFromDialog = null;
           }
         }
       })
@@ -110,18 +113,38 @@ export class TenderComponent {
 
     this._dialog
       .open(DialogNoticesComponent, {
+        ...dialogConfig,
         data: data ? {...data} : null,
-        ...dialogConfig
       })
       .afterClosed()
       .subscribe({
         next: (res) => {
           if (res) {
-            if(res.id) this.tenderPatch(res.id, res);
+            if(res.get("id")) this.tenderPatch(res.id, res);
             else this.tenderStore(res);
           }
         }
       })
+  }
+
+
+  _deletetender(id: number) {
+    this._initOrStopLoading();
+    this._tenderService
+      .deleteTender(id)
+      .pipe(finalize(() => this._initOrStopLoading()))
+      .subscribe({
+        next: (res) => {
+          this._toastr.success(res.message);
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      });
+  }
+
+  private _initOrStopLoading(): void {
+    this.loading = !this.loading;
   }
 
   private tenderStore(tender){

@@ -6,8 +6,8 @@
           <th [class.hasorder]="col.order"
             [class.active-order]="pageControl.orderField === col.slug"
             [ngStyle]="{ cursor: 'pointer' }"
-            (click)="onClickOrderBy(col.slug, col.order)"
             >
+            <!-- (click)="onClickOrderBy(col.slug, col.order)" -->
             <div
               class="{{col.align}}"
             >
