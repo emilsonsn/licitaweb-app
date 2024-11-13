@@ -1,7 +1,13 @@
 <div cdkDropListGroup class="kanban-main">
   @for (key of Object.keys(data); track key) {
     <div class="kanban-container">
-      <h2>{{ key }} {{ data[key].length }}</h2>
+      <div class="kanban-info">
+        <h2>{{ key }} {{ data[key].length }}</h2>
+        <span class="d-flex align-items-center justify-content-end gap-3">
+          <button (click)="editColumn($event, key)"><i class="fa-solid fa-paintbrush"></i></button>
+          <button (click)="deleteColumn($event, key)"><i class="fa-solid fa-trash-can"></i></button>
+        </span>
+      </div>
       <div
         cdkDropList
         [cdkDropListData]="data[key]"
@@ -19,11 +25,11 @@
             </div>
             <h4>
               <strong>
-                {{ item?.user?.name }}
+                {{ item?.name }} | {{ item?.description }}
               </strong>
             </h4>
-            <h4>{{ item?.name }}</h4>
-            <p>{{ item?.description }}</p>
+            <h4>{{ item?.status }}</h4>
+            <p>{{ item?.user.name }}</p>
           </div>
         }
         <!-- Placeholder: deve estar dentro do cdkDropList -->

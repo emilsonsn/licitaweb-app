@@ -17,6 +17,8 @@ export class KanbanComponent {
   @Output() taskClicked: EventEmitter<Task> = new EventEmitter<Task>();
   @Output() taskDeleted: EventEmitter<Task> = new EventEmitter<Task>();
   @Output() crateColumn: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output() editColumnStatus: EventEmitter<string> = new EventEmitter<string>();
+  @Output() deleteColumnStatus: EventEmitter<string> = new EventEmitter<string>();
   @Input() status!: TaskStatus[];
 
   drop(event: CdkDragDrop<Task[]>) {
@@ -38,8 +40,9 @@ export class KanbanComponent {
 
   private changeColumn(currentContainerIndex: number, event: CdkDragDrop<Task[]>) {
     const keys: (string | number)[] = Object.keys(this.data) as (keyof Kanban<Task>)[];
+    const status = this.status.find(status => status.name === keys[currentContainerIndex]);
     const task: Task = this.data[keys[currentContainerIndex]].find(item => item?.id === event.container?.data[0]?.id);
-    task.task_status_id = currentContainerIndex + 1;
+    task.task_status_id = status.id;
     this.taskMoved.emit(task);
   }
 
@@ -49,7 +52,7 @@ export class KanbanComponent {
 
 
   getBorderColor(task_status_id: number) {
-    return this.status[task_status_id - 1].color;
+    return this.status.find(s => s.id === task_status_id).color;
   }
 
   onBoxClick(item: Task) {
@@ -65,5 +68,15 @@ export class KanbanComponent {
   addColumn(event: Event) {
     event.stopPropagation();
     this.crateColumn.emit(event);
+  }
+
+  editColumn($event: MouseEvent, key: string) {
+    $event.stopPropagation();
+    this.editColumnStatus.emit(key);
+  }
+
+  deleteColumn($event: MouseEvent, key: string) {
+    $event.stopPropagation();
+    this.deleteColumnStatus.emit(key);
   }
 }

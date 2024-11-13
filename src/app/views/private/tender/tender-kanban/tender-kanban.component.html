@@ -2,7 +2,8 @@
   [status]="status"
   [data]="data"
   (taskMoved)="taskMoved($event)"
-  (taskClicked)="openDialogTask($event)"
   (taskDeleted)="deleteTask($event)"
   (crateColumn)="openDialogTask()"
+  (editColumnStatus)="editColumnStatus($event)"
+  (deleteColumnStatus)="deleteColumnStatus($event)"
 ></app-kanban>
