@@ -31,7 +31,7 @@ export class TenderService {
   }
 
   public patchTender(id: number, tender: FormData): Observable<ApiResponse<Tender>> {
-    return this._http.patch<ApiResponse<Tender>>(`${environment.api}/${this.sessionEndpoint}/${id}`, tender);
+    return this._http.post<ApiResponse<Tender>>(`${environment.api}/${this.sessionEndpoint}/${id}?_method=PATCH`, tender);
   }
 
   public deleteTender(id: number): Observable<DeleteApiResponse> {

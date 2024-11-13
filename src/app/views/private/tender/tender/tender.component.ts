@@ -119,8 +119,9 @@ export class TenderComponent {
       .afterClosed()
       .subscribe({
         next: (res) => {
-          if (res) {
-            if(res.get("id")) this.tenderPatch(res.id, res);
+          if (res) {            
+            const id = res.get('id');
+            if (id) this.tenderPatch(id, res);
             else this.tenderStore(res);
           }
         }
@@ -148,7 +149,9 @@ export class TenderComponent {
   }
 
   private tenderStore(tender){
+    this._initOrStopLoading();
     this._tenderService.postTender(tender)
+    .pipe(finalize(() => this._initOrStopLoading()))
     .subscribe({
       next: (res) => {
         this._toastr.success('Edital cadastrado com sucesso!');
@@ -160,7 +163,9 @@ export class TenderComponent {
   }
 
   private tenderPatch(id, tender){
+    this._initOrStopLoading();
     this._tenderService.patchTender(id, tender)
+    .pipe(finalize(() => this._initOrStopLoading()))
     .subscribe({
       next: (res) => {
         this._toastr.success(res.message);

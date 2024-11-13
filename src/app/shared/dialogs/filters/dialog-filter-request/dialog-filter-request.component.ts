@@ -54,7 +54,7 @@ export class DialogFilterRequestComponent {
 
   // Utils
   public resetStatusSelection() {
-    this.status.reset();
+    this.status.patchValue('');
   }
 
   // Getters

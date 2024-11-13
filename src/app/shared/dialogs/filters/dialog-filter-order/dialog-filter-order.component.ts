@@ -62,7 +62,7 @@ export class DialogFilterOrderComponent {
 
   // Utils
   public resetStatusSelection() {
-    this.status.reset();
+    this.status.patchValue('');
   }
 
   // Getters

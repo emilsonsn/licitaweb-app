@@ -83,7 +83,7 @@ export class DialogFilterTenderComponent {
 
   // Utils
   public resetStatusSelection() {
-    this.status.reset();
+    this.status.patchValue('');
   }
 
   // Getters

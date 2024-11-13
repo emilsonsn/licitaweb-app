@@ -67,6 +67,7 @@ export class DialogNoticesComponent {
 
   ngOnInit() {
     this.form = this._fb.group({
+      id: [''],
       number: ['', Validators.required],
       modality_id: ['', Validators.required],
       organ: ['', Validators.required],
@@ -192,6 +193,7 @@ export class DialogNoticesComponent {
       const formData = new FormData();
 
       // Mapeando os campos do novo formulário
+      formData.append('id', form.get('id')?.value ?? '');
       formData.append('number', form.get('number')?.value);
       formData.append('organ', form.get('organ')?.value);
       formData.append('modality_id', form.get('modality_id')?.value);
