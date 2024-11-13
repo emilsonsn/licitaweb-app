@@ -21,7 +21,7 @@ export interface RequestOrder {
   createdAt?: string;
   supplier: Supplier;
   user: User;
-  has_granatum: boolean;
+  has_licitaweb: boolean;
   construction: Construction;
 }
 

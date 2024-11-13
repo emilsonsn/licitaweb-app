@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "granatum-app": {
+    "licitaweb-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -24,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/granatum-app",
+            "outputPath": "dist/licitaweb-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -89,10 +89,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "granatum-app:build:production"
+              "buildTarget": "licitaweb-app:build:production"
             },
             "development": {
-              "buildTarget": "granatum-app:build:development"
+              "buildTarget": "licitaweb-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -100,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "granatum-app:build"
+            "buildTarget": "licitaweb-app:build"
           }
         },
         "test": {
