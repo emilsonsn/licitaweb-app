@@ -9,6 +9,7 @@ import { CpfCnpjMaskPipe } from './cpf-cnpj-mask.pipe';
 import { SolicitationStatusPipe } from './solicitation-status.pipe';
 import { CompanyPositionPipe } from './company-position.pipe';
 import { StatusLicitaWebPipe } from './status-licita-web.pipe';
+import { StatusTaskPipe } from './status-task.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -19,7 +20,8 @@ const pipes = [
   CpfCnpjMaskPipe,
   SolicitationStatusPipe,
   CompanyPositionPipe,
-  StatusLicitaWebPipe
+  StatusLicitaWebPipe,
+  StatusTaskPipe
 ];
 
 @NgModule({

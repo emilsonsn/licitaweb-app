@@ -40,6 +40,7 @@ import { ColorChromeModule } from "ngx-color/chrome";
 import localePt from '@angular/common/locales/pt';
 import { CustomDateAdapter } from '@app/app.module';
 import { DialogStepComponent } from './dialog-step/dialog-step.component';
+import { DialogTaskComponent } from './dialog-task/dialog.task.component';
 
 
 registerLocaleData(localePt, 'pt-BR');
@@ -68,6 +69,7 @@ const MY_DATE_FORMATS = {
     DialogTypeServiceComponent,
     DialogTypeUserSectorComponent,
     DialogStepComponent,
+    DialogTaskComponent,
     DialogNoticesComponent,
     DialogModalityComponent,
   ],

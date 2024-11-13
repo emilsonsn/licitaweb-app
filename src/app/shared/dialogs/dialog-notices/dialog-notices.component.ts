@@ -60,7 +60,7 @@ export class DialogNoticesComponent {
     private readonly _dialogRef: MatDialogRef<DialogNoticesComponent>,
     private _tender: TenderService,
     private _modalityService: ModalityService,
-    private _user: UserService,
+    private _userService: UserService,
     private readonly _toastr: ToastrService,
   ) {
   }
@@ -125,7 +125,7 @@ export class DialogNoticesComponent {
   }
 
   public getUsers() {
-    this._user.getUsers()
+    this._userService.getUsers()
       .subscribe((user) => {
         this.users = user.data;
       });

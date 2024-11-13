@@ -13,7 +13,8 @@ export class DialogStepComponent {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogStepComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id?: number; name?: string; color?: string } // exemplo de dados esperados
+    @Inject(MAT_DIALOG_DATA)
+    public data: { id?: number; name?: string; color?: string } // exemplo de dados esperados
   ) {
   }
 

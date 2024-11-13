@@ -1,0 +1,85 @@
+<div class="d-flex align-items-center justify-content-between p-4 pb-1">
+  <span class="fw-bold fs-5">{{ data.id ? 'Editar Etapa' : 'Criar Etapa' }}</span>
+  <div matRipple class="close" (click)="onCancel()">
+    <i class="fa-solid fa-close"></i>
+  </div>
+</div>
+
+<mat-divider class="my-3"></mat-divider>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-12 col-12 mb-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" placeholder="Digite o nome" required>
+        </mat-form-field>
+      </div>      
+
+      <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Status</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let status of statusData" [value]="status">
+                {{ status | task_status}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Responsável</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="user_id" placeholder="Responsável Interno">
+              <mat-option *ngFor="let user of users" [value]="user.id">
+                {{ user.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <span class="fw-bolder">Data limite</span>
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="pickerCertame" formControlName="due_date" placeholder="DD/MM/YYYY"
+            readonly />
+          <mat-datepicker-toggle matSuffix [for]="pickerCertame"></mat-datepicker-toggle>
+          <mat-datepicker #pickerCertame></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12 col-12 mb-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Descrição</mat-label>
+          <input matInput formControlName="description" placeholder="Digite a descrição" required>
+        </mat-form-field>
+      </div>
+  
+
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-divider class="my-3"></mat-divider>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit()">
+            {{ data ? 'Salvar' : 'Criar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

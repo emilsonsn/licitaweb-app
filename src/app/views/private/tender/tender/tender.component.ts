@@ -15,7 +15,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogFilterTenderComponent } from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
 import { TenderFilters } from '@models/tenderFilters';
 import { finalize } from 'rxjs';
-import { DialogStepComponent } from '@shared/dialogs/dialog-step/dialog-step.component';
+import { DialogTaskComponent } from '@shared/dialogs/dialog-task/dialog.task.component';
+import { TaskService } from '@services/task.service';
+import { TenderTaskService } from '@services/tenderTask.service';
 
 @Component({
   selector: 'app-tender',
@@ -70,7 +72,8 @@ export class TenderComponent {
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
     private readonly _tenderService: TenderService,
-    private readonly _toastr: ToastrService
+    private readonly _toastr: ToastrService,
+    private readonly _tenderTaskService: TenderTaskService
   ) { }
 
   public openTenderFilterDialog() {
@@ -155,7 +158,7 @@ export class TenderComponent {
     };
 
     this._dialog
-      .open(DialogStepComponent, {
+      .open(DialogTaskComponent, {
         data: { id },
         ...dialogConfig
       })
@@ -163,7 +166,15 @@ export class TenderComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            
+            this._tenderTaskService.create(res)
+            .subscribe({
+              next : () => {
+                this._toastr.success(res.message);
+              },
+              error: (err) => {
+                this._toastr.success(res.error.message);
+              },
+            });
           }
         }
       })

@@ -18,11 +18,11 @@ export interface Task {
 }
 
 export enum TaskStatusEnum {
-  Pending = "Pendente",
-  InProgress = "Em Progresso",
-  Completed = "Concluído",
-  Canceled = "Cancelado",
-  Archived = "Arquivado"
+  Pending = "Pending",
+  InProgress = "InProgress",
+  Completed = "Completed",
+  Canceled = "Canceled",
+  Archived = "Archived"
 }
 
 const taskStatusMap: Record<number, TaskStatusEnum> = {
