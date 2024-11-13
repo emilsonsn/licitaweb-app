@@ -31,7 +31,6 @@ import { DialogTypeProviderComponent } from './dialog-type-provider/dialog-type-
 import { TablesModule } from '@shared/tables/tables.module';
 import { DialogTypeServiceComponent } from './dialog-type-service/dialog-type-service.component';
 import { DialogTypeUserSectorComponent } from './dialog-type-user-sector/dialog-type-user-sector.component';
-import { DialogTaskComponent } from './dialog-task/dialog-task.component';
 import { MatIcon } from "@angular/material/icon";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DialogNoticesComponent } from './dialog-notices/dialog-notices.component';
@@ -40,6 +39,7 @@ import { ColorChromeModule } from "ngx-color/chrome";
 
 import localePt from '@angular/common/locales/pt';
 import { CustomDateAdapter } from '@app/app.module';
+import { DialogStepComponent } from './dialog-step/dialog-step.component';
 
 
 registerLocaleData(localePt, 'pt-BR');
@@ -67,7 +67,7 @@ const MY_DATE_FORMATS = {
     DialogTypeProviderComponent,
     DialogTypeServiceComponent,
     DialogTypeUserSectorComponent,
-    DialogTaskComponent,
+    DialogStepComponent,
     DialogNoticesComponent,
     DialogModalityComponent,
   ],

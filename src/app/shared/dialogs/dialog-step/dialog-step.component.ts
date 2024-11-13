@@ -3,16 +3,16 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-dialog-task',
-  templateUrl: './dialog-task.component.html',
-  styleUrls: ['./dialog-task.component.scss']
+  selector: 'app-dialog-step',
+  templateUrl: './dialog-step.component.html',
+  styleUrls: ['./dialog-step.component.scss']
 })
-export class DialogTaskComponent {
+export class DialogStepComponent {
   statusForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogTaskComponent>,
+    public dialogRef: MatDialogRef<DialogStepComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id?: number; name?: string; color?: string } // exemplo de dados esperados
   ) {
   }

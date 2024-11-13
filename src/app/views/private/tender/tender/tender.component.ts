@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogFilterTenderComponent } from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
 import { TenderFilters } from '@models/tenderFilters';
 import { finalize } from 'rxjs';
+import { DialogStepComponent } from '@shared/dialogs/dialog-step/dialog-step.component';
 
 @Component({
   selector: 'app-tender',
@@ -129,7 +130,7 @@ export class TenderComponent {
   }
 
 
-  _deletetender(id: number) {
+  deletetender(id: number) {
     this._initOrStopLoading();
     this._tenderService
       .deleteTender(id)
@@ -142,6 +143,30 @@ export class TenderComponent {
           this._toastr.error(err.error.error);
         },
       });
+  }
+
+  public openTaskDialog(id){
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '550px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogStepComponent, {
+        data: { id },
+        ...dialogConfig
+      })
+      .afterClosed()
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            
+          }
+        }
+      })
   }
 
   private _initOrStopLoading(): void {

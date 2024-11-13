@@ -32,7 +32,9 @@
       [loading]="loading"
       [filters]="filters"
       (onTenderClick)="openTenderDialog($event)"
-      (onDeleteTenderClick)="_deletetender($event)">
+      (onDeleteTenderClick)="deletetender($event)"
+      (openTaskDialog)="openTaskDialog($event)">
+      
       </app-table-tender>
     </div>
   </mat-tab>

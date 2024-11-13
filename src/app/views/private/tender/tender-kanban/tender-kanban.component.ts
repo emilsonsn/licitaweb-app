@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {Kanban} from "@models/Kanban";
 import {Task, TaskStatus} from "@models/Task";
 import {User} from "@models/user";
-import {DialogTaskComponent} from "@shared/dialogs/dialog-task/dialog-task.component";
+import {DialogStepComponent} from "@shared/dialogs/dialog-step/dialog-step.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
 import {TaskService} from "@services/task.service";
@@ -98,7 +98,7 @@ export class TenderKanbanComponent {
 
   openDialogTask(task?: TaskStatus) {
     this._dialog
-      .open(DialogTaskComponent, {
+      .open(DialogStepComponent, {
         data: {id: task?.id, name: task?.name, color: task?.color},
         width: '80%',
         maxWidth: '400px',

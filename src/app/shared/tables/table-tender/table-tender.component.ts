@@ -26,6 +26,9 @@ export class TableTenderComponent {
   @Output()
   onDeleteTenderClick: EventEmitter<number> = new EventEmitter<number>();
 
+  @Output()
+  openTaskDialog: EventEmitter<number> = new EventEmitter<number>();
+
   public tender: Tender[] = [];
 
   public columns = [

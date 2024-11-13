@@ -93,9 +93,9 @@
               </td>
               <td>
                 <div class="d-flex justify-content-end">
-                  <!-- <div matRipple class="buttonTemplate" (click)="onUserClick.emit(tender)">
-                    <i class="fa-solid fa-eye"></i>
-                  </div> -->
+                  <div matRipple class="buttonTemplate" (click)="openTaskDialog.emit(tender.id)">
+                    <i class="fa-solid fa-list-check"></i>
+                  </div>
 
                   <div matRipple class="buttonTemplate" (click)="onTenderClick.emit(tender)">
                     <i class="fa-solid fa-pen-to-square"></i>
