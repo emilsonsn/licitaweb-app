@@ -11,6 +11,7 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MatRipple} from "@angular/material/core";
 import {TenderKanbanComponent} from './tender-kanban/tender-kanban.component';
 import {TenderTaskComponent} from './tender-task/tender-task.component';
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {TenderTaskComponent} from './tender-task/tender-task.component';
     ComponentsModule,
     MatTab,
     MatTabGroup,
-    MatRipple
+    MatRipple,
+    FullCalendarModule
   ]
 })
 export class TenderModule {

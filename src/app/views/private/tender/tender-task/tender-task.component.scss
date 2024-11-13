@@ -1,0 +1,11 @@
+/* tender-task.component.scss */
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh; /* ou o tamanho desejado */
+}
+
+full-calendar {
+  width: 100%;
+  height: 100%;
+}
