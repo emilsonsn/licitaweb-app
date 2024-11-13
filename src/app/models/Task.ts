@@ -1,8 +1,9 @@
 import { User } from "./user";
+import {StatusLicitaWeb} from "@models/statusLicitaWeb";
 
 export interface Task {
   id: string;
-  user_id: number;
+  user_id: string;
   name: string;
   description: string;
   task_status_id: number;
@@ -13,6 +14,7 @@ export interface Task {
   tasks_files: any[]
   files: any[];
   user: User;
+  status?: StatusLicitaWeb;
 }
 
 export enum TaskStatusEnum {

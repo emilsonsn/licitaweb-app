@@ -23,6 +23,10 @@ export class DialogTaskComponent {
       name: [this.data?.name || '', Validators.required],
       color: [this.data?.color || '#000000', Validators.required] // valor padrão para cor
     });
+
+    if (this.data?.color) {
+      this.selectedColor = this.data.color;
+    }
   }
 
   onSubmit(): void {

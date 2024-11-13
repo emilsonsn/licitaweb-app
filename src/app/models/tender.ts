@@ -14,7 +14,20 @@ export interface Tender {
   user?: User;
   items: string;
   attachments?: string;
+  tender_status?: TenderStatus[];
+
 }
+
+export interface TenderStatus {
+  id: number;
+  position: number;
+  status_id: number;
+  tender_id: number;
+  created_at: Date; // Você pode usar Date se preferir, mas precisará converter
+  updated_at: Date; // Idem ao created_at
+  deleted_at: Date | null;
+}
+
 
 export interface UserPosition {
   id? : string,

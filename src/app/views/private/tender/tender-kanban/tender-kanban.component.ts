@@ -7,7 +7,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
 import {TaskService} from "@services/task.service";
 import {UserService} from "@services/user.service";
-import {ApiResponse} from "@models/application";
+import {ApiResponse, DeleteApiResponse} from "@models/application";
+import {TenderService} from "@services/tender.service";
+import {Tender} from "@models/tender";
 
 @Component({
   selector: 'app-tender-kanban',
@@ -18,12 +20,14 @@ export class TenderKanbanComponent {
   data: Kanban<Task> = {}
   users: User[] = [];
   status: TaskStatus[] = []
+  tenders: Tender[] = []
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _taskService: TaskService,
     private readonly _userService: UserService,
+    private readonly _tenderService: TenderService,
     private cdr: ChangeDetectorRef
   ) {
 
@@ -36,7 +40,6 @@ export class TenderKanbanComponent {
       }
     });
 
-
     this._userService.getUsersAll().subscribe((response: ApiResponse<User[]>) => {
       if (response.data) {
         this.users = response.data
@@ -47,19 +50,43 @@ export class TenderKanbanComponent {
 
 
   getTasks() {
-    this._taskService.getTasks().subscribe((response: ApiResponse<Task[]>) => {
+    this._tenderService.getTenders().subscribe((response) => {
       if (response.data) {
-        response.data.forEach((task: Task) => {
-          const name = this.status.find((status) => status.id === task.task_status_id)?.name;
+        response.data.forEach((tender: Tender) => {
+          const name = this.status.find((status) => status.id === tender.tender_status[0].status_id)?.name;
+
+          const task: Task = {
+            id: tender.id.toString(),
+            user_id: tender.user_id,
+            name: tender.number,
+            description: tender.organ,
+            status : tender.status,
+            task_status_id: tender.tender_status[0].status_id,
+            concluded_at: tender.tender_status[0].updated_at,
+            created_at: tender.tender_status[0].created_at,
+            updated_at: tender.tender_status[0].updated_at,
+            sub_tasks: [],
+            tasks_files: [],
+            files: [],
+            user: tender.user,
+          };
+
           if (name) this.data[name].push(task);
         })
+
+        this.tenders = response.data;
+
         this.cdr.detectChanges();
       }
     })
   }
 
   taskMoved($event: Task) {
-    this._taskService.updateTask($event).subscribe(
+    const tender = this.tenders.find((tender) => tender.id === Number($event.id));
+
+    tender.tender_status[0].status_id = $event.task_status_id;
+
+    this._taskService.updateTender(tender).subscribe(
       {
         error: (err) => {
           this._toastr.error(err.error.error);
@@ -69,10 +96,10 @@ export class TenderKanbanComponent {
   }
 
 
-  openDialogTask(task?: Task) {
+  openDialogTask(task?: TaskStatus) {
     this._dialog
       .open(DialogTaskComponent, {
-        data: {task, status: this.status, users: this.users},
+        data: {id: task?.id, name: task?.name, color: task?.color},
         width: '80%',
         maxWidth: '400px',
         maxHeight: '90%',
@@ -82,27 +109,16 @@ export class TenderKanbanComponent {
         if (res) {
           res.id ? this._patchTask(res.id, res) : this._postTask(res);
         }
-        this._taskService.getStatusTasks().subscribe((response: ApiResponse<TaskStatus[]>) => {
-          if (response.data) {
-            this.status = response.data;
-            response.data.forEach((status: TaskStatus) => {
-              this.data[status.name] = []
-            })
-          }
-        });
+        this.getStatus();
       });
   }
 
   private _postTask(res: TaskStatus) {
 
-    this._taskService.createTask(res).subscribe(
+    this._taskService.createTaskStatus(res).subscribe(
       {
         next: (response) => {
-
-          this.status.forEach((status: TaskStatus) => {
-            this.data[status.name] = []
-          })
-
+          this._toastr.success('Etapa salva com sucesso!');
           this.getTasks();
         },
         error: (err) => {
@@ -115,10 +131,10 @@ export class TenderKanbanComponent {
   deleteTask($event: Task) {
     if (!$event?.id) return;
 
-    this._taskService.deleteTask($event).subscribe(
+    this._tenderService.deleteTender(+$event.id).subscribe(
       {
-        next: (response: ApiResponse<Task>) => {
-          if (response.data) {
+        next: (response) => {
+          if (response) {
             this._toastr.success('Tarefa excluída com sucesso!');
 
             this.status.forEach((status: TaskStatus) => {
@@ -135,17 +151,45 @@ export class TenderKanbanComponent {
   }
 
   private _patchTask(id: number, res: TaskStatus) {
-    this._taskService.putTask(id, res).subscribe(
+    this._taskService.updateTaskStatus(res).subscribe(
       {
-        next: (response: ApiResponse<Task>) => {
+        next: (response) => {
+          this._toastr.success('Etapa atualizada com sucesso!');
+          this.status = [];
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      }
+    );
+  }
+
+  editColumnStatus($event: string) {
+    const taskStatus = this.status.find((status) => status.name === $event);
+    this.openDialogTask(taskStatus);
+  }
+
+  getStatus() {
+    this.status = [];
+    this.data = {};
+    this._taskService.getStatusTasks().subscribe((response: ApiResponse<TaskStatus[]>) => {
+      if (response.data) {
+        this.status = response.data;
+        response.data.forEach((status: TaskStatus) => {
+          this.data[status.name] = []
+        })
+      }
+    });
+  }
+
+  deleteColumnStatus($event: string) {
+    const taskStatus = this.status.find((status) => status.name === $event);
+    this._taskService.deleteTaskStatus(taskStatus).subscribe(
+      {
+        next: (response: ApiResponse<TaskStatus>) => {
           if (response.data) {
-            this._toastr.success('Tarefa alterada com sucesso!');
-
-            this.status.forEach((status: TaskStatus) => {
-              this.data[status.name] = []
-            })
-
-            this.getTasks();
+            this._toastr.success('Etapa excluído com sucesso!');
+            this.getStatus();
           }
         },
         error: (err) => {
