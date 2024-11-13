@@ -53,7 +53,7 @@ export class DialogModalityComponent {
       form.markAllAsTouched();
     } else {
       const formData = new FormData();
-      formData.append('id', form.get('id')?.value);
+      formData.append('id', form.get('id')?.value ?? '');
       formData.append('name', form.get('name')?.value);
       formData.append('description', form.get('description')?.value);
 
