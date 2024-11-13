@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar Tarefa' : 'Nova Tarefa' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="eventForm">
+    <div class="row mt-2">
+      <div class="col-md-6 col-12 mb-3">
+        <span class="fw-bolder">Nome*</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field>
+            <input matInput formControlName="name" required/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <span class="fw-bolder">Data Limite*</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" formControlName="due_date" maxlength="10" required (input)="applyDateMask($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-12 mb-3">
+        <span class="fw-bolder">Edital*</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="tender_id" placeholder="Edital Associado" required>
+              <div class="input-select">
+                <mat-icon>search</mat-icon>
+                <input #searchInput placeholder="Buscar Edital" (input)="onSearchChange($event)"/>
+                <i *ngIf="searchTerm" style="color: #0d6efd" (click)="clearSearch(searchInput)"
+                   class="fa-solid fa-xmark"></i>
+              </div>
+              <mat-option *ngFor="let tender of tenders" [value]="tender.id">
+                {{ tender.number }} | {{ tender.status }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <span class="fw-bolder">Responsável*</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="user_id" placeholder="Responsável Interno" required>
+              <mat-option *ngFor="let user of users" [value]="user.id">
+                {{ user.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <span class="fw-bolder">Status*</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field>
+            <mat-select formControlName="status" required>
+              <mat-option *ngFor="let status of statusOptions" [value]="status">{{ EventStatus[status] | eventStatus }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <span class="fw-bolder">Descrição</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button color="warn" *ngIf="isEditMode" (click)="delete()">Excluir</button>
+  <button mat-button color="primary" (click)="save(eventForm)">
+    {{ isEditMode ? 'Salvar' : 'Adicionar' }}
+  </button>
+</mat-dialog-actions>

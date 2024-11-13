@@ -10,6 +10,7 @@ import { SolicitationStatusPipe } from './solicitation-status.pipe';
 import { CompanyPositionPipe } from './company-position.pipe';
 import { StatusLicitaWebPipe } from './status-licita-web.pipe';
 import { StatusTaskPipe } from './status-task.pipe';
+import { EventStatusPipe } from './event-status.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -28,12 +29,14 @@ const pipes = [
   declarations: [
     pipes,
     CompanyPositionPipe,
+    EventStatusPipe,
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    pipes
+    pipes,
+    EventStatusPipe
   ]
 })
 export class PipesModule { }

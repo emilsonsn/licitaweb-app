@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-between p-4 pb-1">
-  <span class="fw-bold fs-5">{{ data.id ? 'Editar Etapa' : 'Criar Etapa' }}</span>
+  <span class="fw-bold fs-5">{{ data.id ? 'Editar Tarefa' : 'Criar Tarefa' }}</span>
   <div matRipple class="close" (click)="onCancel()">
     <i class="fa-solid fa-close"></i>
   </div>
@@ -15,7 +15,7 @@
           <mat-label>Nome</mat-label>
           <input matInput formControlName="name" placeholder="Digite o nome" required>
         </mat-form-field>
-      </div>      
+      </div>
 
       <div class="col-md-6 mb-3">
         <span class="fw-bolder">Status</span>
@@ -23,7 +23,7 @@
           <mat-form-field appearance="outline">
             <mat-select formControlName="status">
               <mat-option *ngFor="let status of statusData" [value]="status">
-                {{ status | task_status}}
+                {{ EventStatus[status] | eventStatus}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -59,7 +59,7 @@
           <input matInput formControlName="description" placeholder="Digite a descrição" required>
         </mat-form-field>
       </div>
-  
+
 
     </div>
   </form>

@@ -5,6 +5,7 @@ import { TaskStatusEnum } from '@models/Task';
 import { User } from '@models/user';
 import { UserService } from '@services/user.service';
 import dayjs from 'dayjs';
+import {EventStatus} from "@models/Event";
 
 @Component({
   selector: 'app-dialog-task',
@@ -15,11 +16,7 @@ export class DialogTaskComponent {
   form: FormGroup;
   public users: User[];
 
-  statusData: TaskStatusEnum[] = [
-    TaskStatusEnum.Pending,
-    TaskStatusEnum.InProgress,
-    TaskStatusEnum.Completed
-  ];
+  statusData= Object.values(EventStatus);
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +53,7 @@ export class DialogTaskComponent {
       this.form.markAllAsTouched();
       return;
     }
-    
+
     this.dialogRef.close({
       ...this.form.getRawValue(),
       due_date: dayjs(this.form.get('due_date')?.value).format('YYYY-MM-DD')
@@ -67,4 +64,5 @@ export class DialogTaskComponent {
     this.dialogRef.close();
   }
 
+  protected readonly EventStatus = EventStatus;
 }

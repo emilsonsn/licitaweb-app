@@ -1,7 +1,7 @@
 export interface IEventTask {
   id?: number;
   name: string;
-  due_date: string;
+  due_date: Date;
   description?: string;
   status: EventStatus;
   tender_id: number;
