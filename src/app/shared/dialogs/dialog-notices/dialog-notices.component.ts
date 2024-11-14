@@ -78,6 +78,7 @@ export class DialogNoticesComponent {
       items_count: [null, [Validators.required, Validators.min(1)]],
       status: ['', Validators.required],
       items: this._fb.array([]),
+      attachments: [''],
     });
 
     if (this._data) {
@@ -90,14 +91,24 @@ export class DialogNoticesComponent {
         });
       }
 
+      if (this._data.attachments) {
+        this._data.attachments.forEach((file, index) => {
+          this.filesFromBack.push({
+            index: index,
+            id: file.id,
+            name: file.filename,
+            path: file.path
+          });
+        });
+      }
+
       if (!this._data.edit) {
         this.isToEdit = true;
       }
 
-      const adjustedDate = dayjs(this._data.contest_date).local().format('YYYY-MM-DD');
-      this._data.contest_date = adjustedDate;
+      const adjustedDate = dayjs(this._data.contest_date).toDate();
+      this.form.patchValue({...this._data, contest_date: adjustedDate});
 
-      this.form.patchValue(this._data);
     } else {
       this.items.push(this.createItem());
     }
@@ -145,7 +156,24 @@ export class DialogNoticesComponent {
   public prepareFileToRemoveFromBack(fileId, index) {
     this.filesFromBack.splice(index, 1);
     this.filesToRemove.push(fileId);
+    this.deleteAttachment(fileId);
   }
+
+public deleteAttachment(fileId: number) {
+  this._tender.deleteItemAttachment(fileId).subscribe({
+    next: () => {
+      this._toastr.success("Anexo deletado com sucesso");
+
+      const fileIndex = this.filesFromBack.findIndex(file => file.id === fileId);
+      if (fileIndex > -1) {
+        this.filesFromBack.splice(fileIndex, 1);
+      }
+    },
+    error: (err) => {
+      this._toastr.error(err.error.error);
+    }
+  });
+}
 
   public removeFileFromSendToFiles(index: number) {
     if (index > -1) {
@@ -188,7 +216,6 @@ export class DialogNoticesComponent {
   onSubmit(form) {
     if (!form.valid) {
       form.markAllAsTouched();
-      console.log(form.controls);
     } else {
       const formData = new FormData();
 

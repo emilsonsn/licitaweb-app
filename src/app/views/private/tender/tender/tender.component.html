@@ -13,7 +13,7 @@
         <div id="options">
           @if (true) {
             <div id="filter" matRipple (click)="openTenderFilterDialog()">
-              <i class="fa-solid fa-filter"></i>
+              <i class="fa-solid fa-filter" matTooltip="Filtros"></i>
             </div>
           }
 
@@ -34,7 +34,7 @@
       (onTenderClick)="openTenderDialog($event)"
       (onDeleteTenderClick)="deletetender($event)"
       (openTaskDialog)="openTaskDialog($event)">
-      
+
       </app-table-tender>
     </div>
   </mat-tab>

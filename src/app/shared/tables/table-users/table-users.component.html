@@ -12,8 +12,8 @@
             <!--(click)="onClickOrderBy(col.slug, col.order)" -->
             <div
               class="{{col.align}}"
-              style="color: #a2a1a8"
-            >
+              >
+              <!-- style="color: #a2a1a8" -->
               {{ col.title }}
               <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
                 {{
@@ -92,11 +92,11 @@
               </td>
               <td>
                 <div class="d-flex justify-content-end">
-                  <div matRipple class="buttonTemplate" (click)="onUserClick.emit(collaborator)">
+                  <div matRipple class="buttonTemplate" matTooltip="Editar" (click)="onUserClick.emit(collaborator)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
 
-                  <div matRipple class="buttonTemplate" (click)="onDeleteUserClick.emit(collaborator?.id)">
+                  <div matRipple class="buttonTemplate" matTooltip="Deletar" (click)="onDeleteUserClick.emit(collaborator?.id)">
                     <i class="fa-solid fa-trash"></i>
                   </div>
                 </div>

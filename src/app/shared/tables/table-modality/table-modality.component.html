@@ -53,11 +53,11 @@
               <td>
                 <div class="d-flex justify-content-end">
 
-                  <div matRipple class="buttonTemplate" (click)="onModalityClick.emit(modality)">
+                  <div matRipple class="buttonTemplate" matTooltip="Editar" (click)="onModalityClick.emit(modality)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
 
-                  <div matRipple class="buttonTemplate" (click)="onDeleteModalityClick.emit(modality?.id)">
+                  <div matRipple class="buttonTemplate" matTooltip="Deletar" (click)="onDeleteModalityClick.emit(modality?.id)">
                     <i class="fa-solid fa-trash"></i>
                   </div>
                 </div>
