@@ -40,7 +40,7 @@ export class LayoutPrivateComponent {
         },
         {
           label: 'Tarefas',
-          icon: 'fa-solid fa-clipboard-list',
+          icon: 'fa-solid fa-calendar-days',
           route: '/painel/tender/task'
         },
       ]

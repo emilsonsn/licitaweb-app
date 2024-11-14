@@ -6,5 +6,6 @@ export enum StatusLicitaWeb {
   Contract = 'Contract',
   Canceled = 'Canceled',
   Challenged = 'Challenged',
-  Extended = 'Extended'
+  Extended = 'Extended',
+  Open = 'Open'
 }

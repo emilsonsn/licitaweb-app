@@ -13,7 +13,8 @@ export class StatusLicitaWebPipe implements PipeTransform {
     [StatusLicitaWeb.InQuotation]: 'Em Cotação',
     [StatusLicitaWeb.Challenged]: 'Impugnado',
     [StatusLicitaWeb.ProposalSent]: 'Proposta Enviada',
-    [StatusLicitaWeb.Extended]: 'Prorrogado'
+    [StatusLicitaWeb.Extended]: 'Prorrogado',
+    [StatusLicitaWeb.Open]: 'Aberto',
   };
 
   transform(value: StatusLicitaWeb): string {

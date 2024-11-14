@@ -8,6 +8,7 @@ import {Tender} from "@models/tender";
 import {TenderService} from "@services/tender.service";
 import {debounceTime, finalize, Subject} from "rxjs";
 import {Order, PageControl} from "@models/application";
+import dayjs from "dayjs";
 
 @Component({
   selector: 'app-dialog-event',
@@ -41,10 +42,12 @@ export class DialogEventComponent {
     private readonly _tenderService: TenderService,
   ) {
     this.isEditMode = !!data.name;
+    const adjustedDate = dayjs(this.data.due_date).toDate();
+
     this.eventForm = this.fb.group({
       id: [data.id || null],
       name: [data.name || '', Validators.required],
-      due_date: [data.due_date || '', Validators.required],
+      due_date: [adjustedDate || '', Validators.required],
       description: [data.description || ''],
       status: [data.status || 'Pending'],
       tender_id: [data.tender_id || null, Validators.required],

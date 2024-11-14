@@ -10,10 +10,20 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <div class="row">
-      <div class="col-md-12 col-12 mb-3">
+      <div class="col-md-6 col-12 mb-3">
+        <span class="fw-bolder">Nome</span>
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Nome</mat-label>
           <input matInput formControlName="name" placeholder="Digite o nome" required>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Data limite</span>
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="pickerCertame" formControlName="due_date" placeholder="DD/MM/YYYY"
+                 readonly />
+          <mat-datepicker-toggle matSuffix [for]="pickerCertame"></mat-datepicker-toggle>
+          <mat-datepicker #pickerCertame></mat-datepicker>
         </mat-form-field>
       </div>
 
@@ -43,21 +53,17 @@
         </div>
       </div>
 
-      <div class="col-md-12 mb-3">
-        <span class="fw-bolder">Data limite</span>
-        <mat-form-field appearance="outline">
-          <input matInput [matDatepicker]="pickerCertame" formControlName="due_date" placeholder="DD/MM/YYYY"
-            readonly />
-          <mat-datepicker-toggle matSuffix [for]="pickerCertame"></mat-datepicker-toggle>
-          <mat-datepicker #pickerCertame></mat-datepicker>
-        </mat-form-field>
-      </div>
+
 
       <div class="col-md-12 col-12 mb-3">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Descrição</mat-label>
-          <input matInput formControlName="description" placeholder="Digite a descrição" required>
-        </mat-form-field>
+
+
+        <div class="col-md-12 mb-3">
+          <span class="fw-bolder">Descrição</span>
+          <mat-form-field appearance="outline" class="w-100">
+            <textarea matInput formControlName="description" placeholder="Digite a descrição" ></textarea>
+          </mat-form-field>
+        </div>
       </div>
 
 
