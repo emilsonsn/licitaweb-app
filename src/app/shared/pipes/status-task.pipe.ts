@@ -18,5 +18,4 @@ export class StatusTaskPipe implements PipeTransform {
         return value;
     }
   }
-
 }
