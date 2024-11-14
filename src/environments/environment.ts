@@ -4,6 +4,7 @@ export const environment = {
   production: false,
   appName: 'Licita Web',
   home: '/painel/home',
-  api: 'http://127.0.0.1:8000/api',
+  api: 'http://app-licitaweb.com.br:3001',
+  // api: 'http://127.0.0.1:8000/api',
   version: require('../../package.json').version
 };
