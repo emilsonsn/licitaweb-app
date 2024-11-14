@@ -103,7 +103,14 @@ export class DialogEventComponent {
       form.markAllAsTouched();
     } else {
       const action = this.isEditMode ? 'edit' : 'add';
-      this.dialogRef.close({action, event: form.value});
+      this.dialogRef.close({
+        action,
+        event:
+        {
+          ...form.getRawValue(),
+          due_date: form.get('due_date').value ? dayjs(form.get('due_date').value).format("YYYY-MM-DD") : ''
+        }
+      });
     }
 
   }

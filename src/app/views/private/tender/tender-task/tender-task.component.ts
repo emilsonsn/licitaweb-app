@@ -49,7 +49,11 @@ export class TenderTaskComponent implements OnInit {
             title: task.name,
             start: task.due_date,
             end: task.due_date,
-            allDay: true
+            allDay: true,
+            backgroundColor: task.status === 'Pending' ? 'orange' :
+            task.status === 'InProgress' ? '' :
+            task.status === 'Completed' ? 'green' : undefined,
+            borderColor: 'transparent'
           }));
 
           this.events = response.data;

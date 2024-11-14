@@ -164,17 +164,9 @@ export class TenderComponent {
       })
       .afterClosed()
       .subscribe({
-        next: (res) => {
-          if (res) {
-            this._tenderTaskService.create(res)
-            .subscribe({
-              next : () => {
-                this._toastr.success(res.message);
-              },
-              error: (err) => {
-                this._toastr.success(res.error.message);
-              },
-            });
+        next: (task) => {
+          if (task) {
+            this.createTask(task);
           }
         }
       })
@@ -182,6 +174,19 @@ export class TenderComponent {
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
+  }
+
+  private createTask(task){
+    this._tenderTaskService.create(task)
+      .subscribe({
+        next : (res) => {
+          console.log(res);
+          this._toastr.success(res.message);
+        },
+        error: (err) => {
+          this._toastr.success(err.error.message);
+        },
+      });
   }
 
   private tenderStore(tender){

@@ -62,9 +62,6 @@ export class TenderKanbanComponent {
             description: tender.organ,
             status : tender.status,
             task_status_id: tender.tender_status[0].status_id,
-            concluded_at: tender.tender_status[0].updated_at,
-            created_at: tender.tender_status[0].created_at,
-            updated_at: tender.tender_status[0].updated_at,
             sub_tasks: [],
             tasks_files: [],
             files: [],
@@ -107,7 +104,7 @@ export class TenderKanbanComponent {
       .afterClosed()
       .subscribe((res: TaskStatus) => {
         if (res) {
-          res.id ? this._patchTask(res.id, res) : this._postTask(res);
+          res.id ? this._patchTask(res.id, res) : this._postTask(res);          
         }
         this.getStatus();
       });
@@ -140,7 +137,6 @@ export class TenderKanbanComponent {
             this.status.forEach((status: TaskStatus) => {
               this.data[status.name] = []
             })
-            this.getTasks();
           }
         },
         error: (err) => {
@@ -155,7 +151,8 @@ export class TenderKanbanComponent {
       {
         next: (response) => {
           this._toastr.success('Etapa atualizada com sucesso!');
-          this.status = [];
+          this.getTasks();
+          // this.status = [];
         },
         error: (err) => {
           this._toastr.error(err.error.error);

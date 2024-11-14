@@ -7,9 +7,9 @@ export interface Task {
   name: string;
   description: string;
   task_status_id: number;
-  concluded_at: Date;
-  created_at: Date;
-  updated_at: Date;
+  concluded_at?: Date;
+  created_at?: Date;
+  updated_at?: Date;
   sub_tasks: any[];
   tasks_files: any[]
   files: any[];
