@@ -12,6 +12,7 @@ export interface User {
   status : UserStatus;
   createdAt : string;
   updatedAt : string;
+  is_online?: boolean;
   admin?: boolean;
   photo?: string;
   role?: UserRole;

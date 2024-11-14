@@ -1,4 +1,5 @@
 import { StatusLicitaWeb } from "./statusLicitaWeb";
+import { TaskStatus } from "./Task";
 import { User } from "./user";
 
 export interface Tender {
@@ -8,7 +9,7 @@ export interface Tender {
   modality_id : string;
   contest_date : Date;
   estimated_value : number;
-  status: StatusLicitaWeb;
+  status: TaskStatus;
   items_count: number;
   user_id: string;
   user?: User;

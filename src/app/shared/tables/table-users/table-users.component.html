@@ -54,6 +54,7 @@
                     [color]="'#e7b403'"
                     [onCircle]="true"
                   ></app-avatar>
+                  <i class="fa-solid fa-circle {{ collaborator?.is_online ? 'green' : 'red' }}"></i>
                   {{ collaborator?.name }}
                 </div>
               </td>

@@ -33,7 +33,7 @@
                    class="fa-solid fa-xmark"></i>
               </div>
               <mat-option *ngFor="let tender of tenders" [value]="tender.id">
-                {{ tender.number }} | {{ tender.status | statusLicitaWeb}}
+                {{ tender.number }} | {{ tender.status.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>

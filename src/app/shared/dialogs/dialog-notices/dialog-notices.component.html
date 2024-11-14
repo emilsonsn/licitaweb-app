@@ -110,9 +110,9 @@
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Status</span>
       <mat-form-field appearance="outline">
-        <mat-select formControlName="status" placeholder="Status">
+        <mat-select formControlName="status_id" placeholder="Status">
           @for (status of Status; track status) {
-            <mat-option [value]="status">{{ status | statusLicitaWeb }}</mat-option>
+            <mat-option [value]="status.id">{{ status.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

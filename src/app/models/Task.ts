@@ -14,7 +14,7 @@ export interface Task {
   tasks_files: any[]
   files: any[];
   user: User;
-  status?: StatusLicitaWeb;
+  status?: TaskStatus;
 }
 
 export enum TaskStatusEnum {

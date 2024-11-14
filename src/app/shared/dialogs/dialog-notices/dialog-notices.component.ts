@@ -10,6 +10,7 @@ import { Modality } from '@models/modality';
 import { UserService } from '@services/user.service';
 import { User } from '@models/user';
 import utc from 'dayjs/plugin/utc'; // Importa o plugin utc
+import { TaskService } from '@services/task.service';
 
 dayjs.extend(utc);
 
@@ -24,7 +25,7 @@ export class DialogNoticesComponent {
   public title: string = 'Novo Edital';
   public isNewTender: boolean = true;
   public loading: boolean = false;
-  protected Status = Object.values(StatusLicitaWeb);
+  public Status: any[] = [];
   protected isToEdit: boolean = false;
   public allowedTypes = [
     'image/png',
@@ -62,6 +63,7 @@ export class DialogNoticesComponent {
     private _modalityService: ModalityService,
     private _userService: UserService,
     private readonly _toastr: ToastrService,
+    private readonly _taskService: TaskService
   ) {
   }
 
@@ -76,7 +78,7 @@ export class DialogNoticesComponent {
       estimated_value: [null, [Validators.required, Validators.min(0)]],
       user_id: ['', Validators.required],
       items_count: [null, [Validators.required, Validators.min(1)]],
-      status: ['', Validators.required],
+      status_id: ['', Validators.required],
       items: this._fb.array([]),
       attachments: [''],
     });
@@ -133,6 +135,20 @@ export class DialogNoticesComponent {
 
     this.getModalities();
     this.getUsers();
+    this.getStatus();
+  }
+
+  public getStatus(){
+    this._taskService.getStatusTasks()
+    .subscribe({
+      next: (status) => {
+        this.Status = status.data;
+        console.log(status.data);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
 
   public getUsers() {
@@ -227,7 +243,7 @@ public deleteAttachment(fileId: number) {
       formData.append('contest_date', dayjs(form.get('contest_date')?.value).format('YYYY-MM-DD'));
       formData.append('object', form.get('object')?.value);
       formData.append('estimated_value', form.get('estimated_value')?.value);
-      formData.append('status', form.get('status')?.value);
+      formData.append('status_id', form.get('status_id')?.value);
       formData.append('items_count', form.get('items_count')?.value);
       formData.append('user_id', form.get('user_id')?.value);
       form.get('items')?.value.forEach((element, index) => {
