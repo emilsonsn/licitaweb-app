@@ -12,6 +12,7 @@ import {MatRipple} from "@angular/material/core";
 import {TenderKanbanComponent} from './tender-kanban/tender-kanban.component';
 import {TenderTaskComponent} from './tender-task/tender-task.component';
 import {FullCalendarModule} from "@fullcalendar/angular";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     MatTab,
     MatTabGroup,
     MatRipple,
-    FullCalendarModule
+    FullCalendarModule,
+    MatTooltipModule
   ]
 })
 export class TenderModule {

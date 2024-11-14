@@ -60,8 +60,6 @@ export class DialogCollaboratorComponent {
     // Remove qualquer coisa que não seja número
     // value = value.replace(/\D/g, '');
 
-    console.log(value);
-    console.log(value.length);
 
     // Adiciona a máscara 'dd/MM/yyyy' conforme o valor do input
     if (value.length <= 2) {

@@ -123,7 +123,7 @@ export class TenderComponent {
       .afterClosed()
       .subscribe({
         next: (res) => {
-          if (res) {            
+          if (res) {
             const id = res.get('id');
             if (id) this.tenderPatch(id, res);
             else this.tenderStore(res);

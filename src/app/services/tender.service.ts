@@ -39,6 +39,10 @@ export class TenderService {
   }
 
   public deleteItem(id: number): Observable<DeleteApiResponse> {
-    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/deleteItem/${id}`);
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/item/${id}`);
+  }
+
+  public deleteItemAttachment(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/attachment/${id}`);
   }
 }

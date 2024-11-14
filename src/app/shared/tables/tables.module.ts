@@ -19,6 +19,7 @@ import {TableUserComponent} from './table-users/table-users.component';
 import {AvatarModule} from "@shared/components/avatar/avatar.module";
 import {TableModalityComponent} from './table-modality/table-modality.component';
 import {TableTenderComponent} from './table-tender/table-tender.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const tables = [
   TableOrdersComponent,
@@ -50,6 +51,7 @@ const tables = [
     MatRippleModule,
     PipesModule,
     AvatarModule,
+    MatTooltipModule
   ],
   exports: [
     tables

@@ -86,7 +86,7 @@
       }
       <div class="col-auto my-2">
         <div matRipple id="addItem">
-          <button color="primary" *ngIf="true" (click)="!isToEdit ? pushItem() : null">
+          <button color="primary" *ngIf="true" (click)="pushItem()">
             Adicionar item <i class="fa-solid fa-plus"></i>
           </button>
         </div>
@@ -162,9 +162,7 @@
           <i class="fa-solid fa-plus"></i>
           <span>Adicionar Arquivo</span>
         </div>
-        @if(!isToEdit) {
           <input type="file" (change)="onFileSelected($event)" [multiple]="true" title=" " />
-        }
       </div>
     </div>
 
