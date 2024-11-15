@@ -20,6 +20,7 @@ import {AvatarModule} from "@shared/components/avatar/avatar.module";
 import {TableModalityComponent} from './table-modality/table-modality.component';
 import {TableTenderComponent} from './table-tender/table-tender.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TableLogComponent } from './table-log/table-log.component';
 
 const tables = [
   TableOrdersComponent,
@@ -39,6 +40,7 @@ const tables = [
 @NgModule({
   declarations: [
     tables,
+    TableLogComponent,
   ],
   imports: [
     CommonModule,
@@ -54,7 +56,8 @@ const tables = [
     MatTooltipModule
   ],
   exports: [
-    tables
+    tables,
+    TableLogComponent
   ],
 })
 export class TablesModule {

@@ -33,6 +33,14 @@ const routes: Routes = [
           page: 'users'
         }
       },
+      {
+        path: 'logs',
+        loadChildren: () => import('./logs/logs.module').then(m => m.LogsModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'logs'
+        }
+      },
  /*     {
         path: "settings",
         loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),

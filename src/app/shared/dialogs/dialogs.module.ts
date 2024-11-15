@@ -42,7 +42,17 @@ import {CustomDateAdapter} from '@app/app.module';
 import {DialogStepComponent} from './dialog-step/dialog-step.component';
 import {DialogTaskComponent} from './dialog-task/dialog.task.component';
 import {DialogEventComponent} from "@shared/dialogs/dialog-event/dialog-event.component";
+import {DialogLogJsonComponent} from './dialog-log-json/dialog-log-json.component';
+import {ACE_CONFIG, AceConfigInterface, AceModule} from "ngx-ace-wrapper";
 
+const DEFAULT_ACE_CONFIG: AceConfigInterface = {
+  mode: 'json',
+  theme: 'dracula',
+  wrap: true,
+  tabSize: 4,
+  showPrintMargin: false,
+  fontSize: 12
+};
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -73,7 +83,8 @@ const MY_DATE_FORMATS = {
     DialogTaskComponent,
     DialogNoticesComponent,
     DialogModalityComponent,
-    DialogEventComponent
+    DialogEventComponent,
+    DialogLogJsonComponent
   ],
   imports: [
     CommonModule,
@@ -104,7 +115,8 @@ const MY_DATE_FORMATS = {
     NgxMaskPipe,
     NgxMatSelectSearchModule,
     MatIcon,
-    ColorChromeModule
+    ColorChromeModule,
+    AceModule
   ],
   providers: [
     {
@@ -117,6 +129,10 @@ const MY_DATE_FORMATS = {
     },
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
     {provide: DateAdapter, useClass: CustomDateAdapter},
+    {
+      provide: ACE_CONFIG,
+      useValue: DEFAULT_ACE_CONFIG
+    }
   ]
 })
 export class DialogsModule {

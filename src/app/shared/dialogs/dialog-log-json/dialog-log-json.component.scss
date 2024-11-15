@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.dialog-log-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: auto;
+  flex: 1;
+}

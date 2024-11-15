@@ -50,6 +50,11 @@ export class LayoutPrivateComponent {
       icon: 'fa-solid fa-users',
       route: '/painel/users'
     },
+    {
+      label: 'Logs',
+      icon: 'fa-solid fa-file-lines',
+      route: '/painel/logs'
+    },
 /*    {
       label: 'Tarefas',
       icon: 'fa-solid fa-tasks',

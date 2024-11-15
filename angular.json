@@ -42,7 +42,12 @@
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/ace-builds/src-min-noconflict/theme-monokai.js",
+              "node_modules/ace-builds/src-min-noconflict/theme-dracula.js",
+              "node_modules/ace-builds/src-min-noconflict/theme-twilight.js",
+              "node_modules/ace-builds/src-min-noconflict/theme-cobalt.js"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/assets/scss"

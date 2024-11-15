@@ -16,6 +16,13 @@ body {
   height: 100% !important;
 }
 
+.table td, .table th {
+  vertical-align: middle;
+  padding: 10px; /* ajuste conforme necessário */
+  text-align: center;
+}
+
+
 .table-container{
   height: 100%;
   width: 100%;
@@ -311,15 +318,15 @@ mat-form-field {
   min-height: 2.3rem;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(45deg, #e5df15 0%, #ff9700 51%, #bf9a2b 100%);
+  background: $primary;
   border-radius: 5px;
-  background-color: $grey4;
+  color: $secondary;
   font-size: larger;
   cursor: pointer;
   margin-right: 0.5rem;
 
   i {
-    color: $white-100;
+
     font-size: 1rem;
   }
 }

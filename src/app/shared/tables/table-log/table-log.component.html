@@ -1,24 +1,20 @@
 <div class="table-container">
+
   <div class="overflow-auto">
     <table class="table table-responsive">
       <thead>
         @for (col of columns; track col) {
           <th
             [class.hasorder]="col.order"
-            [ngStyle]="{ cursor: 'pointer' }"
             [class.active-order]="pageControl.orderField === col.slug"
           >
             <!--(click)="onClickOrderBy(col.slug, col.order)" -->
             <div
               class="{{col.align}}"
-              style="color: #a2a1a8"
             >
+              <!-- style="color: #a2a1a8" -->
               {{ col.title }}
-              <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
-                {{
-                  pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
-                }}
-              </i>
+
             </div>
           </th>
         }
@@ -32,51 +28,50 @@
         </td>
       </tr>
         @if (!loading) {
-          <tr *ngIf="!clients.length">
+          <tr *ngIf="!logs?.length">
             <td [attr.colspan]="columns.length + 1" class="text-center">
               <div>Nenhum resultado encontrado</div>
             </td>
           </tr>
-          @for (client of clients; track client) {
+          @for (log of logs; track log) {
             <tr
               class="table-line-hover"
               style="outline: none;"
             >
               <td>
+                <div class="text-center">
+                  {{ log?.id }}
+                </div>
+              </td>
+              <td>
                 <div
-                  class="d-flex align-items-center gap-2"
+                  class="d-flex align-items-center gap-2 justify-content-center text-center w-100 h-100"
                   style="white-space: nowrap"
                 >
-                  {{ client?.name }}
+                  <app-avatar
+                    [imageUrl]="log?.user?.photo"
+                    [altText]="log?.user?.name"
+                    [color]="'#e7b403'"
+                    [onCircle]="true"
+                    [size]="30"
+                  ></app-avatar>
+                  {{ log?.user?.name }}
                 </div>
               </td>
               <td>
                 <div class="text-center">
-                  {{ client?.cpf_cnpj | cpfCnpjMask }}
+                  {{ log?.description }}
                 </div>
               </td>
               <td>
                 <div class="text-center">
-                  {{ client?.whatsapp | phoneMask }}
+                  {{ log?.created_at | date: "dd/MM/yyyy HH:mm:ss" }}
                 </div>
               </td>
               <td>
-                <div class="text-center">
-                  {{ client?.email }}
-                </div>
-              </td>
-              <td>
-                <div class="d-flex justify-content-end">
-                  <div matRipple class="buttonTemplate" (click)="onClientClick.emit(client)">
-                    <i class="fa-solid fa-eye"></i>
-                  </div>
-
-                  <div matRipple class="buttonTemplate" (click)="onClientClick.emit(client)">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </div>
-
-                  <div matRipple class="buttonTemplate" (click)="onDeleteClientClick.emit(client?.id)">
-                    <i class="fa-solid fa-trash"></i>
+                <div class="d-flex justify-content-center">
+                  <div matRipple class="buttonTemplate" matTooltip="Detalhes" (click)="onLogClick.emit(log)">
+                    <i class="fa-solid fa-circle-info"></i>
                   </div>
                 </div>
               </td>

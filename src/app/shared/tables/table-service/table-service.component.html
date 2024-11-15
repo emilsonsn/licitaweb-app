@@ -40,7 +40,7 @@
           @for (service of services; track service.id) {
             <tr
               class="table-line-hover"
-              style="outline: none; cursor: pointer"
+              style="outline: none;"
             >
               <td>
                 <div
@@ -82,14 +82,6 @@
       </tbody>
     </table>
   </div>
-  <mat-paginator
-    [length]="pageControl.itemCount"
-    [pageSize]="pageControl.take"
-    [showFirstLastButtons]="true"
-    [pageSizeOptions]="[10, 25, 50, 100]"
-    [hidePageSize]="false"
-    [pageIndex]="pageControl.page - 1"
-    aria-label="Select page"
-  >
-  </mat-paginator>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+                 [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
 </div>
