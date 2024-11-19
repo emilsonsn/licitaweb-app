@@ -106,6 +106,10 @@ export class TenderComponent {
       })
   }
 
+  cardMoved(){
+    this.loading = !this.loading;
+  }
+
   public openTenderDialog(data?) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',

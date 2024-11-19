@@ -9,8 +9,10 @@
 
 
   .container-filter {
-    flex: 0.5;
+    flex: 0.6;
     width: 100%;
+    max-height: 650px;
+    overflow-y: auto;
     border-radius: 0.5rem;
     padding: 1rem;
     background: white;
@@ -20,7 +22,8 @@
   .container-cards {
     flex: 1;
     width: 100%;
-    height: 100%;
+    max-height: 650px;
+    overflow-y: auto;
     border-radius: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;

@@ -39,6 +39,7 @@ export class KanbanComponent {
   }
 
   private changeColumn(currentContainerIndex: number, event: CdkDragDrop<Task[]>) {
+    debugger;
     const keys: (string | number)[] = Object.keys(this.data) as (keyof Kanban<Task>)[];
     const status = this.status.find(status => status.name === keys[currentContainerIndex]);
     const task: Task = this.data[keys[currentContainerIndex]].find(item => item?.id === event.container?.data[0]?.id);
@@ -49,7 +50,6 @@ export class KanbanComponent {
   private getContainerIndex(container: CdkDropList): number {
     return this.dropLists.toArray().indexOf(container);
   }
-
 
   getBorderColor(task_status_id: number) {
     return this.status.find(s => s.id === task_status_id).color;

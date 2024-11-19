@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Order, PageControl} from "@models/application";
 import {TenderTaskService} from "@services/tenderTask.service";
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ export class SearchComponent {
   };
   isLoading = false;
   tendersCards: any = [];
-
+  loading: boolean = false;
 
   constructor(private readonly _tenderTaskService: TenderTaskService) {
     this.onSubmit();
@@ -31,11 +32,14 @@ export class SearchComponent {
     this.onSubmit();
   }
 
-  private onSubmit() {
-    this._tenderTaskService.searchTenderCard(this.pageControl, {}).subscribe(
+  onSubmit(filters = null) {
+    this._tenderTaskService.searchTenderCard(this.pageControl, filters)
+    .pipe(finalize(() => this.loading = true))
+    .subscribe(
       {
         next: (res) => {
           if (res && res.data) {
+            this.loading = false;
             this.tendersCards = res.data.data || [];
 
             this.pageControl.page = res.data.current_page - 1;

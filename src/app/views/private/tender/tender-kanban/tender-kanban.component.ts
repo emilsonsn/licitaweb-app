@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
 import {Kanban} from "@models/Kanban";
 import {Task, TaskStatus} from "@models/Task";
 import {User} from "@models/user";
@@ -21,6 +21,9 @@ export class TenderKanbanComponent {
   users: User[] = [];
   status: TaskStatus[] = []
   tenders: Tender[] = []
+
+  @Output()
+  cardMoved: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private readonly _dialog: MatDialog,
@@ -79,12 +82,16 @@ export class TenderKanbanComponent {
   }
 
   taskMoved($event: Task) {
+    debugger;
     const tender = this.tenders.find((tender) => tender.id === Number($event.id));
 
     tender.tender_status[0].status_id = $event.task_status_id;
 
     this._taskService.updateTender(tender).subscribe(
       {
+        next:() =>{
+          this.cardMoved.emit(true);
+        },
         error: (err) => {
           this._toastr.error(err.error.error);
         },

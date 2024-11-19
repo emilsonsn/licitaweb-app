@@ -78,11 +78,11 @@
               </td>
               <td>
                 <div class="text-center">
-                  {{ tender?.estimated_value }}
+                  {{ tender?.estimated_value | currency: "BRL" }}
                 </div>
               </td>
               <td>
-                <div class="text-center">
+                <div class="text-center badge " [style]="'font-size: 0.9rem; background:' + tender?.status?.color">
                   {{ tender?.status?.name }}
                 </div>
               </td>

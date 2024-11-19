@@ -10,4 +10,8 @@ export class CardTenderComponent {
   @Input() tender!: any;
 
   protected readonly dayjs = dayjs;
+
+  goToOfficialSite(origin_url){
+    window.open(origin_url, '_blank');
+  }
 }

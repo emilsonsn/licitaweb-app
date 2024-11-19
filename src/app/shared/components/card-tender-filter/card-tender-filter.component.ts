@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import Estados from '../../../../assets/json/Estados.json';
+import Cidades from '../../../../assets/json/Cidades.json';
 
 @Component({
   selector: 'app-card-tender-filter',
@@ -9,6 +11,12 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class CardTenderFilterComponent {
 
   form: FormGroup;
+  estados: any[] = Estados;
+  cidades: any[] = Cidades;
+  cidadesFiltradas: any[] = []; 
+
+  @Output()
+  onSearch : EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder) {
   }
@@ -16,15 +24,38 @@ export class CardTenderFilterComponent {
   ngOnInit(): void {
     this.form = this.fb.group({
       object: [''], // Campo texto sem validação obrigatória
-      state: [''], // Select sem validação obrigatória
+      uf: [''], // Select sem validação obrigatória
       city: [''], // Select sem validação obrigatória
-      modalities: [''], // Select sem validação obrigatória
-      start_date: [''], // Data inicial
-      end_date: [''], // Data final
+      modality_ids: [''], // Select sem validação obrigatória
+      update_date_start: [''], // Data inicial
+      update_date_end: [''], // Data final
       organ_cnpj: ['', [Validators.pattern(/^\d{14}$/)]], // Validação para CNPJ (14 dígitos)
       organ_name: [''], // Campo texto sem validação obrigatória
       process: [''], // Campo texto sem validação obrigatória
-      observations: [''] // Campo texto sem validação obrigatória
     });
+
+    this.cidadesFiltradas = [];
+  }
+
+  onStateChange(estadoSigla: string): void {
+    const estadoSelecionado = this.estados.find(estado => estado.Sigla === estadoSigla);
+    if (estadoSelecionado) {
+      this.cidadesFiltradas = this.cidades.filter(cidade => cidade.Estado === estadoSelecionado.ID);
+      this.form.get('city')?.setValue(''); // Reseta o campo cidade
+    }
+  }
+
+  search(){
+    this.onSearch.emit(
+      {
+        ...this.form.getRawValue(),
+        update_date_start: this.form.get('update_date_start').value? this.form.get('update_date_start').value.toISOString().split('T')[0] : '',
+        update_date_end: this.form.get('update_date_end').value? this.form.get('update_date_end').value.toISOString().split('T')[0] : '',
+      }
+    )
+  }
+
+  clear(){
+    this.form.reset();
   }
 }

@@ -1,9 +1,10 @@
 <div class="container-search">
   <div class="container-filter">
-    <app-card-tender-filter></app-card-tender-filter>
+    <app-card-tender-filter (onSearch)="onSubmit($event)"></app-card-tender-filter>
   </div>
   <div class="container-cards">
     <div class="cards-container">
+      
       <div class="w-100" *ngFor="let tender of tendersCards; let i = index">
         <app-card-tender [tender]="tender"></app-card-tender>
       </div>

@@ -39,7 +39,7 @@ export class LayoutPrivateComponent {
           route: '/painel/tender/modality'
         },
         {
-          label: 'Edital',
+          label: 'Editais',
           icon: 'fa-solid fa-clipboard-list',
           route: '/painel/tender'
         },
