@@ -29,6 +29,11 @@ export class LayoutPrivateComponent {
       route: null,
       children: [
         {
+          label: 'Buscar editais',
+          icon: 'fa-solid fa-magnifying-glass',
+          route: '/painel/tender/search'
+        },
+        {
           label: 'Modalidade',
           icon: 'fa-solid fa-sheet-plastic',
           route: '/painel/tender/modality'

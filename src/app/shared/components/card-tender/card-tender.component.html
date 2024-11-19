@@ -1,0 +1,57 @@
+<div class="container-card-tender">
+  <div class="container-card-tender-header">
+    <h5><strong>#{{ tender.id }}</strong></h5>
+  </div>
+  <div class="w-100 d-flex flex-column">
+    <div class="container-card-tender-object">
+      <h6><strong>Objetivo: </strong> {{ tender?.object }}</h6>
+    </div>
+    <div class="container-card-tender-body">
+      <div class="card-tender-body-left">
+        <h6><strong>Data de abertura: </strong> {{ dayjs(tender?.proposal_closing_date).format("DD/MM/YYYY") }}</h6>
+        <h6><strong>Edital: </strong> {{ tender?.process }}</h6>
+        <h6><strong>Órgão: </strong> {{ tender?.organ_name }}</h6>
+        <h6><strong>Cidade: </strong> {{ tender?.city }} - {{ tender?.uf }}</h6>
+        <h6><strong>Valor Estimado: </strong>
+          <span
+            style="
+            background: #ebce47;
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.5rem;
+            ">
+            {{ tender?.value | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+
+          </span>
+        </h6>
+      </div>
+      <div class="card-tender-body-right">
+        <h6><strong>Situação: </strong> {{ tender?.status }}</h6>
+        <h6><strong>Modalidade: </strong> {{ tender?.modality }}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="container-card-tender-footer">
+    <button class="btn btn-success">
+      <strong>
+        <a target="_blank"
+           rel="noopener noreferrer"
+           style="text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 0.5rem; color: white;"
+        >
+          <span>Importar</span>
+          <i class="fa-solid fa-file-import"></i>
+        </a>
+      </strong>
+    </button>
+    <button class="btn btn-primary">
+      <strong>
+        <a target="_blank"
+           rel="noopener noreferrer"
+           style="text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 0.5rem; color: white;"
+        >
+          <span>Site Oficial</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </strong>
+    </button>
+  </div>
+</div>

@@ -13,6 +13,8 @@ import {TenderKanbanComponent} from './tender-kanban/tender-kanban.component';
 import {TenderTaskComponent} from './tender-task/tender-task.component';
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SearchComponent } from './search/search.component';
+import {MatPaginator} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     StageComponent,
     TenderKanbanComponent,
     TenderTaskComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTabGroup,
     MatRipple,
     FullCalendarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginator
   ]
 })
 export class TenderModule {

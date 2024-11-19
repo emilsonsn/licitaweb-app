@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@env/environment";
-import {ApiResponse, DeleteApiResponse} from "@models/application";
+import {ApiResponse, ApiResponsePageable, PageControl} from "@models/application";
 import {Observable} from "rxjs";
 import {Task} from "@models/Task";
-import {Tender} from "@models/tender";
+import {Utils} from "@shared/utils";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,15 @@ export class TenderTaskService {
   deleteTask(task_id: number): Observable<ApiResponse<Task>> {
     return this._http.delete<ApiResponse<Task>>(`${environment.api}/task/${task_id}`);
   }
+
+
+  public searchTenderCard(pageControl: PageControl, filters?: any): Observable<any> {
+    const paginate = Utils.mountPageControl(pageControl);
+    const filterParams = Utils.mountPageControl(filters);
+
+    return this._http.get(`${environment.apiLicita}?${paginate}${filterParams}`);
+  }
+
 
 
 }
