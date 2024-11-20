@@ -56,7 +56,8 @@ export class TenderKanbanComponent {
     this._tenderService.getTenders().subscribe((response) => {
       if (response.data) {
         response.data.forEach((tender: Tender) => {
-          const name = this.status.find((status) => status.id === tender.tender_status[0].status_id)?.name;
+          const name = this.status.find(
+            (status) => status.id === tender.tender_status[0].status_id)?.name;
 
           const task: Task = {
             id: tender.id.toString(),
@@ -82,7 +83,6 @@ export class TenderKanbanComponent {
   }
 
   taskMoved($event: Task) {
-    debugger;
     const tender = this.tenders.find((tender) => tender.id === Number($event.id));
 
     tender.tender_status[0].status_id = $event.task_status_id;
@@ -111,7 +111,7 @@ export class TenderKanbanComponent {
       .afterClosed()
       .subscribe((res: TaskStatus) => {
         if (res) {
-          res.id ? this._patchTask(res.id, res) : this._postTask(res);          
+          res.id ? this._patchTask(res.id, res) : this._postTask(res);
         }
         this.getStatus();
       });

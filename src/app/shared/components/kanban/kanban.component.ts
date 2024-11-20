@@ -24,6 +24,8 @@ export class KanbanComponent {
   drop(event: CdkDragDrop<Task[]>) {
     const currentContainerIndex = this.getContainerIndex(event.container);
 
+    const movedItem = event.item.data; // O item movimentado
+
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -35,15 +37,20 @@ export class KanbanComponent {
       );
     }
 
-    this.changeColumn(currentContainerIndex, event);
+    /*    console.log('Item movido:', movedItem); // Para depuração, imprime o item
+        console.log('De:', event.previousContainer.id); // Container de origem
+        console.log('Para:', event.container.id); // Container de destino*/
+
+    this.changeColumn(currentContainerIndex, event, movedItem);
   }
 
-  private changeColumn(currentContainerIndex: number, event: CdkDragDrop<Task[]>) {
-    debugger;
+
+  private changeColumn(currentContainerIndex: number, event: CdkDragDrop<Task[]>, task?: Task) {
     const keys: (string | number)[] = Object.keys(this.data) as (keyof Kanban<Task>)[];
     const status = this.status.find(status => status.name === keys[currentContainerIndex]);
-    const task: Task = this.data[keys[currentContainerIndex]].find(item => item?.id === event.container?.data[0]?.id);
+
     task.task_status_id = status.id;
+
     this.taskMoved.emit(task);
   }
 

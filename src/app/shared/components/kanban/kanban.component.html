@@ -17,6 +17,7 @@
           <div class="kanban-box"
                [ngStyle]="{ 'border-color': getBorderColor(item?.task_status_id) }"
                cdkDrag
+               [cdkDragData]="item"
                (click)="onBoxClick(item)">
             <div
               class="d-flex align-items-center justify-content-end w-100 pt-2"
