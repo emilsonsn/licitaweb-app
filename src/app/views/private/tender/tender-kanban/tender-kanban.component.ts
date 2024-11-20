@@ -65,7 +65,8 @@ export class TenderKanbanComponent {
       if (response.data) {
         response.data.forEach((tender: Tender) => {
           const name = this.status.find(
-            (status) => status.id === tender.tender_status[0].status_id)?.name;
+            (status) => status.id === tender.tender_status[0].status_id
+          )?.name;
 
           const task: Task = {
             id: tender.id.toString(),
@@ -80,15 +81,22 @@ export class TenderKanbanComponent {
             user: tender.user,
           };
 
-          if (name) this.data[name].push(task);
-        })
+          if (name) {
+            // Verifica se a tarefa já existe na lista
+            const existingTask = this.data[name].find((existing) => existing.id === task.id);
+            if (!existingTask) {
+              this.data[name].push(task);
+            }
+          }
+        });
 
         this.tenders = response.data;
 
         this.cdr.detectChanges();
       }
-    })
+    });
   }
+
 
   taskMoved($event: Task) {
     const tender = this.tenders.find((tender) => tender.id === Number($event.id));
