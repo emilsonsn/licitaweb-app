@@ -61,7 +61,6 @@ export class DialogFilterTenderComponent {
     .subscribe({
       next: (status) => {
         this.Status = status.data;
-        console.log(status.data);
       },
       error: (err) => {
         console.error(err);

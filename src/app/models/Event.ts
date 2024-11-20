@@ -1,3 +1,5 @@
+import {User} from "@models/user";
+
 export interface IEventTask {
   id?: number;
   name: string;
@@ -6,6 +8,7 @@ export interface IEventTask {
   status: EventStatus;
   tender_id: number;
   user_id?: number;
+  user?: User;
 }
 
 export enum EventStatus {

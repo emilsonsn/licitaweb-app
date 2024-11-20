@@ -110,7 +110,6 @@ export class DialogNoticesComponent {
 
       const adjustedDate = dayjs(this._data.contest_date).toDate();
 
-      console.log(this._data);
 
       this.form.patchValue({
         ...this._data,
@@ -151,7 +150,6 @@ export class DialogNoticesComponent {
       .subscribe({
         next: (status) => {
           this.Status = status.data;
-          console.log(status.data);
         },
         error: (err) => {
           console.error(err);
@@ -274,7 +272,6 @@ export class DialogNoticesComponent {
 
       // Enviando os dados do formulário para o componente pai
       this._dialogRef.close(formData);
-      console.log(this.form.getRawValue())
     }
   }
 

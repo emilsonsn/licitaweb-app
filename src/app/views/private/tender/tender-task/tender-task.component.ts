@@ -46,7 +46,7 @@ export class TenderTaskComponent implements OnInit {
 
           this.calendarOptions.events = response.data.map(task => ({
             id: String(task.id),
-            title: task.name,
+            title: task.name + " | " + task.user.name,
             start: task.due_date,
             end: task.due_date,
             allDay: true,
