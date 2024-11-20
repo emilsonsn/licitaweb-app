@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group (selectedIndexChange)="this.loading = !this.loading">
 
   <mat-tab label="Tabela">
     <div id="componentHeaderTemplate">
@@ -41,7 +41,6 @@
 
   <mat-tab label="Kanban">
     <app-tender-kanban
-    (cardMoved)="cardMoved()"
     ></app-tender-kanban>
   </mat-tab>
 

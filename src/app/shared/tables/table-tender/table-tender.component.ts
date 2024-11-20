@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { Order, PageControl } from '@models/application';
-import { Tender } from '@models/tender';
-import { TenderService } from '@services/tender.service';
-import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
+import {Order, PageControl} from '@models/application';
+import {Tender} from '@models/tender';
+import {TenderService} from '@services/tender.service';
+import {ToastrService} from 'ngx-toastr';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-table-tender',
@@ -94,21 +94,19 @@ export class TableTenderComponent {
   constructor(
     private readonly _toastr: ToastrService,
     private readonly _tenderService: TenderService,
-  ) {}
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { filters, searchTerm, loading } = changes;
+    const {filters, searchTerm, loading} = changes;
 
-    if ( searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue ) {
+    if (searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue) {
+      this._onSearch();
+    } else if (!loading?.currentValue) {
+      this._onSearch();
+    } else if (filters?.previousValue && filters?.currentValue) {
       this._onSearch();
     }
-    else if (!loading?.currentValue) {
-      this._onSearch();
-    }
-    else if(filters?.previousValue && filters?.currentValue) {
-			this._onSearch();
-		}
-
   }
 
   private _initOrStopLoading(): void {
