@@ -25,7 +25,6 @@ export class DialogNoticesComponent {
   public title: string = 'Novo Edital';
   public isNewTender: boolean = true;
   public loading: boolean = false;
-  public Status: any[] = [];
   protected isToEdit: boolean = false;
   public allowedTypes = [
     'image/png',
@@ -45,6 +44,7 @@ export class DialogNoticesComponent {
 
   public modalities: Modality[];
   public users: User[];
+  public Status: any[] = [];
 
   protected filesToRemove: number[] = [];
   protected filesFromBack: {
@@ -109,7 +109,13 @@ export class DialogNoticesComponent {
       }
 
       const adjustedDate = dayjs(this._data.contest_date).toDate();
-      this.form.patchValue({...this._data, contest_date: adjustedDate});
+
+      this.form.patchValue({
+        ...this._data,
+        contest_date: adjustedDate,
+        status_id: this._data.status.id
+      });
+
 
     } else {
       this.items.push(this.createItem());
@@ -138,17 +144,17 @@ export class DialogNoticesComponent {
     this.getStatus();
   }
 
-  public getStatus(){
+  public getStatus() {
     this._taskService.getStatusTasks()
-    .subscribe({
-      next: (status) => {
-        this.Status = status.data;
-        console.log(status.data);
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
+      .subscribe({
+        next: (status) => {
+          this.Status = status.data;
+          console.log(status.data);
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
   }
 
   public getUsers() {
@@ -175,21 +181,21 @@ export class DialogNoticesComponent {
     this.deleteAttachment(fileId);
   }
 
-public deleteAttachment(fileId: number) {
-  this._tender.deleteItemAttachment(fileId).subscribe({
-    next: () => {
-      this._toastr.success("Anexo deletado com sucesso");
+  public deleteAttachment(fileId: number) {
+    this._tender.deleteItemAttachment(fileId).subscribe({
+      next: () => {
+        this._toastr.success("Anexo deletado com sucesso");
 
-      const fileIndex = this.filesFromBack.findIndex(file => file.id === fileId);
-      if (fileIndex > -1) {
-        this.filesFromBack.splice(fileIndex, 1);
+        const fileIndex = this.filesFromBack.findIndex(file => file.id === fileId);
+        if (fileIndex > -1) {
+          this.filesFromBack.splice(fileIndex, 1);
+        }
+      },
+      error: (err) => {
+        this._toastr.error(err.error.error);
       }
-    },
-    error: (err) => {
-      this._toastr.error(err.error.error);
-    }
-  });
-}
+    });
+  }
 
   public removeFileFromSendToFiles(index: number) {
     if (index > -1) {
@@ -266,6 +272,7 @@ public deleteAttachment(fileId: number) {
 
       // Enviando os dados do formulário para o componente pai
       this._dialogRef.close(formData);
+      console.log(this.form.getRawValue())
     }
   }
 

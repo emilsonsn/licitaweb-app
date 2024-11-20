@@ -2,10 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Modality } from '@models/modality';
-import { StatusLicitaWeb } from '@models/statusLicitaWeb';
 import { User } from '@models/user';
 import { FiltersService } from '@services/filters-service.service';
 import { ModalityService } from '@services/modality.service';
+import { TaskService } from '@services/task.service';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -16,11 +16,9 @@ import { UserService } from '@services/user.service';
 
 export class DialogFilterTenderComponent {
   protected form : FormGroup;
-
-  protected filterStatus: string[] = Object.values(StatusLicitaWeb);
-  protected readonly StatusLicitaWeb = StatusLicitaWeb;
   public modalities: Modality[];
   public users: User[];
+  public Status: any[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -29,15 +27,17 @@ export class DialogFilterTenderComponent {
     private readonly _fb : FormBuilder,
     private _user: UserService,
     private _modalityService: ModalityService,
-    private filtersService: FiltersService
+    private filtersService: FiltersService,
+    private _taskService: TaskService
   ) { }
 
   ngOnInit(): void {
     this.form = this._fb.group({
-      order: [''],
+      organ: [''],
       start_contest_date: [''],
       end_contest_date: [''],
       modality_id: [''],
+      status_id: [''],
       status: new FormControl([]),
       user_id: [''],
     });
@@ -48,11 +48,25 @@ export class DialogFilterTenderComponent {
 
     this.getUsers();
     this.getModalities();
+    this.getStatus();
 
     const savedFilters = this.filtersService.getFilters('Tender');
     if (savedFilters) {
       this.form.patchValue(savedFilters);
     }
+  }
+
+  public getStatus(){
+    this._taskService.getStatusTasks()
+    .subscribe({
+      next: (status) => {
+        this.Status = status.data;
+        console.log(status.data);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
 
   public getUsers() {

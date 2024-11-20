@@ -192,7 +192,6 @@ export class TenderComponent {
     this._tenderTaskService.create(task)
       .subscribe({
         next : (res) => {
-          console.log(res);
           this._toastr.success(res.message);
         },
         error: (err) => {

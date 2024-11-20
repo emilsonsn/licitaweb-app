@@ -111,9 +111,9 @@
       <span class="fw-bolder">Status</span>
       <mat-form-field appearance="outline">
         <mat-select formControlName="status_id" placeholder="Status">
-          @for (status of Status; track status) {
-            <mat-option [value]="status.id">{{ status.name }}</mat-option>
-          }
+          <mat-option *ngFor="let status of Status" [value]="status.id">
+            {{ status.name }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
