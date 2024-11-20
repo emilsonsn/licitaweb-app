@@ -110,10 +110,12 @@ export class DialogNoticesComponent {
 
       const adjustedDate = dayjs(this._data.contest_date).toDate();
 
+      console.log(this._data);
+
       this.form.patchValue({
         ...this._data,
         contest_date: adjustedDate,
-        status_id: this._data.status.id
+        status_id: this._data?.status?.id || null // Use um fallback, como null, caso status ou id seja indefinido
       });
 
 
