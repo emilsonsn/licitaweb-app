@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Order, PageControl} from "@models/application";
+import { FiltersService } from '@services/filters-service.service';
 import {TenderTaskService} from "@services/tenderTask.service";
 import { finalize } from 'rxjs';
 
@@ -20,11 +21,19 @@ export class SearchComponent {
   isLoading = false;
   tendersCards: any = [];
   loading: boolean = false;
+  filtrosLocalStorage;
 
-  constructor(private readonly _tenderTaskService: TenderTaskService) {
-    this.onSubmit();
+  constructor(
+    private readonly _tenderTaskService: TenderTaskService,
+    private filtersService: FiltersService
+  ) {
+    this.getFilters();
+    this.onSubmit(this.filtrosLocalStorage);
   }
 
+  ngOnDestroy(){
+    this.filtersService.setFilters(null, 'Search');
+  }
 
   pageEvent($event: any) {
     this.pageControl.page = $event.pageIndex + 1;
@@ -33,6 +42,7 @@ export class SearchComponent {
   }
 
   onSubmit(filters = null) {
+    console.log(filters);
     this._tenderTaskService.searchTenderCard(this.pageControl, filters)
     .pipe(finalize(() => this.loading = true))
     .subscribe(
@@ -56,5 +66,9 @@ export class SearchComponent {
         }
       }
     );
+  }
+
+  public getFilters(): void{
+    this.filtrosLocalStorage = this.filtersService.getFilters('Search');
   }
 }

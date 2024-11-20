@@ -49,7 +49,7 @@ export class DialogFilterTenderComponent {
     this.getUsers();
     this.getModalities();
 
-    const savedFilters = this.filtersService.getFilters();
+    const savedFilters = this.filtersService.getFilters('Tender');
     if (savedFilters) {
       this.form.patchValue(savedFilters);
     }
@@ -70,7 +70,7 @@ export class DialogFilterTenderComponent {
   }
 
   public onConfirm(): void {
-    this.filtersService.setFilters(this.form.value);
+    this.filtersService.setFilters(this.form.value, 'Tender');
 
     if(!this.form.valid) return;
 
@@ -85,15 +85,10 @@ export class DialogFilterTenderComponent {
   public onCancel(clear? : boolean): void {
     if(clear){
       this.dialogRef.close({ 'clear' : true });
-      this.filtersService.setFilters(null);
+      this.filtersService.setFilters(null, 'Tender');
     }
     else
       this.dialogRef.close();
-  }
-
-  onClear(): void {
-    this.form.reset();
-    localStorage.removeItem('savedFilters');
   }
 
   // Utils

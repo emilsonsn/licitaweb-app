@@ -2,6 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Estados from '../../../../assets/json/Estados.json';
 import Cidades from '../../../../assets/json/Cidades.json';
+import { FiltersService } from '@services/filters-service.service';
 
 @Component({
   selector: 'app-card-tender-filter',
@@ -13,12 +14,15 @@ export class CardTenderFilterComponent {
   form: FormGroup;
   estados: any[] = Estados;
   cidades: any[] = Cidades;
-  cidadesFiltradas: any[] = []; 
+  cidadesFiltradas: any[] = [];
 
   @Output()
   onSearch : EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
+    constructor(
+      private fb: FormBuilder,
+      private filtersService: FiltersService
+    ) {
   }
 
   ngOnInit(): void {
@@ -35,6 +39,10 @@ export class CardTenderFilterComponent {
     });
 
     this.cidadesFiltradas = [];
+    const savedFilters = this.filtersService.getFilters('Search');
+    if (savedFilters) {
+      this.form.patchValue(savedFilters);
+    }
   }
 
   onStateChange(estadoSigla: string): void {
@@ -53,9 +61,14 @@ export class CardTenderFilterComponent {
         update_date_end: this.form.get('update_date_end').value? this.form.get('update_date_end').value.toISOString().split('T')[0] : '',
       }
     )
+    this.filtersService.setFilters(this.form.value, 'Search');
   }
 
-  clear(){
-    this.form.reset();
+  clear() {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.get(key)?.setValue('');
+    });
+    this.cidadesFiltradas = [];
+    this.filtersService.setFilters(null, 'Search');
   }
 }

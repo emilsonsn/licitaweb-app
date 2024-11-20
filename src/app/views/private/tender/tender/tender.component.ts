@@ -18,6 +18,7 @@ import { finalize } from 'rxjs';
 import { DialogTaskComponent } from '@shared/dialogs/dialog-task/dialog.task.component';
 import { TaskService } from '@services/task.service';
 import { TenderTaskService } from '@services/tenderTask.service';
+import { FiltersService } from '@services/filters-service.service';
 
 @Component({
   selector: 'app-tender',
@@ -73,8 +74,15 @@ export class TenderComponent {
     private readonly _fb: FormBuilder,
     private readonly _tenderService: TenderService,
     private readonly _toastr: ToastrService,
-    private readonly _tenderTaskService: TenderTaskService
-  ) { }
+    private readonly _tenderTaskService: TenderTaskService,
+    private readonly filtersService: FiltersService
+  ) {
+    this.getFilters();
+  }
+
+  ngOnDestroy(){
+    this.filtersService.setFilters(null, 'Tender');
+  }
 
   public openTenderFilterDialog() {
     const dialogConfig: MatDialogConfig = {
@@ -219,6 +227,10 @@ export class TenderComponent {
         this._toastr.error(err.error.error);
       },
     });
+  }
+
+  public getFilters(): void{
+    this.filters = this.filtersService.getFilters('Tender');
   }
 
 }
