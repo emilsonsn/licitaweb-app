@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Modality } from '@models/modality';
 import { StatusLicitaWeb } from '@models/statusLicitaWeb';
 import { User } from '@models/user';
+import { FiltersService } from '@services/filters-service.service';
 import { ModalityService } from '@services/modality.service';
 import { UserService } from '@services/user.service';
 
@@ -28,7 +29,7 @@ export class DialogFilterTenderComponent {
     private readonly _fb : FormBuilder,
     private _user: UserService,
     private _modalityService: ModalityService,
-
+    private filtersService: FiltersService
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +48,11 @@ export class DialogFilterTenderComponent {
 
     this.getUsers();
     this.getModalities();
+
+    const savedFilters = this.filtersService.getFilters();
+    if (savedFilters) {
+      this.form.patchValue(savedFilters);
+    }
   }
 
   public getUsers() {
@@ -64,6 +70,8 @@ export class DialogFilterTenderComponent {
   }
 
   public onConfirm(): void {
+    this.filtersService.setFilters(this.form.value);
+
     if(!this.form.valid) return;
 
     this.dialogRef.close({
@@ -75,10 +83,17 @@ export class DialogFilterTenderComponent {
   }
 
   public onCancel(clear? : boolean): void {
-    if(clear)
+    if(clear){
       this.dialogRef.close({ 'clear' : true });
+      this.filtersService.setFilters(null);
+    }
     else
       this.dialogRef.close();
+  }
+
+  onClear(): void {
+    this.form.reset();
+    localStorage.removeItem('savedFilters');
   }
 
   // Utils

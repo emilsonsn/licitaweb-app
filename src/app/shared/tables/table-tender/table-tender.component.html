@@ -41,6 +41,7 @@
             <tr
               class="table-line-hover"
               style="outline: none;"
+              (click)="onTenderClick.emit(tender)"
             >
               <!-- <td>
                 <div
@@ -93,11 +94,11 @@
               </td>
               <td>
                 <div class="d-flex justify-content-end">
-                  <div matRipple class="buttonTemplate" matTooltip="Terefas" (click)="openTaskDialog.emit(tender.id)">
+                  <div matRipple class="buttonTemplate" matTooltip="Terefas" (click)="openTaskDialog.emit(tender.id); $event.stopPropagation()">
                     <i class="fa-solid fa-list-check"></i>
                   </div>
 
-                  <div matRipple class="buttonTemplate" matTooltip="Editar" (click)="onTenderClick.emit(tender)">
+                  <div matRipple class="buttonTemplate" matTooltip="Editar" (click)="onTenderClick.emit(tender); $event.stopPropagation()">
                     <i class="fa-solid fa-pen-to-square" ></i>
                   </div>
 
