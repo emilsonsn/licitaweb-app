@@ -29,11 +29,11 @@
 
     <div id="componentTable" class="col-12 mt-4">
       <app-table-tender
-      [loading]="loading"
-      [filters]="filters"
-      (onTenderClick)="openTenderDialog($event)"
-      (onDeleteTenderClick)="deletetender($event)"
-      (openTaskDialog)="openTaskDialog($event)">
+        [loading]="loading"
+        [filters]="filters"
+        (onTenderClick)="openTenderDialog($event)"
+        (onDeleteTenderClick)="deletetender($event)"
+        (openTaskDialog)="openTaskDialog($event)">
 
       </app-table-tender>
     </div>
@@ -41,6 +41,7 @@
 
   <mat-tab label="Kanban">
     <app-tender-kanban
+      [loading]="loading"
     ></app-tender-kanban>
   </mat-tab>
 

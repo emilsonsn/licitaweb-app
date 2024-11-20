@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {Kanban} from "@models/Kanban";
 import {Task, TaskStatus} from "@models/Task";
 import {User} from "@models/user";
@@ -7,7 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
 import {TaskService} from "@services/task.service";
 import {UserService} from "@services/user.service";
-import {ApiResponse, DeleteApiResponse} from "@models/application";
+import {ApiResponse} from "@models/application";
 import {TenderService} from "@services/tender.service";
 import {Tender} from "@models/tender";
 
@@ -24,6 +24,7 @@ export class TenderKanbanComponent {
 
   @Output()
   cardMoved: EventEmitter<any> = new EventEmitter();
+  @Input() loading!: boolean;
 
   constructor(
     private readonly _dialog: MatDialog,
@@ -51,6 +52,13 @@ export class TenderKanbanComponent {
     this.getTasks();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    const {loading} = changes;
+    if (loading) {
+      this.getTasks();
+    }
+  }
+
 
   getTasks() {
     this._tenderService.getTenders().subscribe((response) => {
@@ -64,7 +72,7 @@ export class TenderKanbanComponent {
             user_id: tender.user_id,
             name: tender.number,
             description: tender.organ,
-            status : tender.status,
+            status: tender.status,
             task_status_id: tender.tender_status[0].status_id,
             sub_tasks: [],
             tasks_files: [],
@@ -89,7 +97,7 @@ export class TenderKanbanComponent {
 
     this._taskService.updateTender(tender).subscribe(
       {
-        next:() =>{
+        next: () => {
           this.cardMoved.emit(true);
         },
         error: (err) => {
