@@ -45,4 +45,8 @@ export class TenderService {
   public deleteItemAttachment(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/attachment/${id}`);
   }
+
+  getTenderById(tender_id: any): Observable<ApiResponse<Tender>> {
+    return this._http.get<ApiResponse<Tender>>(`${environment.api}/${this.sessionEndpoint}/${tender_id}`);
+  }
 }

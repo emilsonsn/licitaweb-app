@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {FormBuilder, FormGroup, Validators, ɵFormGroupRawValue, ɵGetProperty, ɵTypedOrUntyped} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {EventStatus, IEventTask} from "@models/Event";
 import {User} from "@models/user";
 import {UserService} from "@services/user.service";
@@ -9,6 +9,8 @@ import {TenderService} from "@services/tender.service";
 import {debounceTime, finalize, Subject} from "rxjs";
 import {Order, PageControl} from "@models/application";
 import dayjs from "dayjs";
+import {DialogNoticesComponent} from "@shared/dialogs/dialog-notices/dialog-notices.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-dialog-event',
@@ -38,8 +40,10 @@ export class DialogEventComponent {
     public dialogRef: MatDialogRef<DialogEventComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IEventTask,
     private fb: FormBuilder,
+    private readonly _dialog: MatDialog,
     private readonly _userService: UserService,
     private readonly _tenderService: TenderService,
+    private readonly _toastr: ToastrService,
   ) {
     this.isEditMode = !!data.name;
     const adjustedDate = dayjs(this.data.due_date).toDate();
@@ -84,6 +88,57 @@ export class DialogEventComponent {
     this.search();
   }
 
+  public openTenderDialog(value: ɵGetProperty<ɵTypedOrUntyped<any, ɵFormGroupRawValue<any>, any>, "tender_id"> | undefined) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '1000px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    const data = this.eventForm.get('tender_id')?.value
+
+    const tender = this._tenderService.getTenderById(value).subscribe(
+      (res) => {
+        if (res.status) {
+          this._dialog
+            .open(DialogNoticesComponent, {
+              ...dialogConfig,
+              data: data ? {...res.data} : null,
+            })
+            .afterClosed()
+            .subscribe({
+              next: (res) => {
+                if (res) {
+                  const id = res.get('id');
+                  if (id) this.tenderPatch(id, res);
+                  // else this.tenderStore(res);
+                }
+              }
+            })
+        }
+      }
+    );
+
+
+  }
+
+  private tenderPatch(id, tender) {
+    this._tenderService.patchTender(id, tender)
+      .pipe(finalize(() => {
+
+      }))
+      .subscribe({
+        next: (res) => {
+          this._toastr.success(res.message);
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      });
+  }
+
   search(): void {
     this._tenderService
       .getTenders(this.pageControl, this.filters)
@@ -106,10 +161,10 @@ export class DialogEventComponent {
       this.dialogRef.close({
         action,
         event:
-        {
-          ...form.getRawValue(),
-          due_date: form.get('due_date').value ? dayjs(form.get('due_date').value).format("YYYY-MM-DD") : ''
-        }
+          {
+            ...form.getRawValue(),
+            due_date: form.get('due_date').value ? dayjs(form.get('due_date').value).format("YYYY-MM-DD") : ''
+          }
       });
     }
 

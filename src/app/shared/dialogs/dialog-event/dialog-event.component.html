@@ -14,7 +14,8 @@
         <span class="fw-bolder">Data Limite*</span>
         <div class="d-flex align-items-center gap-3">
           <mat-form-field>
-            <input matInput [matDatepicker]="picker" formControlName="due_date" maxlength="10" required (input)="applyDateMask($event)">
+            <input matInput [matDatepicker]="picker" formControlName="due_date" maxlength="10" required
+                   (input)="applyDateMask($event)">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -33,10 +34,18 @@
                    class="fa-solid fa-xmark"></i>
               </div>
               <mat-option *ngFor="let tender of tenders" [value]="tender.id">
-                {{ tender?.number }} | {{ tender?.status?.name}}
+                {{ tender?.number }} | {{ tender?.status?.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <button
+            [disabled]="this.eventForm.get('tender_id')?.value === null"
+            class="btn btn-primary d-flex justify-content-center align-items-center gap-2 pointer-event"
+            style="height: 55px; cursor: pointer !important;"
+            (click)="openTenderDialog(this.eventForm.get('tender_id')?.value)">
+            <span>Abrir</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </button>
         </div>
       </div>
 
@@ -57,7 +66,9 @@
         <div class="d-flex align-items-center gap-3">
           <mat-form-field>
             <mat-select formControlName="status" required>
-              <mat-option *ngFor="let status of statusOptions" [value]="status">{{ EventStatus[status] | eventStatus }}</mat-option>
+              <mat-option *ngFor="let status of statusOptions"
+                          [value]="status">{{ EventStatus[status] | eventStatus }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

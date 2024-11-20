@@ -1,9 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import { TaskStatusEnum } from '@models/Task';
-import { User } from '@models/user';
-import { UserService } from '@services/user.service';
+import {User} from '@models/user';
+import {UserService} from '@services/user.service';
 import dayjs from 'dayjs';
 import {EventStatus} from "@models/Event";
 
@@ -16,15 +15,16 @@ export class DialogTaskComponent {
   form: FormGroup;
   public users: User[];
 
-  statusData= Object.values(EventStatus);
+  statusData = Object.values(EventStatus);
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogTaskComponent>,
-    private readonly _userService : UserService,
+    private readonly _userService: UserService,
     @Inject(MAT_DIALOG_DATA)
-    public data: {id: number}
-  ) {}
+    public data: { id: number }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -38,7 +38,7 @@ export class DialogTaskComponent {
       tender_id: ['', Validators.required]
     });
 
-    this.form.patchValue({tender_id : this.data.id});
+    this.form.patchValue({tender_id: this.data.id});
   }
 
   public getUsers() {
