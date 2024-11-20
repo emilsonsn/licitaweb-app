@@ -63,6 +63,11 @@ export class TenderKanbanComponent {
   getTasks() {
     this._tenderService.getTenders().subscribe((response) => {
       if (response.data) {
+        // Limpa todas as listas em this.data
+        Object.keys(this.data).forEach((key) => {
+          this.data[key] = [];
+        });
+
         response.data.forEach((tender: Tender) => {
           const name = this.status.find(
             (status) => status.id === tender.tender_status[0].status_id
@@ -96,6 +101,7 @@ export class TenderKanbanComponent {
       }
     });
   }
+
 
 
   taskMoved($event: Task) {
