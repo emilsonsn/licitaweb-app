@@ -50,12 +50,12 @@ export class TableLogComponent implements OnChanges {
       title: "Criado em",
       align: "justify-content-center",
     },
-    {
-      slug: "",
-      order: true,
-      title: "Ações",
-      align: "justify-content-center",
-    },
+    // {
+    //   slug: "",
+    //   order: true,
+    //   title: "Ações",
+    //   align: "justify-content-center",
+    // },
   ];
 
   public pageControl: PageControl = {

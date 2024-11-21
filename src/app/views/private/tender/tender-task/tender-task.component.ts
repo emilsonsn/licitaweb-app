@@ -22,6 +22,16 @@ export class TenderTaskComponent implements OnInit {
     buttonText: {
       today: 'Hoje'
     },
+    eventContent: (arg) => {
+      return {
+        html: `
+          <div>
+            <strong>${arg.event.title}</strong><br>
+            <span style="font-size: 0.8em; color: #fff;">${arg.event.extendedProps.userName}</span>
+          </div>
+        `
+      };
+    },
     dateClick: (arg) => this.openEventDialog({date: arg.dateStr}),
     events: [],
     eventClick: (arg) => this.openEventDialog(arg.event)
@@ -40,31 +50,31 @@ export class TenderTaskComponent implements OnInit {
   }
 
   loadEvents(): void {
-    this._eventService.getAllIEventTasks().subscribe(
-      {
-        next: (response) => {
-
-          this.calendarOptions.events = response.data.map(task => ({
-            id: String(task.id),
-            title: task.name + " | " + task.user.name,
-            start: task.due_date,
-            end: task.due_date,
-            allDay: true,
-            backgroundColor: task.status === 'Pending' ? 'orange' :
+    this._eventService.getAllIEventTasks().subscribe({
+      next: (response) => {
+        this.calendarOptions.events = response.data.map(task => ({
+          id: String(task.id),
+          title: task.name,
+          start: task.due_date,
+          end: task.due_date,
+          allDay: true,
+          backgroundColor: task.status === 'Pending' ? 'orange' :
             task.status === 'InProgress' ? '' :
             task.status === 'Completed' ? 'green' : undefined,
-            borderColor: 'transparent'
-          }));
-
-          this.events = response.data;
-        },
-        error: (err) => {
-          this._toastr.error("Erro ao carregar eventos");
-        }
+          borderColor: 'transparent',
+          extendedProps: {
+            userName: task.user.name
+          }
+        }));
+  
+        this.events = response.data;
+      },
+      error: (err) => {
+        this._toastr.error("Erro ao carregar eventos");
       }
-    );
+    });
   }
-
+  
 
   openEventDialog(eventData: any): void {
     if (eventData.id) {
