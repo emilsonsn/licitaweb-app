@@ -25,6 +25,11 @@ export class TenderService {
     return this._http.get<ApiResponsePageable<Tender>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
+  public getAttachment(idLicitacao: number): Observable<ApiResponse<any>> {
+
+    return this._http.get<ApiResponse<any>>(`https://app.localizadordeeditais.com.br:3001/api/public/tender/get-edital/${idLicitacao}`);
+  }
+
 
   public postTender(tender: FormData): Observable<ApiResponse<Tender>> {
     return this._http.post<ApiResponse<Tender>>(`${environment.api}/${this.sessionEndpoint}/create`, tender);

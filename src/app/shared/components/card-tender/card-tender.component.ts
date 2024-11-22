@@ -27,6 +27,17 @@ export class CardTenderComponent {
     window.open(origin_url, '_blank');
   }
 
+  downloadAttachemnts(tenderId){
+    this._tenderService.getAttachment(tenderId)
+    .subscribe(res => {
+      if(res.status){
+        res.data.forEach(attachment => {
+          window.open(attachment, '_blank');
+        });
+      }
+    })
+  }
+
   importTender(tender: any) {
 
     if (!tender) {
