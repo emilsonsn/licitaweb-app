@@ -30,7 +30,17 @@
               </strong>
             </h4>
             <h4>{{ item?.description }}</h4>
-            <p>{{ item?.user.name }}</p>
+            <p>
+              <i class="fa-regular fa-calendar"></i>
+              {{ item?.contest_date | date:'dd/MM/Y' }} <br>
+
+              <i class="fa-solid fa-money-bill-wave"></i>
+              {{ item?.estimated_value | currency:'BRL' }} <br>
+ 
+              <i class="fa-solid fa-user"></i>
+              {{ item?.user.name }}
+            </p>
+
           </div>
         }
         <!-- Placeholder: deve estar dentro do cdkDropList -->

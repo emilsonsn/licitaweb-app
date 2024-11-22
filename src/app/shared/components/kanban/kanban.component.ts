@@ -86,4 +86,8 @@ export class KanbanComponent {
     $event.stopPropagation();
     this.deleteColumnStatus.emit(key);
   }
+
+  stringfy(item){
+    return JSON.stringify(item);
+  }
 }

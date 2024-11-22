@@ -24,6 +24,9 @@ export class TableTenderComponent {
   onTenderClick: EventEmitter<Tender> = new EventEmitter<Tender>();
 
   @Output()
+  totalValue: EventEmitter<number> = new EventEmitter<number>();
+
+  @Output()
   onDeleteTenderClick: EventEmitter<number> = new EventEmitter<number>();
 
   @Output()
@@ -131,6 +134,8 @@ export class TableTenderComponent {
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe((res) => {
         this.tender = res.data;
+        const result: any = res;
+        this.totalValue.emit(result?.total_value)
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;

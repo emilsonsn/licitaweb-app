@@ -29,6 +29,7 @@ export class TenderComponent {
   public loading: boolean = false;
   public filtersFromDialog;
   public filters: TenderFilters;
+  public totalValue: number;
 
   dashboardCards = signal<OrderData>(
     {
@@ -158,6 +159,10 @@ export class TenderComponent {
           this._toastr.error(err.error.error);
         },
       });
+  }
+
+  changeTotalValue(value){
+    this.totalValue = value;
   }
 
   public openTaskDialog(id){

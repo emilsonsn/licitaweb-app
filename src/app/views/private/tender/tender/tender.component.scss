@@ -9,3 +9,14 @@
 .mat-mdc-tab-group {
   flex: 1 !important;
 }
+
+div#indicator{
+  background: #313131;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+
+  .label{
+    font-weight: 600;
+  }
+}

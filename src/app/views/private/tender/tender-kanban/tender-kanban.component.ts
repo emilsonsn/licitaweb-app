@@ -79,6 +79,8 @@ export class TenderKanbanComponent {
             name: tender.number,
             description: tender.organ,
             status: tender.status,
+            contest_date: tender.contest_date,
+            estimated_value: tender.estimated_value,
             task_status_id: tender.tender_status[0].status_id,
             sub_tasks: [],
             tasks_files: [],

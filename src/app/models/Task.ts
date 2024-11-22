@@ -7,7 +7,9 @@ export interface Task {
   name: string;
   description: string;
   task_status_id: number;
+  contest_date?: Date;
   concluded_at?: Date;
+  estimated_value: number;
   created_at?: Date;
   updated_at?: Date;
   sub_tasks: any[];
