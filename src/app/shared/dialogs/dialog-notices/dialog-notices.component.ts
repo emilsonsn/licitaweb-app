@@ -152,7 +152,9 @@ export class DialogNoticesComponent {
       .subscribe({
         next: (status) => {
           this.Status = status.data;
-          this.form.get('status_id').patchValue(status.data[0].id);          
+          if(!this._data?.id){
+            this.form.get('status_id').patchValue(status.data[0].id);
+          }
         },
         error: (err) => {
           console.error(err);
@@ -164,10 +166,12 @@ export class DialogNoticesComponent {
     this._userService.getUsers()
       .subscribe((res) => {
         this.users = res.data;
-        const filteredUsers = this.users.filter(user => user.role !== 'Admin');
-        const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
-        if (randomUser) {
-          this.form.get('user_id').patchValue(randomUser.id);
+        if(!this._data?.id){
+          const filteredUsers = this.users.filter(user => user.role !== 'Admin');
+          const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
+          if (randomUser) {
+            this.form.get('user_id').patchValue(randomUser.id);
+          }
         }
         
       });
@@ -177,11 +181,13 @@ export class DialogNoticesComponent {
     this._modalityService.getModalities()
       .subscribe((modalities) => {
         this.modalities = modalities.data;
-        modalities.data.forEach((modality) =>{
-          if(modality.name == 'Leilão Eletrônico'){
-            this.form.get('modality_id').patchValue(modality.id);
-          }
-        });
+        if(!this._data?.id){
+          modalities.data.forEach((modality) =>{
+            if(modality.name == 'Leilão Eletrônico'){
+              this.form.get('modality_id').patchValue(modality.id);
+            }
+          });
+        }
       });
   }
 
