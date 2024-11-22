@@ -72,7 +72,10 @@ export class CardTenderComponent {
     this._dialog
       .open(DialogNoticesComponent, {
         ...dialogConfig,
-        data: data ? {...data} : null,
+        data: data ? {
+          ...data,
+          import: true
+        } : null,
       })
       .afterClosed()
       .subscribe({

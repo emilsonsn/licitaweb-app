@@ -84,8 +84,11 @@ export class DialogNoticesComponent {
     });
 
     if (this._data) {
-      this.isNewTender = false;
-      this.title = 'Editar Edital';
+
+      if(!this._data?.import){
+        this.isNewTender = false;
+        this.title = 'Editar Edital';
+      }
 
       if (this._data.items) {
         this._data.items.forEach(item => {
@@ -109,7 +112,6 @@ export class DialogNoticesComponent {
       }
 
       const adjustedDate = dayjs(this._data.contest_date).toDate();
-
 
       this.form.patchValue({
         ...this._data,
@@ -150,6 +152,7 @@ export class DialogNoticesComponent {
       .subscribe({
         next: (status) => {
           this.Status = status.data;
+          this.form.get('status_id').patchValue(status.data[0].id);          
         },
         error: (err) => {
           console.error(err);
@@ -159,8 +162,14 @@ export class DialogNoticesComponent {
 
   public getUsers() {
     this._userService.getUsers()
-      .subscribe((user) => {
-        this.users = user.data;
+      .subscribe((res) => {
+        this.users = res.data;
+        const filteredUsers = this.users.filter(user => user.role !== 'Admin');
+        const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
+        if (randomUser) {
+          this.form.get('user_id').patchValue(randomUser.id);
+        }
+        
       });
   }
 
@@ -168,6 +177,11 @@ export class DialogNoticesComponent {
     this._modalityService.getModalities()
       .subscribe((modalities) => {
         this.modalities = modalities.data;
+        modalities.data.forEach((modality) =>{
+          if(modality.name == 'Leilão Eletrônico'){
+            this.form.get('modality_id').patchValue(modality.id);
+          }
+        });
       });
   }
 
