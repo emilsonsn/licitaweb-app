@@ -77,7 +77,7 @@ export class DialogNoticesComponent {
       object: ['', Validators.required],
       estimated_value: [null, [Validators.required, Validators.min(0)]],
       user_id: ['', Validators.required],
-      items_count: [null, [Validators.required, Validators.min(1)]],
+      items_count: [null],
       status_id: ['', Validators.required],
       items: this._fb.array([]),
       attachments: [''],
