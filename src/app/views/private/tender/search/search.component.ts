@@ -28,11 +28,11 @@ export class SearchComponent {
     private filtersService: FiltersService
   ) {
     this.getFilters();
-    this.onSubmit(this.filtrosLocalStorage);
+    
   }
 
   ngOnDestroy(){
-    this.filtersService.setFilters(null, 'Search');
+    // this.filtersService.setFilters(null, 'Search');
   }
 
   pageEvent($event: any) {
@@ -42,7 +42,14 @@ export class SearchComponent {
   }
 
   onSubmit(filters = null) {
-    console.log(filters);
+    const container = document.querySelector('.container-cards');
+    if (container) {
+      container.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+    
     this._tenderTaskService.searchTenderCard(this.pageControl, filters)
     .pipe(finalize(() => this.loading = true))
     .subscribe(
@@ -70,5 +77,6 @@ export class SearchComponent {
 
   public getFilters(): void{
     this.filtrosLocalStorage = this.filtersService.getFilters('Search');
+    this.onSubmit(this.filtrosLocalStorage);
   }
 }

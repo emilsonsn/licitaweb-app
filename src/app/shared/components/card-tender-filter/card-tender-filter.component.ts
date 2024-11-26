@@ -40,9 +40,12 @@ export class CardTenderFilterComponent {
 
     this.cidadesFiltradas = [];
     const savedFilters = this.filtersService.getFilters('Search');
-    if (savedFilters) {
-      this.form.patchValue(savedFilters);
-    }
+    setTimeout(() => {
+      if (savedFilters) {
+        this.onStateChange(savedFilters.uf);
+        this.form.patchValue(savedFilters);
+      }
+    }, 100);
   }
 
   onStateChange(estadoSigla: string): void {
@@ -70,5 +73,6 @@ export class CardTenderFilterComponent {
     });
     this.cidadesFiltradas = [];
     this.filtersService.setFilters(null, 'Search');
+    this.search();
   }
 }
