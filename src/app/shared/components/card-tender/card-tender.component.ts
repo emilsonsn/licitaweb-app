@@ -47,7 +47,8 @@ export class CardTenderComponent {
     console.log(tender);
 
     const tenderForm = {
-      number: tender.id,
+      external_id: tender.id,
+      number: tender.number_purchase,
       organ: tender.organ_name,
       estimated_value: tender.value,
       contest_date: tender.proposal_closing_date,
@@ -55,7 +56,20 @@ export class CardTenderComponent {
       object: tender.object,
     };
 
-    this.openTenderDialog(tenderForm);
+    this._tenderService.getTenders({}, {external_id: tender.id})
+    .subscribe({
+      next: (res) => {
+        if(res.data.length) {
+          this._toastr.warning("Esse edital já foi importado");
+          return;
+        }
+
+        this.openTenderDialog(tenderForm);  
+      },
+      error: (error) => {
+        this._toastr.error(error.error.data)
+      } 
+    });    
 
   }
 
