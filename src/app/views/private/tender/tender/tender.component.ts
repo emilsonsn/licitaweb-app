@@ -1,10 +1,10 @@
 import { Tender } from '@models/tender';
-import {Component, computed, Signal, signal} from '@angular/core';
-import {OrderData} from "@models/dashboard";
-import {ISmallInformationCard} from "@models/cardInformation";
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {DialogNoticesComponent} from '@shared/dialogs/dialog-notices/dialog-notices.component';
+import { Component, computed, Signal, signal } from '@angular/core';
+import { OrderData } from "@models/dashboard";
+import { ISmallInformationCard } from "@models/cardInformation";
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DialogNoticesComponent } from '@shared/dialogs/dialog-notices/dialog-notices.component';
 import {
   DialogFilterOrderComponent,
   OrderFilters
@@ -19,6 +19,8 @@ import { DialogTaskComponent } from '@shared/dialogs/dialog-task/dialog.task.com
 import { TaskService } from '@services/task.service';
 import { TenderTaskService } from '@services/tenderTask.service';
 import { FiltersService } from '@services/filters-service.service';
+import { DialogOcurrenceComponent } from '@shared/dialogs/dialog-ocurrence/dialog-ocurrence.component';
+import { TenderOccurrenceService } from '@services/tender-occurrence.service';
 
 @Component({
   selector: 'app-tender',
@@ -76,12 +78,13 @@ export class TenderComponent {
     private readonly _tenderService: TenderService,
     private readonly _toastr: ToastrService,
     private readonly _tenderTaskService: TenderTaskService,
-    private readonly filtersService: FiltersService
+    private readonly filtersService: FiltersService,
+    private readonly _tenderOccurence: TenderOccurrenceService
   ) {
     this.getFilters();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.filtersService.setFilters(null, 'Tender');
   }
 
@@ -96,7 +99,7 @@ export class TenderComponent {
 
     this._dialog
       .open(DialogFilterTenderComponent, {
-        data: {...this.filtersFromDialog},
+        data: { ...this.filtersFromDialog },
         ...dialogConfig
       })
       .afterClosed()
@@ -115,7 +118,7 @@ export class TenderComponent {
       })
   }
 
-  cardMoved(){
+  cardMoved() {
     this.loading = !this.loading;
   }
 
@@ -131,7 +134,7 @@ export class TenderComponent {
     this._dialog
       .open(DialogNoticesComponent, {
         ...dialogConfig,
-        data: data ? {...data} : null,
+        data: data ? { ...data } : null,
       })
       .afterClosed()
       .subscribe({
@@ -161,11 +164,11 @@ export class TenderComponent {
       });
   }
 
-  changeTotalValue(value){
+  changeTotalValue(value) {
     this.totalValue = value;
   }
 
-  public openTaskDialog(id){
+  public openTaskDialog(id) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '550px',
@@ -189,14 +192,39 @@ export class TenderComponent {
       })
   }
 
+
+  public openOcurrenceDialog(id) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '550px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogOcurrenceComponent, {
+        data: { id },
+        ...dialogConfig
+      })
+      .afterClosed()
+      .subscribe({
+        next: (occurrence) => {
+          // if (occurrence) {
+          //   this.createOccurrence(occurrence);
+          // }
+        }
+      })
+  }
+
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
 
-  private createTask(task){
+  private createTask(task) {
     this._tenderTaskService.create(task)
       .subscribe({
-        next : (res) => {
+        next: (res) => {
           this._toastr.success(res.message);
         },
         error: (err) => {
@@ -205,35 +233,47 @@ export class TenderComponent {
       });
   }
 
-  private tenderStore(tender){
+  private createOccurrence(occurrence) {
+    this._tenderOccurence.create(occurrence)
+      .subscribe({
+        next: (res) => {
+          this._toastr.success(res.message);
+        },
+        error: (err) => {
+          this._toastr.success(err.error.message);
+        },
+      });
+  }
+
+  private tenderStore(tender) {
     this._initOrStopLoading();
     this._tenderService.postTender(tender)
-    .pipe(finalize(() => this._initOrStopLoading()))
-    .subscribe({
-      next: (res) => {
-        this._toastr.success('Edital cadastrado com sucesso!');
-      },
-      error: (err) => {
-        this._toastr.error(err.error.error);
-      },
-    });
+      .pipe(finalize(() => this._initOrStopLoading()))
+      .subscribe({
+        next: (res) => {
+          this._toastr.success('Edital cadastrado com sucesso!');
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      });
   }
 
-  private tenderPatch(id, tender){
+  private tenderPatch(id, tender) {
     this._initOrStopLoading();
     this._tenderService.patchTender(id, tender)
-    .pipe(finalize(() => this._initOrStopLoading()))
-    .subscribe({
-      next: (res) => {
-        this._toastr.success(res.message);
-      },
-      error: (err) => {
-        this._toastr.error(err.error.error);
-      },
-    });
+      .pipe(finalize(() => this._initOrStopLoading()))
+      .subscribe({
+        next: (res) => {
+          this._toastr.success(res.message);
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      });
   }
 
-  public getFilters(): void{
+  public getFilters(): void {
     this.filters = this.filtersService.getFilters('Tender');
   }
 

@@ -94,6 +94,10 @@
               </td>
               <td>
                 <div class="d-flex justify-content-end">
+                  <div matRipple class="buttonTemplate" matTooltip="Ocorrências" (click)="openOcurrenceDialog.emit(tender.id); $event.stopPropagation()">
+                    <i class="fa-solid fa-tags"></i>
+                  </div>
+
                   <div matRipple class="buttonTemplate" matTooltip="Terefas" (click)="openTaskDialog.emit(tender.id); $event.stopPropagation()">
                     <i class="fa-solid fa-list-check"></i>
                   </div>

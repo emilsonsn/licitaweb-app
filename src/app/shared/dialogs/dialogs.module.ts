@@ -44,6 +44,7 @@ import {DialogTaskComponent} from './dialog-task/dialog.task.component';
 import {DialogEventComponent} from "@shared/dialogs/dialog-event/dialog-event.component";
 import {DialogLogJsonComponent} from './dialog-log-json/dialog-log-json.component';
 import {ACE_CONFIG, AceConfigInterface, AceModule} from "ngx-ace-wrapper";
+import { DialogOcurrenceComponent } from './dialog-ocurrence/dialog-ocurrence.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -84,7 +85,8 @@ const MY_DATE_FORMATS = {
     DialogNoticesComponent,
     DialogModalityComponent,
     DialogEventComponent,
-    DialogLogJsonComponent
+    DialogLogJsonComponent,
+    DialogOcurrenceComponent
   ],
   imports: [
     CommonModule,

@@ -32,6 +32,9 @@ export class TableTenderComponent {
   @Output()
   openTaskDialog: EventEmitter<number> = new EventEmitter<number>();
 
+  @Output()
+  openOcurrenceDialog: EventEmitter<number> = new EventEmitter<number>();
+
   public tender: Tender[] = [];
 
   public columns = [
