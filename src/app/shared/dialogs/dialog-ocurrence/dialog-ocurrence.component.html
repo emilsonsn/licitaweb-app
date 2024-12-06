@@ -5,27 +5,35 @@
   </div>
 </div>
 <mat-divider class="my-3"></mat-divider>
-
 <div *ngIf="!PageNewOccurrence; else PageView">
-  <div class="d-flex align-items-end justify-content-end p-4 pb-1 pt-1">
+  <div class="d-flex align-items-end justify-content-end p-4 pt-1">
     <button matRipple class="button yellow" (click)="newOccurrence()">
       <i class="fa-solid fa-plus"></i> Nova Ocorrência
     </button>
   </div>
-  <!-- <div *ngFor="let occurrence of occurrences; let i = index" class="mb-4">
-    <div class="d-flex align-items-center justify-content-between">
-      <span class="fw-bold fs-5">Ocorrências {{ i + 1 }}</span>
+
+  <!-- Container com rolagem -->
+  <div class="content-container">
+    <div class="row g-3">
+      <div class="col-12 col-md-12" *ngFor="let occurrence of occurrences; let i = index">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title text-primary pb-3">Ocorrência {{ i + 1 }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Título:</h6>
+            <p class="card-text">{{ occurrence.title }}</p>
+            <h6 class="card-subtitle mb-2 text-muted">Descrição:</h6>
+            <p class="card-text">{{ occurrence.description }}</p>
+            <h6 class="card-subtitle mb-2 text-muted">Arquivos:</h6>
+            <p class="card-text">{{ occurrence.files }}</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="mt-3">
-      <span class="fw-bolder">Título:</span>
-      <p class="mb-0">{{ occurrence.title }}</p>
-    </div>
-    <div class="mt-3">
-      <span class="fw-bolder">Descrição:</span>
-      <p class="mb-0">{{ occurrence.description }}</p>
-    </div>
-  </div> -->
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
 </div>
+
 
 <ng-template #PageView>
   <mat-dialog-content>

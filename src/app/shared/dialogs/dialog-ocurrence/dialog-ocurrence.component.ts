@@ -34,17 +34,53 @@ export class DialogOcurrenceComponent {
     'application/vnd.ms-excel' // Excel (.xls)
   ];
   public PageNewOccurrence = false;
+  public occurrences = [
+    {
+      id: 1,
+      title: 'Ocurrencia 1',
+      description: 'Descrição da Ocorrência 1',
+      files: [
+          {
+            id: 1,
+            name: 'Documento 1.pdf',
+            path: 'assets/images/document.pdf',
+            preview: 'https://via.placeholder.com/150'
+          },
+          {
+            id: 2,
+            name: 'Imagem 1.png',
+            path: 'assets/images/image.png',
+            preview: 'https://via.placeholder.com/150'
+          },
+        ],
+    },
+    {
+      id: 2,
+      title: 'Ocurrencia 2',
+      description: 'Descrição da Ocorrência 2',
+    },
+    {
+      id: 3,
+      title: 'Ocurrencia 3',
+      description: 'Descrição da Ocorrência 3',
+    },
+  ]
 
   constructor(
     private readonly _toastr: ToastrService,
     private readonly _tenderOccurence: TenderOccurrenceService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogOcurrenceComponent>,
+    private readonly _occurrencesService: TenderOccurrenceService,
     @Inject(MAT_DIALOG_DATA)
     public data: { id: number }
   ) { }
 
   ngOnInit(): void {
+    // this._occurrencesService.search()
+    //  .subscribe((occurrences: []) => {
+    //     this.occurrences = occurrences;
+    //   });
 
     this.form = this.fb.group({
       title: ['', Validators.required],

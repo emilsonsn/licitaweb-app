@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { ApiResponse, ApiResponsePageable, PageControl } from '@models/application';
+import { Occurrence } from '@models/Task copy';
 import { Utils } from '@shared/utils';
 import { Observable } from 'rxjs';
 
@@ -16,22 +17,11 @@ export class TenderOccurrenceService {
     private readonly _http: HttpClient
   ) { }
 
-  public getTenders(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<any>> {
-    const paginate = Utils.mountPageControl(pageControl);
-    const filterParams = Utils.mountPageControl(filters);
-
-    return this._http.get<ApiResponsePageable<any>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
+  create(occurrence: FormData): Observable<ApiResponse<Occurrence>> {
+    return this._http.post<ApiResponse<Occurrence>>(`${environment.api}/${this.sessionEndpoint}/create`, occurrence);
   }
 
-  public postOccurrence(occurrence: FormData): Observable<ApiResponse<any>> {
-    return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/create`, occurrence);
-  }
-
-  create(occurrence: FormData): Observable<ApiResponse<any>> {
-    return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/create`, occurrence);
-  }
-
-  search(): Observable<ApiResponse<any[]>> {
-    return this._http.get<ApiResponse<any[]>>(`${environment.api}/${this.sessionEndpoint}/search`);
+  search(): Observable<ApiResponse<Occurrence[]>> {
+    return this._http.get<ApiResponse<Occurrence[]>>(`${environment.api}/${this.sessionEndpoint}/search`);
   }
 }
