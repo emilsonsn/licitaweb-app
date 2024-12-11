@@ -15,23 +15,35 @@
   <!-- Container com rolagem -->
   <div class="content-container">
     <div class="row g-3">
-      <div class="col-12 col-md-12" *ngFor="let occurrence of occurrences; let i = index">
+      <div class="col-12 col-md-12" *ngFor="let occurrence of occurrences.slice().reverse(); let i = index">
         <div class="card shadow-sm h-100">
           <div class="card-body">
             <h5 class="card-title text-primary pb-3">Ocorrência {{ i + 1 }}</h5>
+
             <h6 class="card-subtitle mb-2 text-muted">Título:</h6>
             <p class="card-text">{{ occurrence.title }}</p>
+
             <h6 class="card-subtitle mb-2 text-muted">Descrição:</h6>
             <p class="card-text">{{ occurrence.description }}</p>
+
             <h6 class="card-subtitle mb-2 text-muted">Arquivos:</h6>
-            <p class="card-text">{{ occurrence.files }}</p>
+            <ul>
+              <li *ngFor="let file of occurrence.files">
+                <a [href]="file.path" target="_blank" rel="noopener noreferrer">
+                  {{ file.filename }}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
   <mat-divider class="my-3"></mat-divider>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+  [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
 </div>
 
 

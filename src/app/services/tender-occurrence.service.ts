@@ -21,7 +21,9 @@ export class TenderOccurrenceService {
     return this._http.post<ApiResponse<Occurrence>>(`${environment.api}/${this.sessionEndpoint}/create`, occurrence);
   }
 
-  search(): Observable<ApiResponse<Occurrence[]>> {
-    return this._http.get<ApiResponse<Occurrence[]>>(`${environment.api}/${this.sessionEndpoint}/search`);
+  search(pageControl?: PageControl): Observable<ApiResponsePageable<Occurrence[]>> {
+    const paginate = Utils.mountPageControl(pageControl);
+
+    return this._http.get<ApiResponsePageable<Occurrence[]>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}`);
   }
 }

@@ -56,6 +56,11 @@ export class LayoutPrivateComponent {
       route: '/painel/users'
     },
     {
+      label: 'Notificações',
+      icon: 'fa-solid fa-bell',
+      route: '/painel/notification'
+    },
+    {
       label: 'Logs',
       icon: 'fa-solid fa-file-lines',
       route: '/painel/logs'

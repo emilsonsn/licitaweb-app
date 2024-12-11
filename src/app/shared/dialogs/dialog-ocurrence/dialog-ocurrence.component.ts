@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Order, PageControl } from '@models/application';
 import { TenderOccurrenceService } from '@services/tender-occurrence.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -34,37 +35,21 @@ export class DialogOcurrenceComponent {
     'application/vnd.ms-excel' // Excel (.xls)
   ];
   public PageNewOccurrence = false;
-  public occurrences = [
-    {
-      id: 1,
-      title: 'Ocurrencia 1',
-      description: 'Descrição da Ocorrência 1',
-      files: [
-          {
-            id: 1,
-            name: 'Documento 1.pdf',
-            path: 'assets/images/document.pdf',
-            preview: 'https://via.placeholder.com/150'
-          },
-          {
-            id: 2,
-            name: 'Imagem 1.png',
-            path: 'assets/images/image.png',
-            preview: 'https://via.placeholder.com/150'
-          },
-        ],
-    },
-    {
-      id: 2,
-      title: 'Ocurrencia 2',
-      description: 'Descrição da Ocorrência 2',
-    },
-    {
-      id: 3,
-      title: 'Ocurrencia 3',
-      description: 'Descrição da Ocorrência 3',
-    },
-  ]
+  public occurrences = [];
+
+  public pageControl: PageControl = {
+    take: 50,
+    page: 1,
+    itemCount: 0,
+    pageCount: 0,
+    order: Order.ASC,
+  };
+
+  pageEvent($event: any) {
+    this.pageControl.page = $event.pageIndex + 1;
+    this.pageControl.take = $event.pageSize;
+    this.searchOccurrence();
+  }
 
   constructor(
     private readonly _toastr: ToastrService,
@@ -77,10 +62,7 @@ export class DialogOcurrenceComponent {
   ) { }
 
   ngOnInit(): void {
-    // this._occurrencesService.search()
-    //  .subscribe((occurrences: []) => {
-    //     this.occurrences = occurrences;
-    //   });
+    this.searchOccurrence();
 
     this.form = this.fb.group({
       title: ['', Validators.required],
@@ -90,14 +72,21 @@ export class DialogOcurrenceComponent {
     });
 
     this.form.patchValue({ tender_id: this.data.id });
-
-    if(this.data){
-
-    }
   }
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  searchOccurrence(): void {
+    this._occurrencesService.search(this.pageControl)
+    .subscribe((occurrences) => {
+      this.occurrences = occurrences.data;
+
+      this.pageControl.page = occurrences.current_page - 1;
+      this.pageControl.itemCount = occurrences.total;
+      this.pageControl.pageCount = occurrences.last_page;
+     });
   }
 
   newOccurrence(){
@@ -163,6 +152,7 @@ export class DialogOcurrenceComponent {
   onSubmit(): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
+      this.PageNewOccurrence = !this.PageNewOccurrence
       return;
     }
 
@@ -186,6 +176,7 @@ export class DialogOcurrenceComponent {
       .subscribe({
         next : (res) => {
           this.newOccurrence()
+          this.searchOccurrence();
           this._toastr.success(res.message);
         },
         error: (err) => {
