@@ -17,6 +17,12 @@ export class TenderService {
     private readonly _http: HttpClient
   ) { }
 
+  public all(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<Tender>> {
+    const paginate = Utils.mountPageControl(pageControl);
+    const filterParams = Utils.mountPageControl(filters);
+
+    return this._http.get<ApiResponsePageable<Tender>>(`${environment.api}/${this.sessionEndpoint}/all?${paginate}${filterParams}`);
+  }
 
   public getTenders(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<Tender>> {
     const paginate = Utils.mountPageControl(pageControl);

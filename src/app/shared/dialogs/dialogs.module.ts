@@ -20,7 +20,7 @@ import {DialogConfirmComponent} from './dialog-confirm/dialog-confirm.component'
 import {FiltersModule} from './filters/filters.module';
 import {DialogCollaboratorComponent} from './dialog-collaborator/dialog-collaborator.component';
 import {CdkTextareaAutosize, TextFieldModule} from '@angular/cdk/text-field';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {DialogProviderComponent} from './dialog-provider/dialog-provider.component';
 import {NgxMaskDirective, NgxMaskPipe} from 'ngx-mask';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
@@ -46,6 +46,7 @@ import {DialogLogJsonComponent} from './dialog-log-json/dialog-log-json.componen
 import {ACE_CONFIG, AceConfigInterface, AceModule} from "ngx-ace-wrapper";
 import { DialogOcurrenceComponent } from './dialog-ocurrence/dialog-ocurrence.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DialogsNotificationComponent } from './dialogs-notification/dialogs-notification.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -87,7 +88,8 @@ const MY_DATE_FORMATS = {
     DialogModalityComponent,
     DialogEventComponent,
     DialogLogJsonComponent,
-    DialogOcurrenceComponent
+    DialogOcurrenceComponent,
+    DialogsNotificationComponent
   ],
   imports: [
     CommonModule,
@@ -120,7 +122,8 @@ const MY_DATE_FORMATS = {
     NgxMatSelectSearchModule,
     MatIcon,
     ColorChromeModule,
-    AceModule
+    AceModule,
+    MatNativeDateModule,
   ],
   providers: [
     {

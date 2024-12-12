@@ -53,7 +53,6 @@ export class DialogOcurrenceComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _tenderOccurence: TenderOccurrenceService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogOcurrenceComponent>,
     private readonly _occurrencesService: TenderOccurrenceService,
@@ -172,7 +171,7 @@ export class DialogOcurrenceComponent {
       formData.append(`files[${index}]`, element);
     });
 
-    this._tenderOccurence.create(formData)
+    this._occurrencesService.create(formData)
       .subscribe({
         next : (res) => {
           this.newOccurrence()
