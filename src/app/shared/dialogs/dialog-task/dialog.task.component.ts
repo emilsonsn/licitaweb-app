@@ -49,7 +49,6 @@ export class DialogTaskComponent {
   }
 
   onSubmit(): void {
-    debugger
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;

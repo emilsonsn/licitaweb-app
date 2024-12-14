@@ -2,6 +2,6 @@ export interface Notification {
   id?: number;
   description?: string;
   message?: string;
-  datetiime?: Date;
+  datetime?: Date;
   tender_id?: number;
 }

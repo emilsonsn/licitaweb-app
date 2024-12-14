@@ -21,6 +21,7 @@ import {TableModalityComponent} from './table-modality/table-modality.component'
 import {TableTenderComponent} from './table-tender/table-tender.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TableLogComponent } from './table-log/table-log.component';
+import { TableNotificationComponent } from './table-notification/table-notification.component';
 
 const tables = [
   TableOrdersComponent,
@@ -35,6 +36,7 @@ const tables = [
   TableTypeUserSectorComponent,
   TableModalityComponent,
   TableTenderComponent,
+  TableNotificationComponent,
 ]
 
 @NgModule({

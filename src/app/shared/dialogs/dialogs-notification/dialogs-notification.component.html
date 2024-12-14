@@ -1,10 +1,9 @@
 <mat-dialog-content>
   <div class="d-flex align-items-center justify-content-between">
-    <span class="fw-bold fs-5"> Nova Notificação</span>
+    <span class="fw-bold fs-5">Nova Notificação</span>
     <div matRipple class="close" (click)="onCancel()">
       <i class="fa-solid fa-close"></i>
     </div>
-
   </div>
 
   <mat-divider class="my-3"></mat-divider>
@@ -13,7 +12,7 @@
     <div class="col-md-12 mb-3">
       <span class="fw-bolder">Descrição</span>
       <mat-form-field appearance="outline">
-        <input matInput formControlName="description" placeholder="Descrição" required/>
+        <input matInput formControlName="description" placeholder="Digite a descrição" required />
       </mat-form-field>
     </div>
 
@@ -24,37 +23,35 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Data e Hora</span>
-      <mat-form-field appearance="outline">
-        <input
-          matInput
-          formControlName="datetime"
-          required
-          [value]="form.get('datetime').value | datetime"
-          placeholder="DD/MM/YYYY HH:MM:SS"
-        />
-        <mat-error *ngIf="form.get('datetime').invalid && form.get('datetime').touched">
-          Data e hora inválidas. Use o formato DD/MM/YYYY HH:MM:SS.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-
-
-    <div class="col-md-6 mb-3">
-      <span class="fw-bolder">Número do Edital</span>
-      <div class="d-flex align-items-center gap-3">
-        <mat-form-field appearance="outline">
-          <mat-select formControlName="tender_id" placeholder="Edital">
-            <mat-option *ngFor="let tender of tenderes" [value]="tender.id">
-              {{ tender.number }}
-            </mat-option>
-          </mat-select>
+    <div class="col-md-4 mb-3">
+      <span class="fw-bolder">Data</span>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Data" readonly required/>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-      </div>
     </div>
 
+    <div class="col-md-2 mb-3">
+      <span class="fw-bolder">Hora</span>
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput type="time" formControlName="time" placeholder="Hora" required/>
+          <mat-icon matSuffix>access_time</mat-icon> <!-- Ícone de relógio -->
+        </mat-form-field>
+    </div>
+
+      <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Número do Edital</span>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="tender_id" placeholder="Edital" required>
+              <mat-option *ngFor="let tender of tenderes" [value]="tender.id">
+                {{ tender.number }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
   </form>
 </mat-dialog-content>
 
@@ -66,8 +63,9 @@
           <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
         </div>
         <div class="col-auto">
-          <button matRipple id="submit" class="button yellow" (click)="onSubmit(form)">{{isNewNotification ? 'Criar' :
-            'Salvar'}}</button>
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit()">
+            {{ isNewNotification ? 'Criar' : 'Salvar' }}
+          </button>
         </div>
       </div>
     </div>

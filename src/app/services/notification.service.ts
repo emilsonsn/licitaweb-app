@@ -4,6 +4,7 @@ import { ApiResponse, ApiResponsePageable, DeleteApiResponse, PageControl } from
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { Utils } from '@shared/utils';
+import { Notification } from '@models/notification';
 
 @Injectable({
   providedIn: 'root'

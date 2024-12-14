@@ -85,7 +85,8 @@ export class TableUserComponent {
   constructor(
     private readonly _toastr: ToastrService,
     private readonly _userService: UserService,
-  ) {}
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const { filters, searchTerm, loading } = changes;

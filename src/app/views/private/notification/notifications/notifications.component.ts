@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ISmallInformationCard } from '@models/cardInformation';
+import { Notification } from '@models/notification';
 import { NotificationService } from '@services/notification.service';
+import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogsNotificationComponent } from '@shared/dialogs/dialogs-notification/dialogs-notification.component';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -13,7 +15,8 @@ import { finalize } from 'rxjs';
   styleUrl: './notifications.component.scss'
 })
 export class NotificationsComponent {
-  loading = false;
+  public loading = false;
+
   protected itemsRequests: ISmallInformationCard[] = [
     {
       icon: 'fa-solid fa-circle-check',
@@ -54,10 +57,10 @@ export class NotificationsComponent {
     this.loading = !this.loading;
   }
 
-  openDialogNotification(notification?: Notification) {
+  openDialogNotification(data?) {
     this._dialog
       .open(DialogsNotificationComponent, {
-        data: {notification},
+        data: data ? { ...data } : null,
         width: '80%',
         maxWidth: '850px',
         maxHeight: '90%',
@@ -72,6 +75,33 @@ export class NotificationsComponent {
           }
           this._postNotification(res);
         }
+      });
+  }
+
+  onDeleteNotification(id: number) {
+    const text = 'Tem certeza? Essa ação não pode ser revertida!';
+    this._dialog
+      .open(DialogConfirmComponent, {data: {text}})
+      .afterClosed()
+      .subscribe((res: boolean) => {
+        if (res) {
+          this._deleteNotification(id);
+        }
+      });
+  }
+
+  _deleteNotification(id: number) {
+    this._initOrStopLoading();
+    this._notificationService
+      .delete(id)
+      .pipe(finalize(() => this._initOrStopLoading()))
+      .subscribe({
+        next: (res) => {
+          this._toastr.success(res.message);
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
       });
   }
 
@@ -94,7 +124,6 @@ export class NotificationsComponent {
   }
 
   _postNotification(notification: Notification) {
-    debugger
     this._initOrStopLoading();
 
     this._notificationService
