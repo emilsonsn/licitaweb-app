@@ -56,6 +56,11 @@ export class LayoutPrivateComponent {
       route: '/painel/users'
     },
     {
+      label: 'Contratos',
+      icon: 'fa-solid fa-file-contract',
+      route: '/painel/agreement'
+    },
+    {
       label: 'Notificações',
       icon: 'fa-solid fa-bell',
       route: '/painel/notification'

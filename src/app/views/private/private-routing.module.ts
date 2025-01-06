@@ -1,3 +1,4 @@
+import { AgreementModule } from './agreement/agreement.module';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutPrivateComponent} from "@shared/layouts/layout-private/layout-private.component";
@@ -31,6 +32,14 @@ const routes: Routes = [
         canActivate: [permissionGuard],
         data: {
           page: 'users'
+        }
+      },
+      {
+        path: 'agreement',
+        loadChildren: () => import('./agreement/agreement.module').then(m => m.AgreementModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'agreement'
         }
       },
       {

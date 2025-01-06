@@ -7,4 +7,5 @@ export interface TenderFilters {
   modality_id?: number;
   order?: string;
   user_id?: string;
+  is_contract?: number;
   }

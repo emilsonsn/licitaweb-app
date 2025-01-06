@@ -1,0 +1,49 @@
+<mat-tab-group (selectedIndexChange)="this.loading = !this.loading">
+
+  <mat-tab label="Tabela">
+    <div id="componentHeaderTemplate">
+      <div id="componentHeader">
+
+        <div>
+          <!-- <app-search-input
+            (onSearchInputChanged)="handleSearchTerm($event)">
+          </app-search-input> -->
+        </div>
+
+        <div id="options">
+          <div id="indicator">
+            <span class="label">Valor total:</span>{{ totalValue | currency:'BRL' }}
+          </div>
+
+          @if (true) {
+            <div id="filter" matRipple (click)="openTenderFilterDialog()">
+              <i class="fa-solid fa-filter" matTooltip="Filtros"></i>
+            </div>
+          }
+
+        </div>
+      </div>
+    </div>
+
+    <div id="componentTable" class="col-12 mt-4">
+      <app-table-tender
+        [loading]="loading"
+        [filters]="filters"
+        (totalValue)="changeTotalValue($event)"
+        (openOcurrenceDialog)="openOcurrenceDialog($event)"
+        (onTenderClick)="openTenderDialog($event)"
+        (onDeleteTenderClick)="deletetender($event)"
+        (openTaskDialog)="openTaskDialog($event)">
+
+      </app-table-tender>
+    </div>
+  </mat-tab>
+
+  <!-- <mat-tab label="Kanban">
+    <app-tender-kanban
+      [loading]="loading"
+    ></app-tender-kanban>
+  </mat-tab> -->
+
+</mat-tab-group>
+
