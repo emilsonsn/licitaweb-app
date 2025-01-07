@@ -31,7 +31,6 @@ export class DialogCollaboratorComponent {
   }
 
   ngOnInit(): void {
-
     this.form = this._fb.group({
       id: [null],
       name: [null, [Validators.required]],

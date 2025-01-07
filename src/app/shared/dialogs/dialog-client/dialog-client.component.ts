@@ -50,21 +50,20 @@ export class DialogClientComponent {
       id: [null],
       name: [null, [Validators.required]],
       cpf_cnpj: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
+      fix_phone: [null, [Validators.required]],
       whatsapp: [null, [Validators.required]],
       email: [null, [Validators.required]],
       address: [null, [Validators.required]],
       city: [null, [Validators.required]],
       state: [null, [Validators.required]],
       number: [null, [Validators.required]],
-      complement: [null],
+      complement: [null, [Validators.required]],
       user_id: [null, [Validators.required]],
       flag: [null, [Validators.required]],
       cep: [null, [Validators.required]],
-    })
+    });
 
-    if (this._data?.client) {
-      debugger
+    if (this._data) {
       this.isNewClient = false;
       this.title = 'Editar cliente';
       this._fillForm(this._data.client);
@@ -103,7 +102,6 @@ export class DialogClientComponent {
   }
 
   private _fillForm(client: Client): void {
-
     this.form.patchValue(client);
   }
 
@@ -119,7 +117,7 @@ export class DialogClientComponent {
       formData.append('id', form.get('id')?.value);
       formData.append('name', form.get('name')?.value);
       formData.append('cpf_cnpj', form.get('cpf_cnpj')?.value);
-      formData.append('phone', form.get('phone')?.value);
+      formData.append('fix_phone', form.get('fix_phone')?.value);
       formData.append('whatsapp', form.get('whatsapp')?.value);
       formData.append('email', form.get('email')?.value);
       formData.append('address', form.get('address')?.value);
@@ -129,6 +127,7 @@ export class DialogClientComponent {
       formData.append('complement', form.get('complement')?.value);
       formData.append('user_id', form.get('user_id')?.value);
       formData.append('flag', form.get('flag')?.value);
+      formData.append('cep', form.get('cep')?.value);
 
       if(form.get('cpf_cnpj')?.value.length == 11){
         formData.append('type', 'Person');
@@ -193,22 +192,23 @@ export class DialogClientComponent {
   }
 
   public autocompleteCep() {
+    const cep = this.form.get('cep')?.value;
 
-    if(this.cep.length == 8 ) {
-      this._utilsService.getAddressByCep(this.cep)
-        .subscribe(res => {
-          if(res.erro) {
-            this._toastr.error('CEP Inválido para busca!');
-          }
-          else {
-            this.form.get('address').patchValue(res.logradouro);
-            this.form.get('city').patchValue(res.localidade);
-            this.form.get('state').patchValue(res.uf);
-          }
-        })
+    if (cep && cep.length === 8) {
+      this._utilsService.getAddressByCep(cep).subscribe(res => {
+        if (res.erro) {
+          this._toastr.error('CEP Inválido para busca!');
+        } else {
+          this.form.patchValue({
+            address: res.logradouro,
+            city: res.localidade,
+            state: res.uf
+          });
+        }
+      });
     }
-
   }
+
 
 }
 

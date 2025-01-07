@@ -59,7 +59,6 @@ export class ClientComponent {
   }
 
   openDialogClient(data?) {
-    debugger
     const dialogConfig: MatDialogConfig = {
           width: '80%',
           maxWidth: '1000px',
@@ -77,7 +76,7 @@ export class ClientComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            const id = res.get('id');
+            const id = +res.get('id');
             if (id) this._patchClient(res);
             else this._postClient(res);
           }

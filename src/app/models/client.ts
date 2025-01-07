@@ -2,7 +2,7 @@ export interface Client {
   id?: number;
   name: string;
   cpf_cnpj: string;
-  phone: number;
+  fix_phone: number;
   whatsapp: number;
   email: string;
   address: string;
@@ -13,4 +13,5 @@ export interface Client {
   complement: string;
   user_id: string;
   flag: string;
+  cep: string;
 }

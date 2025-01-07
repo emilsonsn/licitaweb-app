@@ -41,9 +41,9 @@
       <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Telefone</mat-label>
-          <input type="text" formControlName="phone" matInput mask="(00)0000-0000"
+          <input type="text" formControlName="fix_phone" matInput mask="(00)0000-0000"
             title="Digite um número de telefone válido (xx)xxxx-xxxx ou (xx)xxxxx-xxxx" />
-          <mat-error *ngIf="form.get('phone')?.value === '' || !validatePhoneNumber(form.get('phone'))">O telefone deve
+          <mat-error *ngIf="form.get('fix_phone')?.value === '' || !validatePhoneNumber(form.get('fix_phone'))">O telefone deve
             estar no formato válido
             (xx)xxxx-xxxx.</mat-error>
         </mat-form-field>
@@ -74,7 +74,7 @@
       <div class="col-md-4 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>CEP</mat-label>
-          <input matInput type="text" mask="00000-000" formControlName="cep" (input)="autocompleteCep()" >
+          <input matInput type="text" mask="00000-000" formControlName="cep" (input)="autocompleteCep()" />
         </mat-form-field>
       </div>
       <div class="col-md-4 mb-3">

@@ -21,8 +21,7 @@ export class TableClientComponent {
   filters: any;
 
   @Output()
-  onClientClick: EventEmitter<Client> =
-    new EventEmitter<Client>();
+  onClientClick: EventEmitter<Client> = new EventEmitter<Client>();
 
   @Output()
   onDeleteClientClick: EventEmitter<number> =
@@ -40,7 +39,7 @@ export class TableClientComponent {
     {
       slug: "cnpj",
       order: true,
-      title: "CNPJ",
+      title: "CPF/CNPJ",
       align: "justify-content-center",
     },
     {
