@@ -50,6 +50,12 @@ export class TableClientComponent {
       align: "justify-content-center",
     },
     {
+      slug: "flag",
+      order: true,
+      title: "Flag",
+      align: "justify-content-center",
+    },
+    {
       slug: "email",
       order: true,
       title: "E-mail",
@@ -114,7 +120,7 @@ export class TableClientComponent {
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next:res => {
-            this.clients = res.data;
+          this.clients = res.data;
 
           this.pageControl.page = res.current_page - 1;
           this.pageControl.itemCount = res.total;

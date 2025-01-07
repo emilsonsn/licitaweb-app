@@ -1,20 +1,21 @@
 import {Component} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {DialogCollaboratorComponent} from '@shared/dialogs/dialog-collaborator/dialog-collaborator.component';
 import {DialogConfirmComponent} from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import {ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs';
 import {ISmallInformationCard} from '@models/cardInformation';
-import {User} from '@models/user';
-import {UserService} from '@services/user.service';
+import { ClientService } from '@services/client.service';
+import { Client } from '@models/client';
+import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-client.component';
 
 @Component({
-  selector: 'app-collaborator',
-  templateUrl: './collaborator.component.html',
-  styleUrl: './collaborator.component.scss',
+  selector: 'app-client',
+  templateUrl: './client.component.html',
+  styleUrl: './client.component.scss'
 })
-export class CollaboratorComponent {
+export class ClientComponent {
   public loading: boolean = false;
 
   protected itemsRequests: ISmallInformationCard[] = [
@@ -45,7 +46,7 @@ export class CollaboratorComponent {
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _router: Router,
-    private readonly _userService: UserService
+    private readonly _clientService: ClientService
   ) {
   }
 
@@ -57,70 +58,76 @@ export class CollaboratorComponent {
     this.loading = !this.loading;
   }
 
-  openDialogCollaborator(user?: User) {
+  openDialogClient(data?) {
+    debugger
+    const dialogConfig: MatDialogConfig = {
+          width: '80%',
+          maxWidth: '1000px',
+          maxHeight: '90%',
+          hasBackdrop: true,
+          closeOnNavigation: true,
+        };
+
     this._dialog
-      .open(DialogCollaboratorComponent, {
-        data: {user},
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
+      .open(DialogClientComponent, {
+        ...dialogConfig,
+        data: data ? { ...data } : null
       })
       .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          const id = +res.get('id');
-          if (id) {
-            this._patchCollaborator(res);
-            return;
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            const id = res.get('id');
+            if (id) this._patchClient(res);
+            else this._postClient(res);
           }
-          this._postCollaborator(res);
         }
-      });
+      })
   }
 
   _getCards() {
-    this._initOrStopLoading();
+    // this._initOrStopLoading();
 
-    this._userService
-      .getCards()
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          this.itemsRequests = [
-            {
-              icon: 'fa-solid fa-circle-check',
-              background: '#4CA750',
-              title: `${res.data.active}`,
-              category: 'Usuários',
-              description: 'Usuários ativos',
-            },
-            {
-              icon: 'fa-solid fa-ban',
-              background: '#dc3545',
-              title: `${res.data.inactive}`,
-              category: 'Usuários',
-              description: 'Usuários bloqueados',
-            },
-            {
-              icon: 'fa-solid fa-users',
-              // background: '#dc3545',
-              title: `${res.data.total}`,
-              category: 'Usuários',
-              description: 'Usuários totais',
-            },
-          ]
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
+    // this._clientService
+    //   .getCards()
+    //   .pipe(finalize(() => this._initOrStopLoading()))
+    //   .subscribe({
+    //     next: (res) => {
+    //       this.itemsRequests = [
+    //         {
+    //           icon: 'fa-solid fa-circle-check',
+    //           background: '#4CA750',
+    //           title: `${res.data.active}`,
+    //           category: 'Usuários',
+    //           description: 'Usuários ativos',
+    //         },
+    //         {
+    //           icon: 'fa-solid fa-ban',
+    //           background: '#dc3545',
+    //           title: `${res.data.inactive}`,
+    //           category: 'Usuários',
+    //           description: 'Usuários bloqueados',
+    //         },
+    //         {
+    //           icon: 'fa-solid fa-users',
+    //           // background: '#dc3545',
+    //           title: `${res.data.total}`,
+    //           category: 'Usuários',
+    //           description: 'Usuários totais',
+    //         },
+    //       ]
+    //     },
+    //     error: (err) => {
+    //       this._toastr.error(err.error.error);
+    //     },
+    //   });
   }
 
-  _patchCollaborator(collaborator: FormData) {
+  _patchClient(client) {
     this._initOrStopLoading();
-    const id = +collaborator.get('id');
-    this._userService
-      .patchUser(id, collaborator)
+    const id = +client.get('id');
+    this._clientService
+      .patchClient(id, client)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -134,11 +141,11 @@ export class CollaboratorComponent {
       });
   }
 
-  _postCollaborator(collaborator: User) {
+  _postClient(client: Client) {
     this._initOrStopLoading();
 
-    this._userService
-      .postUser(collaborator)
+    this._clientService
+      .postClient(client)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -166,8 +173,8 @@ export class CollaboratorComponent {
 
   _deleteCollaborator(id: number) {
     this._initOrStopLoading();
-    this._userService
-      .deleteUser(id)
+    this._clientService
+      .deleteClient(id)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {

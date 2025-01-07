@@ -15,7 +15,6 @@ export class ClientService {
   ) { }
 
   public getClients(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<Client>> {
-
     return this._http.get<ApiResponsePageable<Client>>(`${environment.api}/client/search`);
   }
 

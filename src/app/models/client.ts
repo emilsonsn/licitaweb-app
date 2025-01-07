@@ -10,4 +10,7 @@ export interface Client {
   state: string;
   created_at?: Date;
   updated_at?: Date;
+  complement: string;
+  user_id: string;
+  flag: string;
 }

@@ -62,14 +62,16 @@
               </td>
               <td>
                 <div class="text-center">
+                  {{ client?.flag }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
                   {{ client?.email }}
                 </div>
               </td>
               <td>
                 <div class="d-flex justify-content-end">
-                  <div matRipple class="buttonTemplate" (click)="onClientClick.emit(client)">
-                    <i class="fa-solid fa-eye"></i>
-                  </div>
 
                   <div matRipple class="buttonTemplate" (click)="onClientClick.emit(client)">
                     <i class="fa-solid fa-pen-to-square"></i>
