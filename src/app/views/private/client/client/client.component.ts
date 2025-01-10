@@ -9,6 +9,8 @@ import {ISmallInformationCard} from '@models/cardInformation';
 import { ClientService } from '@services/client.service';
 import { Client } from '@models/client';
 import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-client.component';
+import { DialogFilterClientComponent } from '@shared/dialogs/filters/dialog-filter-client/dialog-filter-client.component';
+import { FiltersService } from '@services/filters-service.service';
 
 @Component({
   selector: 'app-client',
@@ -16,7 +18,9 @@ import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-clie
   styleUrl: './client.component.scss'
 })
 export class ClientComponent {
+  public filtersFromDialog;
   public loading: boolean = false;
+  public filters;
 
   protected itemsRequests: ISmallInformationCard[] = [
     {
@@ -46,14 +50,16 @@ export class ClientComponent {
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _router: Router,
-    private readonly _clientService: ClientService
+    private readonly _clientService: ClientService,
+    private readonly filtersService: FiltersService,
+
   ) {
+    this.getFilters();
   }
 
-  ngOnInit(): void {
-    this._getCards();
+  ngOnDestroy() {
+    this.filtersService.setFilters(null, 'Client');
   }
-
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
@@ -84,43 +90,35 @@ export class ClientComponent {
       })
   }
 
-  _getCards() {
-    // this._initOrStopLoading();
+  public openClientFilterDialog() {
+      const dialogConfig: MatDialogConfig = {
+        width: '80%',
+        maxWidth: '550px',
+        maxHeight: '90%',
+        hasBackdrop: true,
+        closeOnNavigation: true,
+      };
 
-    // this._clientService
-    //   .getCards()
-    //   .pipe(finalize(() => this._initOrStopLoading()))
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.itemsRequests = [
-    //         {
-    //           icon: 'fa-solid fa-circle-check',
-    //           background: '#4CA750',
-    //           title: `${res.data.active}`,
-    //           category: 'Usuários',
-    //           description: 'Usuários ativos',
-    //         },
-    //         {
-    //           icon: 'fa-solid fa-ban',
-    //           background: '#dc3545',
-    //           title: `${res.data.inactive}`,
-    //           category: 'Usuários',
-    //           description: 'Usuários bloqueados',
-    //         },
-    //         {
-    //           icon: 'fa-solid fa-users',
-    //           // background: '#dc3545',
-    //           title: `${res.data.total}`,
-    //           category: 'Usuários',
-    //           description: 'Usuários totais',
-    //         },
-    //       ]
-    //     },
-    //     error: (err) => {
-    //       this._toastr.error(err.error.error);
-    //     },
-    //   });
-  }
+      this._dialog
+        .open(DialogFilterClientComponent, {
+          data: { ...this.filtersFromDialog },
+          ...dialogConfig
+        })
+        .afterClosed()
+        .subscribe({
+          next: (res) => {
+
+            if (res) {
+              this.filters = {
+                ...res.filters,
+              };
+
+              !res.clear ? this.filtersFromDialog = (res.filters) : this.filtersFromDialog = null;
+            }
+          }
+        })
+    }
+
 
   _patchClient(client) {
     this._initOrStopLoading();
@@ -183,5 +181,9 @@ export class ClientComponent {
           this._toastr.error(err.error.error);
         },
       });
+  }
+
+  public getFilters(): void {
+    this.filters = this.filtersService.getFilters('Client');
   }
 }

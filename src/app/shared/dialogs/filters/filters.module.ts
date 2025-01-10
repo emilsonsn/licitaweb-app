@@ -23,6 +23,7 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { DialogFilterRequestComponent } from './dialog-filter-request/dialog-filter-request.component';
 import { DialogFilterTenderComponent } from './dialog-filter-tender/dialog-filter-tender.component';
+import { DialogFilterClientComponent } from './dialog-filter-client/dialog-filter-client.component';
 
 const filters = [
   DialogFilterOrderComponent,
@@ -33,7 +34,9 @@ const filters = [
   declarations: [
     filters,
     DialogFilterRequestComponent,
-    DialogFilterTenderComponent
+    DialogFilterTenderComponent,
+    DialogFilterClientComponent,
+    DialogFilterClientComponent
   ],
   imports: [
     CommonModule,

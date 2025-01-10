@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRipple } from '@angular/material/core';
 import { MatDivider } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -15,13 +16,14 @@ import { MatDivider } from '@angular/material/divider';
     ClientComponent
   ],
   imports: [
-      CommonModule,
-      ClientRoutingModule,
-      SharedModule,
-      MatDialogModule,
-      MatButtonModule,
-      MatRipple,
-      MatDivider
+    CommonModule,
+    ClientRoutingModule,
+    SharedModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatRipple,
+    MatDivider,
+    MatTooltipModule,
   ]
 })
 export class ClientModule { }

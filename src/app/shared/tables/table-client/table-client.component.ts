@@ -83,18 +83,15 @@ export class TableClientComponent {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { filters, searchTerm, loading } = changes;
+    const {filters, searchTerm, loading} = changes;
 
-    if ( searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue ) {
+    if (searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue) {
+      this._onSearch();
+    } else if (!loading?.currentValue) {
+      this._onSearch();
+    } else if (filters?.previousValue && filters?.currentValue) {
       this._onSearch();
     }
-    else if (!loading?.currentValue) {
-      this._onSearch();
-    }
-    else if(filters?.previousValue && filters?.currentValue) {
-			this._onSearch();
-		}
-
   }
 
   private _initOrStopLoading(): void {
@@ -113,7 +110,6 @@ export class TableClientComponent {
 
   search(): void {
     this._initOrStopLoading();
-
     this._clientService
       .getClients(this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))

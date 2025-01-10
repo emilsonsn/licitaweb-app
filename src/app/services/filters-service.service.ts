@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class FiltersService {
   private readonly STORAGE_KEY_TENDERS = 'savedFiltersTenders';
   private readonly STORAGE_KEY_SEARCH = 'savedFiltersSearch';
+  private readonly STORAGE_KEY_CLIENT = 'savedFiltersClient';
 
   getFilters(tipo: string) {
     if (tipo == 'Tender') {
@@ -16,6 +17,10 @@ export class FiltersService {
       const savedFilters = localStorage.getItem(this.STORAGE_KEY_SEARCH);
       return savedFilters ? JSON.parse(savedFilters) : null;
     }
+    else if (tipo == 'Client'){
+      const savedFilters = localStorage.getItem(this.STORAGE_KEY_CLIENT);
+      return savedFilters? JSON.parse(savedFilters) : null;
+    }
   }
 
   setFilters(filters, tipo: string): void {
@@ -25,11 +30,17 @@ export class FiltersService {
       } else if (tipo == 'Search') {
         localStorage.setItem(this.STORAGE_KEY_SEARCH, JSON.stringify(filters));
       }
+      else if (tipo == 'Client'){
+        localStorage.setItem(this.STORAGE_KEY_CLIENT, JSON.stringify(filters));
+      }
     } else {
       if (tipo == 'Tender') {
         localStorage.removeItem(this.STORAGE_KEY_TENDERS);
       } else if (tipo == 'Search') {
         localStorage.removeItem(this.STORAGE_KEY_SEARCH);
+      }
+      else if (tipo == 'Client'){
+        localStorage.removeItem(this.STORAGE_KEY_CLIENT);
       }
     }
   }

@@ -84,7 +84,6 @@ export class DialogFilterTenderComponent {
 
   public onConfirm(): void {
     this.filtersService.setFilters(this.form.value, 'Tender');
-
     if(!this.form.valid) return;
 
     this.dialogRef.close({
