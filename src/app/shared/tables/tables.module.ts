@@ -48,6 +48,7 @@ const tables = [
     CommonModule,
     MatTableModule,
     MatPaginatorModule,
+    MatTooltipModule,
     MatIconButton,
     MatMenuModule,
     MatButtonModule,

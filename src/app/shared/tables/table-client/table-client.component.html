@@ -57,7 +57,17 @@
               </td>
               <td>
                 <div class="text-center">
-                  {{ client?.whatsapp | phoneMask }}
+                  {{client?.fix_phone | phoneMask}} / {{ client?.whatsapp | phoneMask}}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ client?.email }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ client?.city + " - " + client.state }}
                 </div>
               </td>
               <td>
@@ -67,17 +77,17 @@
               </td>
               <td>
                 <div class="text-center">
-                  {{ client?.email }}
+                  {{ client?.user_name }}
                 </div>
               </td>
               <td>
                 <div class="d-flex justify-content-end">
 
-                  <div matRipple class="buttonTemplate" (click)="onClientClick.emit(client)">
+                  <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar" (click)="onClientClick.emit(client)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
 
-                  <div matRipple class="buttonTemplate" (click)="onDeleteClientClick.emit(client?.id)">
+                  <div matRipple class="buttonTemplate" matTooltip="Excluir" (click)="onDeleteClientClick.emit(client?.id)">
                     <i class="fa-solid fa-trash"></i>
                   </div>
                 </div>

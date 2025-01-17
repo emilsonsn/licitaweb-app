@@ -12,6 +12,7 @@ export interface Client {
   updated_at?: Date;
   complement: string;
   user_id: string;
+  user_name: string;
   flag: string;
   cep: string;
 }

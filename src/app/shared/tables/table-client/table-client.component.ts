@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 import { Order, PageControl } from '@models/application';
 import { Client } from '@models/client';
 import { ClientService } from '@services/client.service';
+import { UserService } from '@services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
@@ -33,7 +34,7 @@ export class TableClientComponent {
     {
       slug: "name",
       order: true,
-      title: "Nome",
+      title: "Nome/Razão Social",
       align: "start",
     },
     {
@@ -45,7 +46,19 @@ export class TableClientComponent {
     {
       slug: "whatsapp",
       order: true,
-      title: "Whatsapp",
+      title: "Telefone/Whatsapp",
+      align: "justify-content-center",
+    },
+    {
+      slug: "email",
+      order: true,
+      title: "Email",
+      align: "justify-content-center",
+    },
+    {
+      slug: "Cidade/Estado",
+      order: true,
+      title: "Cidade/Estado",
       align: "justify-content-center",
     },
     {
@@ -55,9 +68,9 @@ export class TableClientComponent {
       align: "justify-content-center",
     },
     {
-      slug: "email",
+      slug: "user",
       order: true,
-      title: "E-mail",
+      title: "Responsável Interno",
       align: "justify-content-center",
     },
     {
@@ -80,10 +93,11 @@ export class TableClientComponent {
   constructor(
     private readonly _toastr: ToastrService,
     private readonly _clientService: ClientService,
-  ) {}
+    private _userService: UserService
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const {filters, searchTerm, loading} = changes;
+    const { filters, searchTerm, loading } = changes;
 
     if (searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue) {
       this._onSearch();
@@ -114,19 +128,34 @@ export class TableClientComponent {
       .getClients(this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
-        next:res => {
+        next: res => {
           this.clients = res.data;
+
+          for (let i = 0; i < this.clients.length; i++) {
+            this.get_users(this.clients[i].user_id, i);
+          }
 
           this.pageControl.page = res.current_page - 1;
           this.pageControl.itemCount = res.total;
           this.pageControl.pageCount = res.last_page;
-      },
+        },
         error: err => {
           this._toastr.error(
             err?.error?.message || "Ocorreu um erro ao buscar os dados"
           );
         }
       });
+  }
+
+  get_users(id, index){
+    var user_name;
+    this._userService.getUsers(null, id)
+    .subscribe({
+      next: res => {
+        this.clients[index].user_name =  res.data[id-1].name;
+      }
+    });
+    return user_name;
   }
 
   onClickOrderBy(slug: string, order: boolean) {
