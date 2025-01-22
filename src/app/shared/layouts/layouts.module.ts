@@ -9,7 +9,6 @@ import {MatDivider} from "@angular/material/divider";
 import { MatRippleModule } from '@angular/material/core';
 
 
-
 @NgModule({
   declarations: [
     LayoutPrivateComponent,

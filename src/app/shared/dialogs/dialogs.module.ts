@@ -47,6 +47,7 @@ import {ACE_CONFIG, AceConfigInterface, AceModule} from "ngx-ace-wrapper";
 import { DialogOcurrenceComponent } from './dialog-ocurrence/dialog-ocurrence.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DialogsNotificationComponent } from './dialogs-notification/dialogs-notification.component';
+import { DialogSupplierComponent } from './dialog-supplier/dialog-supplier.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -89,7 +90,8 @@ const MY_DATE_FORMATS = {
     DialogEventComponent,
     DialogLogJsonComponent,
     DialogOcurrenceComponent,
-    DialogsNotificationComponent
+    DialogsNotificationComponent,
+    DialogSupplierComponent
   ],
   imports: [
     CommonModule,

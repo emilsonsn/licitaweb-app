@@ -51,6 +51,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'supplier',
+        loadChildren: () => import('./supplier/supplier.module').then(m => m.SupplierModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'supplier'
+        }
+      },
+      {
         path: 'notification',
         loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule),
         canActivate: [permissionGuard],

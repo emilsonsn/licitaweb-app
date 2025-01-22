@@ -1,0 +1,25 @@
+<div id="componentHeaderTemplate" class="mt-5 d-flex justify-content-end">
+  <div id="componentHeader">
+
+    <div id="options">
+
+      <!-- <div id="filter" matRipple (click)="openClientFilterDialog()">
+        <i class="fa-solid fa-filter" matTooltip="Filtros"></i>
+      </div> -->
+
+      <button matRipple class="button yellow" (click)="openDialogSupplier()">
+        <i class="fa-solid fa-plus"></i> Novo Fornecedor
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- <div id="componentTable" class="col-12 mt-4">
+  <app-table-client
+    [loading]="loading"
+    [filters]="filters"
+    (onClientClick)="openDialogClient($event)"
+    (onDeleteClientClick)="onDeleteCollaborator($event)">
+  </app-table-client>
+</div> -->
