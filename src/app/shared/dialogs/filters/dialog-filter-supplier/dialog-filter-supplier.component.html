@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <div class="d-flex align-items-center justify-content-between">
-    <span class="fw-bold fs-5">Filtrar Clientes</span>
+    <span class="fw-bold fs-5">Filtrar Fornecedores</span>
     <div matRipple class="close" (click)="onCancel(false)">
       <i class="fa-solid fa-close"></i>
     </div>
@@ -15,19 +15,6 @@
       <mat-form-field appearance="outline">
         <input type="text" formControlName="search_term" matInput placeholder="Buscar"  />
       </mat-form-field>
-    </div>
-
-    <div class="col-12 mb-3">
-      <span class="fw-bolder">Flag</span>
-      <div class="d-flex align-items-center gap-3">
-        <mat-form-field appearance="outline">
-          <mat-select formControlName="flag" placeholder="Flag">
-            <mat-option *ngFor="let flag of flags" [value]="flag">
-              {{ flag }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
     </div>
 
     <div class="col-12 mb-3">

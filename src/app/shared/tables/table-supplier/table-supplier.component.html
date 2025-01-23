@@ -1,0 +1,106 @@
+<div class="table-container">
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        @for (col of columns; track col) {
+          <th
+            [class.hasorder]="col.order"
+            [ngStyle]="{ cursor: 'pointer' }"
+            [class.active-order]="pageControl.orderField === col.slug"
+          >
+            <!--(click)="onClickOrderBy(col.slug, col.order)" -->
+            <div
+              class="{{col.align}}"
+              >
+              <!-- style="color: #a2a1a8" -->
+              {{ col.title }}
+              <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
+                {{
+                  pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
+                }}
+              </i>
+            </div>
+          </th>
+        }
+      </thead>
+      <tbody>
+      <tr *ngIf="loading">
+        <td [attr.colspan]="columns.length + 1">
+          <div id="mat-loading">
+            <mat-spinner></mat-spinner>
+          </div>
+        </td>
+      </tr>
+        @if (!loading) {
+          <tr *ngIf="!suppliers.length">
+            <td [attr.colspan]="columns.length + 1" class="text-center">
+              <div>Nenhum resultado encontrado</div>
+            </td>
+          </tr>
+          @for (supplier of suppliers; track supplier) {
+            <tr
+              class="table-line-hover"
+              style="outline: none;"
+            >
+              <td>
+                <div
+                  class="d-flex align-items-center gap-2"
+                  style="white-space: nowrap"
+                >
+                  {{ supplier?.name }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ supplier?.cpf_or_cnpj | cpfCnpjMask }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{supplier?.landline_phone | phoneMask}} / {{ supplier?.mobile_phone | phoneMask}}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ supplier?.email }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ supplier?.city + " - " + supplier.state }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ supplier?.state_registration }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ supplier?.user.name }}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-end">
+                  <div matRipple class="buttonTemplate" matTooltip="Ocorrências" (click)="openOcurrenceDialog.emit(supplier.id); $event.stopPropagation()">
+                    <i class="fa-solid fa-tags"></i>
+                  </div>
+
+                  <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar" (click)="onSupplierClick.emit(supplier)">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </div>
+
+                  <div matRipple class="buttonTemplate" matTooltip="Excluir" (click)="onDeleteSupplierClick.emit(supplier?.id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+                 [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
+</div>

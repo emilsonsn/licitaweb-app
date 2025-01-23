@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface Client {
   id?: number;
   name: string;
@@ -12,7 +14,7 @@ export interface Client {
   updated_at?: Date;
   complement: string;
   user_id: string;
-  user_name: string;
+  user: User;
   flag: string;
   cep: string;
 }

@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface SupplierClient {
   id?: number;
   name: string;
@@ -10,10 +12,11 @@ export interface SupplierClient {
   city: string;
   state: string;
   zip_code: string;
-  landline_phone: string;
-  mobile_phone: string;
+  landline_phone: number;
+  mobile_phone: number;
   email: string;
   user_id: string;
+  user: User;
   person_type: string;
 }
 

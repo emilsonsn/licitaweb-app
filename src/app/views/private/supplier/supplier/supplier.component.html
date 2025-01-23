@@ -3,9 +3,9 @@
 
     <div id="options">
 
-      <!-- <div id="filter" matRipple (click)="openClientFilterDialog()">
+      <div id="filter" matRipple (click)="openSupplierFilterDialog()">
         <i class="fa-solid fa-filter" matTooltip="Filtros"></i>
-      </div> -->
+      </div>
 
       <button matRipple class="button yellow" (click)="openDialogSupplier()">
         <i class="fa-solid fa-plus"></i> Novo Fornecedor
@@ -15,11 +15,12 @@
   </div>
 </div>
 
-<!-- <div id="componentTable" class="col-12 mt-4">
-  <app-table-client
+<div id="componentTable" class="col-12 mt-4">
+  <app-table-supplier
     [loading]="loading"
     [filters]="filters"
-    (onClientClick)="openDialogClient($event)"
-    (onDeleteClientClick)="onDeleteCollaborator($event)">
-  </app-table-client>
-</div> -->
+    (openOcurrenceDialog)="openOcurrenceDialog($event)"
+    (onSupplierClick)="openDialogSupplier($event)"
+    (onDeleteSupplierClick)="onDeleteSupplier($event)">
+  </app-table-supplier>
+</div>

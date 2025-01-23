@@ -61,6 +61,7 @@ export class DialogSupplierComponent {
       mobile_phone: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       user_id: [null],
+      state: [null, [Validators.required]],
     });
 
     if (this._data) {
@@ -69,7 +70,7 @@ export class DialogSupplierComponent {
       this._fillForm(this._data.supplier);
     }
 
-    this.form.get('state_registration').valueChanges.subscribe(res => {
+    this.form.get('state').valueChanges.subscribe(res => {
       this.atualizarCidades(res);
     })
 
@@ -169,7 +170,7 @@ export class DialogSupplierComponent {
           this.form.patchValue({
             street: res.logradouro,
             city: res.localidade,
-            state_registration: res.uf,
+            state: res.uf,
             neighborhood: res.bairro,
           });
         }
@@ -178,35 +179,31 @@ export class DialogSupplierComponent {
   }
 
   public onSubmit(form: FormGroup): void {
-    debugger
     if (!form.valid) {
       form.markAllAsTouched();
     } else {
-      const formData = new FormData();
-      formData.append('id', form.get('id')?.value);
-      formData.append('name', form.get('name')?.value);
-      formData.append('cpf_or_cnpj', form.get('cpf_or_cnpj')?.value);
-      formData.append('state_registration', form.get('state_registration')?.value);
-      formData.append('street', form.get('street')?.value);
-      formData.append('number', form.get('number')?.value);
-      formData.append('complement', form.get('complement')?.value);
-      formData.append('neighborhood', form.get('neighborhood')?.value);
-      formData.append('city', form.get('city')?.value);
-      formData.append('zip_code', form.get('zip_code')?.value);
-      formData.append('landline_phone', form.get('landline_phone')?.value);
-      formData.append('mobile_phone', form.get('mobile_phone')?.value);
-      formData.append('email', form.get('email')?.value);
-      formData.append('user_id', form.get('user_id')?.value);
-
-      if (form.get('cpf_cnpj')?.value.length == 11) {
-        formData.append('person_type', 'Person');
-      }
-      else {
-        formData.append('person_type', 'Company');
-      }
+      const formData = {
+        id: form.get('id')?.value,
+        name: form.get('name')?.value,
+        cpf_or_cnpj: form.get('cpf_or_cnpj')?.value,
+        state_registration: form.get('state_registration')?.value,
+        street: form.get('street')?.value,
+        number: form.get('number')?.value,
+        complement: form.get('complement')?.value,
+        neighborhood: form.get('neighborhood')?.value,
+        city: form.get('city')?.value,
+        zip_code: form.get('zip_code')?.value,
+        landline_phone: form.get('landline_phone')?.value,
+        mobile_phone: form.get('mobile_phone')?.value,
+        email: form.get('email')?.value,
+        user_id: form.get('user_id')?.value,
+        person_type: form.get('cpf_or_cnpj')?.value.length === 11 ? 'Person' : 'Company',
+        state: form.get('state')?.value,
+      };
 
       this._dialogRef.close(formData);
     }
   }
+
 
 }

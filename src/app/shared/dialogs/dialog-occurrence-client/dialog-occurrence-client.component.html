@@ -1,0 +1,128 @@
+<div class="d-flex align-items-center justify-content-between p-4 pb-0">
+  <span class="fw-bold fs-5">{{ 'Ocorrências' }}</span>
+  <div matRipple class="close" (click)="onCancel()">
+    <i class="fa-solid fa-close"></i>
+  </div>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div *ngIf="!PageNewOccurrence; else PageView">
+  <div class="d-flex align-items-end justify-content-end p-4 pt-1">
+    <button matRipple class="button yellow" (click)="newOccurrence()">
+      <i class="fa-solid fa-plus"></i> Nova Ocorrência
+    </button>
+  </div>
+
+  <!-- Container com rolagem -->
+  <div class="content-container">
+    <div class="row g-3">
+      <div class="col-12 col-md-12" *ngFor="let occurrence of occurrences.slice().reverse(); let i = index">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title text-primary pb-3">
+              <i class="fa-solid fa-square-pen"></i>
+              {{ occurrence.created_at | date:'dd/MM/yyyy H:mm:ss' }}
+            </h5>
+
+            <h6 class="card-subtitle mb-2 text-muted">Título:</h6>
+            <p class="card-text">{{ occurrence.title }}</p>
+
+            <h6 class="card-subtitle mb-2 text-muted">Descrição:</h6>
+            <p class="card-text">{{ occurrence.description }}</p>
+            <div *ngIf="occurrence?.files?.length">
+              <h6 class="card-subtitle mb-2 text-muted">Arquivos:</h6>
+              <ul>
+                <li *ngFor="let file of occurrence.files">
+                  <a [href]="file.path" target="_blank" rel="noopener noreferrer">
+                    {{ file.filename }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+  [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
+</div>
+
+
+<ng-template #PageView>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-12 col-12 mb-3">
+          <span class="fw-bolder">Título</span>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput formControlName="title" placeholder="Digite o título" required>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <span class="fw-bolder">Descrição</span>
+          <mat-form-field appearance="outline" class="w-100">
+            <textarea matInput formControlName="description" placeholder="Digite a descrição"></textarea>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="">
+        <span class="fw-bolder">Anexos</span>
+        <div id="files">
+          @for(img of filesFromBack; track img) {
+          <div class="file" matTooltip="{{img.name}}" (click)="openImgInAnotherTab(img.path)">
+            <!-- <div class="delete">
+              <i class="fa-solid fa-close" (click)="prepareFileToRemoveFromBack(img.id, $index);"></i>
+            </div> -->
+            <img [src]="img.path" alt="{{img.name}}" style="max-width: 100%; max-height: 100%;" />
+          </div>
+          }
+
+          @for(img of filesToSend; track img) {
+          <div class="file" matTooltip="{{img.file.name}}">
+            <div class="delete">
+              <i class="fa-solid fa-close" (click)="removeFileFromSendToFiles($index);"></i>
+            </div>
+            @if(img.preview) {
+            <img [src]="img.preview" alt="{{img.file.name}}" style="max-width: 100%; max-height: 100%;" />
+            }
+            @else {
+            <i class="fa-solid fa-file"></i>
+            }
+          </div>
+          }
+        </div>
+        <div matRipple id="inputFileAdd" class="mt-2">
+          <div id="text">
+            <i class="fa-solid fa-plus"></i>
+            <span>Adicionar Arquivo</span>
+          </div>
+          <input type="file" (change)="onFileSelected($event)" [multiple]="true" title=" " />
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <mat-dialog-actions>
+    <div class="container">
+      <div id="actionsDialog" class="flex-sm-row flex-column">
+        <div id="buttonsDialog" class="flex-sm-row flex-column">
+          <div class="col-auto">
+            <button matRipple id="cancel" class="button cancel" (click)="newOccurrence()">Cancelar</button>
+          </div>
+          <div class="col-auto">
+            <button matRipple id="submit" class="button yellow" (click)="onSubmit()">
+              Criar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</ng-template>

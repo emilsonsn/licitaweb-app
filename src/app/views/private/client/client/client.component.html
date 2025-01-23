@@ -27,6 +27,7 @@
   <app-table-client
     [loading]="loading"
     [filters]="filters"
+    (openOcurrenceDialog)="openOcurrenceDialog($event)"
     (onClientClick)="openDialogClient($event)"
     (onDeleteClientClick)="onDeleteCollaborator($event)">
   </app-table-client>

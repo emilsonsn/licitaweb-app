@@ -48,6 +48,8 @@ import { DialogOcurrenceComponent } from './dialog-ocurrence/dialog-ocurrence.co
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DialogsNotificationComponent } from './dialogs-notification/dialogs-notification.component';
 import { DialogSupplierComponent } from './dialog-supplier/dialog-supplier.component';
+import { DialogOccurrenceClientComponent } from './dialog-occurrence-client/dialog-occurrence-client.component';
+import { DialogOccurrenceSupplierComponent } from './dialog-occurrence-supplier/dialog-occurrence-supplier.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -91,7 +93,9 @@ const MY_DATE_FORMATS = {
     DialogLogJsonComponent,
     DialogOcurrenceComponent,
     DialogsNotificationComponent,
-    DialogSupplierComponent
+    DialogSupplierComponent,
+    DialogOccurrenceClientComponent,
+    DialogOccurrenceSupplierComponent
   ],
   imports: [
     CommonModule,

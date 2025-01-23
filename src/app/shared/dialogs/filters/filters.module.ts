@@ -24,6 +24,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { DialogFilterRequestComponent } from './dialog-filter-request/dialog-filter-request.component';
 import { DialogFilterTenderComponent } from './dialog-filter-tender/dialog-filter-tender.component';
 import { DialogFilterClientComponent } from './dialog-filter-client/dialog-filter-client.component';
+import { DialogFilterSupplierComponent } from './dialog-filter-supplier/dialog-filter-supplier.component';
 
 const filters = [
   DialogFilterOrderComponent,
@@ -36,7 +37,8 @@ const filters = [
     DialogFilterRequestComponent,
     DialogFilterTenderComponent,
     DialogFilterClientComponent,
-    DialogFilterClientComponent
+    DialogFilterClientComponent,
+    DialogFilterSupplierComponent,
   ],
   imports: [
     CommonModule,

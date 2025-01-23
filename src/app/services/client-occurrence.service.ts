@@ -9,9 +9,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TenderOccurrenceService {
-
-  private sessionEndpoint: string = 'tender-occurrence';
+export class ClientOccurrenceService {
+  private sessionEndpoint: string = 'client-occurrence';
 
   constructor(
     private readonly _http: HttpClient
