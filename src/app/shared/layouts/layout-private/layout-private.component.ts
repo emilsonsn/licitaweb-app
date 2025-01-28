@@ -51,24 +51,31 @@ export class LayoutPrivateComponent {
       ]
     },
     {
+      label: 'Contratos',
+      icon: 'fa-solid fa-handshake',
+      route: null,
+      children: [
+        {
+          label: 'Clientes',
+          icon: 'fa-solid fa-people-group',
+          route: '/painel/client'
+        },
+        {
+          label: 'Fornecedor',
+          icon: 'fa-solid fa-file-contract',
+          route: '/painel/supplier'
+        },
+        {
+          label: 'Contratos',
+          icon: 'fa-solid fa-handshake',
+          route: '/painel/agreement'
+        },
+      ]
+    },
+    {
       label: 'Usuários',
       icon: 'fa-solid fa-users',
       route: '/painel/users'
-    },
-    {
-      label: 'Contratos',
-      icon: 'fa-solid fa-file-contract',
-      route: '/painel/agreement'
-    },
-    {
-      label: 'Clientes',
-      icon: 'fa-solid fa-file-contract',
-      route: '/painel/client'
-    },
-    {
-      label: 'Fornecedor',
-      icon: 'fa-solid fa-file-contract',
-      route: '/painel/supplier'
     },
     {
       label: 'Notificações',
