@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Order, PageControl } from '@models/application';
-import { Client } from '@models/client';
-import { ClientService } from '@services/client.service';
+import { SupplierClient } from '@models/supplierClient';
+import { SupplierService } from '@services/supplier.service';
 import { UserService } from '@services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'app-table-client',
-  templateUrl: './table-client.component.html',
-  styleUrl: './table-client.component.scss'
+  selector: 'app-table-supplier',
+  templateUrl: './table-supplier.component.html',
+  styleUrl: './table-supplier.component.scss'
 })
-export class TableClientComponent {
+export class TableSupplierComponent {
   @Input()
   searchTerm?: string = '';
 
@@ -22,16 +22,16 @@ export class TableClientComponent {
   filters: any;
 
   @Output()
-  onClientClick: EventEmitter<Client> = new EventEmitter<Client>();
+  onSupplierClick: EventEmitter<SupplierClient> = new EventEmitter<SupplierClient>();
 
   @Output()
-  onDeleteClientClick: EventEmitter<number> =
+  onDeleteSupplierClick: EventEmitter<number> =
     new EventEmitter<number>();
 
   @Output()
   openOcurrenceDialog: EventEmitter<number> = new EventEmitter<number>();
 
-  public clients: Client[] = [];
+  public suppliers: SupplierClient[] = [];
 
   public columns = [
     {
@@ -65,9 +65,9 @@ export class TableClientComponent {
       align: "justify-content-center",
     },
     {
-      slug: "flag",
+      slug: "state_registration",
       order: true,
-      title: "Bandeira",
+      title: "Inscrição Estadual",
       align: "justify-content-center",
     },
     {
@@ -95,11 +95,12 @@ export class TableClientComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _clientService: ClientService,
+    private readonly _supplierService: SupplierService,
     private _userService: UserService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     const { filters, searchTerm, loading } = changes;
 
     if (searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue) {
@@ -127,12 +128,12 @@ export class TableClientComponent {
 
   search(): void {
     this._initOrStopLoading();
-    this._clientService
-      .getClients(this.pageControl, this.filters)
+    this._supplierService
+      .getSuppliers(this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: res => {
-          this.clients = res.data;
+          this.suppliers = res.data;
 
           this.pageControl.page = res.current_page - 1;
           this.pageControl.itemCount = res.total;
@@ -168,5 +169,3 @@ export class TableClientComponent {
     this.search();
   }
 }
-
-

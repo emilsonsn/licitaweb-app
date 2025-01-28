@@ -128,7 +128,7 @@ export class TableProviderComponent {
       .getSuppliers(this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe((res) => {
-        this.providers = res.data;
+        // this.providers = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;

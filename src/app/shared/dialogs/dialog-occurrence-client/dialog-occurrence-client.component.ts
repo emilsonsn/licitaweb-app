@@ -2,15 +2,15 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Order, PageControl } from '@models/application';
-import { TenderOccurrenceService } from '@services/tender-occurrence.service';
+import { ClientOccurrenceService } from '@services/client-occurrence.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-dialog-ocurrence',
-  templateUrl: './dialog-ocurrence.component.html',
-  styleUrl: './dialog-ocurrence.component.scss'
+  selector: 'app-dialog-occurrence-client',
+  templateUrl: './dialog-occurrence-client.component.html',
+  styleUrl: './dialog-occurrence-client.component.scss'
 })
-export class DialogOcurrenceComponent {
+export class DialogOccurrenceClientComponent {
   form: FormGroup;
   protected filesToRemove: number[] = [];
   protected filesFromBack: {
@@ -19,11 +19,13 @@ export class DialogOcurrenceComponent {
     name: string,
     path: string,
   }[] = [];
+
   protected filesToSend: {
     id: number,
     preview: string,
     file: File,
   }[] = [];
+
   public allowedTypes = [
     'image/png',
     'image/jpeg',
@@ -54,8 +56,8 @@ export class DialogOcurrenceComponent {
   constructor(
     private readonly _toastr: ToastrService,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogOcurrenceComponent>,
-    private readonly _occurrencesService: TenderOccurrenceService,
+    public dialogRef: MatDialogRef<DialogOccurrenceClientComponent>,
+    private readonly _occurrencesService: ClientOccurrenceService,
     @Inject(MAT_DIALOG_DATA)
     public data: { id: number }
   ) { }
@@ -65,11 +67,11 @@ export class DialogOcurrenceComponent {
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      tender_id: ['', Validators.required],
+      client_id: ['', Validators.required],
       files: [''],
     });
 
-    this.form.patchValue({ tender_id: this.data.id });
+    this.form.patchValue({ client_id: this.data.id });
     this.searchOccurrence();
   }
 
@@ -78,8 +80,8 @@ export class DialogOcurrenceComponent {
   }
 
   searchOccurrence(): void {
-    const id = this.form.get('tender_id')?.value;
-    const filters = {tender_id: id};
+    const id = this.form.get('client_id')?.value;
+    const filters = {client_id: id};
 
     this._occurrencesService.search(this.pageControl, filters)
       .subscribe((occurrences) => {
@@ -96,7 +98,7 @@ export class DialogOcurrenceComponent {
     this.filesToSend = [];
     this.filesToRemove = [];
     this.filesFromBack = [];
-    this.form.patchValue({ tender_id: this.data.id });
+    this.form.patchValue({ client_id: this.data.id });
     this.form.get('title').setValue('');
     this.form.get('description').setValue('');
     this.form.get('files').setValue('');
@@ -163,14 +165,14 @@ export class DialogOcurrenceComponent {
     // Adiciona os dados do formulário
     formData.append('title', this.form.get('title').value);
     formData.append('description', this.form.get('description').value);
-    formData.append('tender_id', this.form.get('tender_id').value);
+    formData.append('client_id', this.form.get('client_id').value);
 
-    let tender_files: File[] = [];
+    let client_files: File[] = [];
     for (let file of this.filesToSend) {
-      tender_files.push(file.file);
+      client_files.push(file.file);
     }
 
-    tender_files?.forEach((element, index) => {
+    client_files?.forEach((element, index) => {
       formData.append(`files[${index}]`, element);
     });
 

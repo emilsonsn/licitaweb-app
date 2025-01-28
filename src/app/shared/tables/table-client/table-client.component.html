@@ -3,101 +3,92 @@
     <table class="table table-responsive">
       <thead>
         @for (col of columns; track col) {
-          <th
-            [class.hasorder]="col.order"
-            [ngStyle]="{ cursor: 'pointer' }"
-            [class.active-order]="pageControl.orderField === col.slug"
-          >
-            <!--(click)="onClickOrderBy(col.slug, col.order)" -->
-            <div
-              class="{{col.align}}"
-              >
-              <!-- style="color: #a2a1a8" -->
-              {{ col.title }}
-              <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
-                {{
-                  pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
-                }}
-              </i>
-            </div>
-          </th>
+        <th [class.hasorder]="col.order" [ngStyle]="{ cursor: 'pointer' }"
+          [class.active-order]="pageControl.orderField === col.slug">
+          <!--(click)="onClickOrderBy(col.slug, col.order)" -->
+          <div class="{{col.align}}">
+            <!-- style="color: #a2a1a8" -->
+            {{ col.title }}
+            <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
+              {{
+              pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
+              }}
+            </i>
+          </div>
+        </th>
         }
       </thead>
       <tbody>
-      <tr *ngIf="loading">
-        <td [attr.colspan]="columns.length + 1">
-          <div id="mat-loading">
-            <mat-spinner></mat-spinner>
-          </div>
-        </td>
-      </tr>
+        <tr *ngIf="loading">
+          <td [attr.colspan]="columns.length + 1">
+            <div id="mat-loading">
+              <mat-spinner></mat-spinner>
+            </div>
+          </td>
+        </tr>
         @if (!loading) {
-          <tr *ngIf="!clients.length">
-            <td [attr.colspan]="columns.length + 1" class="text-center">
-              <div>Nenhum resultado encontrado</div>
-            </td>
-          </tr>
-          @for (client of clients; track client) {
-            <tr
-              class="table-line-hover"
-              style="outline: none;"
-            >
-              <td>
-                <div
-                  class="d-flex align-items-center gap-2"
-                  style="white-space: nowrap"
-                >
-                  {{ client?.name }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ client?.cpf_cnpj | cpfCnpjMask }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{client?.fix_phone | phoneMask}} / {{ client?.whatsapp | phoneMask}}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ client?.email }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ client?.city + " - " + client.state }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ client?.flag }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ client?.user_name }}
-                </div>
-              </td>
-              <td>
-                <div class="d-flex justify-content-end">
+        <tr *ngIf="!clients.length">
+          <td [attr.colspan]="columns.length + 1" class="text-center">
+            <div>Nenhum resultado encontrado</div>
+          </td>
+        </tr>
+        @for (client of clients; track client) {
+        <tr class="table-line-hover" style="outline: none;">
+          <td>
+            <div class="d-flex align-items-center gap-2" style="white-space: nowrap">
+              {{ client?.name }}
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              {{ client?.cpf_cnpj | cpfCnpjMask }}
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              {{client?.fix_phone | phoneMask}} / {{ client?.whatsapp | phoneMask}}
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              {{ client?.email }}
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              {{ client?.city + " - " + client.state }}
+            </div>
+          </td>
+          <td>
+            <i class="fa-solid fa-circle {{ client?.flag == 'Verde' ? 'green' : client?.flag == 'Vermelho' ? 'red' : 'yellow' }}"></i>
+          </td>
+          <td>
+            <div class="text-center">
+              {{ client?.user.name }}
+            </div>
+          </td>
+          <td>
+            <div class="d-flex justify-content-end">
 
-                  <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar" (click)="onClientClick.emit(client)">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </div>
+              <div matRipple class="buttonTemplate" matTooltip="Ocorrências" (click)="openOcurrenceDialog.emit(client.id); $event.stopPropagation()">
+                <i class="fa-solid fa-tags"></i>
+              </div>
 
-                  <div matRipple class="buttonTemplate" matTooltip="Excluir" (click)="onDeleteClientClick.emit(client?.id)">
-                    <i class="fa-solid fa-trash"></i>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          }
+              <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar" (click)="onClientClick.emit(client)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </div>
+
+              <div matRipple class="buttonTemplate" matTooltip="Excluir" (click)="onDeleteClientClick.emit(client?.id)">
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+        }
         }
       </tbody>
     </table>
   </div>
   <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
-                 [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
+    [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
 </div>
