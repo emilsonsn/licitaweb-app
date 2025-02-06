@@ -18,26 +18,43 @@ export class DialogClientComponent {
 
   public isNewClient: boolean = true;
   public title: string = 'Novo cliente';
-
   public form: FormGroup;
-
   public loading : boolean = false;
-
   public cep : string;
   public states : string[] = Object.values(Estados);
   public users = [];
   public flags = ['Verde', 'Amarelo', 'Vermelho'];
-
   public citys : string[] = [];
   public cityCtrl: FormControl<any> = new FormControl<any>(null);
   public cityFilterCtrl: FormControl<any> = new FormControl<string>('');
   public filteredCitys: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
-
   public utils = Utils;
+  protected filesToRemove: number[] = [];
+  protected filesFromBack: {
+    index: number,
+    id: number,
+    name: string,
+    path: string,
+  }[] = [];
+  protected filesToSend: {
+    id: number,
+    preview: string,
+    file: File,
+  }[] = [];
+  public allowedTypes = [
+    'image/png',
+    'image/jpeg',
+    'image/jpg',
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // Word (.docx)
+    'application/msword', // Word (.doc)
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Excel (.xlsx)
+    'application/vnd.ms-excel' // Excel (.xls)
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    private readonly _data: {client : Client},
+    private readonly _data: Client,
     private readonly _dialogRef: MatDialogRef<DialogClientComponent>,
     private readonly _fb: FormBuilder,
     private readonly _toastr : ToastrService,
@@ -61,12 +78,25 @@ export class DialogClientComponent {
       user_id: [null, [Validators.required]],
       flag: [null, [Validators.required]],
       cep: [null, [Validators.required]],
+      attachments: [''],
     });
 
     if (this._data) {
       this.isNewClient = false;
       this.title = 'Editar cliente';
-      this._fillForm(this._data.client);
+      this._fillForm(this._data);
+    }
+    console.log(this._data);
+    if (this._data?.attachments) {
+      console.log(this._data.attachments);
+      this._data.attachments.forEach((file, index) => {
+        this.filesFromBack.push({
+          index: index,
+          id: file.id,
+          name: file.filename,
+          path: file.path
+        });
+      });
     }
 
     this.form.get('state').valueChanges.subscribe(res => {
@@ -90,7 +120,7 @@ export class DialogClientComponent {
     this._userService.getUsers()
       .subscribe((res) => {
         this.users = res.data;
-        if(!this._data?.client.user_id){
+        if(!this._data?.user_id){
           const filteredUsers = this.users.filter(user => user.role !== 'Admin');
           const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
           if (randomUser) {
@@ -136,9 +166,24 @@ export class DialogClientComponent {
         formData.append('type', 'Company');
       }
 
+      let tender_files: File[] = [];
+      for (let file of this.filesToSend) {
+        tender_files.push(file.file);
+      }
+
+      tender_files?.forEach((element, index) => {
+        formData.append(`attachments[${index}]`, element);
+      });
+
       this._dialogRef.close(formData)
     }
   }
+
+  imgLoadError(event: Event, img: any) {
+    img.error = true; // Define um estado indicando erro na imagem
+    (event.target as HTMLImageElement).style.display = 'none'; // Esconde a imagem quebrada
+  }
+
 
   // Utils
 
@@ -173,6 +218,70 @@ export class DialogClientComponent {
     this.filteredCitys.next(
       this.citys.filter(city => city.toLowerCase().indexOf(search) > -1)
     );
+  }
+
+  public openImgInAnotherTab(url: string) {
+    window.open(url, '_blank');
+  }
+
+  public prepareFileToRemoveFromBack(fileId, index) {
+    this.filesFromBack.splice(index, 1);
+    this.filesToRemove.push(fileId);
+    this.deleteAttachment(fileId);
+  }
+
+  public removeFileFromSendToFiles(index: number) {
+    if (index > -1) {
+      this.filesToSend.splice(index, 1);
+    }
+  }
+
+  public async onFileSelected(event: any) {
+    const files: FileList = event.target.files;
+    const fileArray: File[] = Array.from(files);
+
+    for (const file of fileArray) {
+      if (this.allowedTypes.includes(file.type)) {
+        let base64: string = null;
+
+        if (file.type.startsWith('image/')) {
+          base64 = await this.convertFileToBase64(file);
+        }
+
+        this.filesToSend.push({
+          id: this.filesToSend.length + 1,
+          preview: base64,
+          file: file,
+        });
+      } else
+        this._toastr.error(`${file.type} não é permitido`);
+    }
+  }
+
+  public deleteAttachment(fileId: number) {
+    this._userService.deleteItemFile(fileId).subscribe({
+      next: () => {
+        this._toastr.success("Anexo deletado com sucesso");
+
+        const fileIndex = this.filesFromBack.findIndex(file => file.id === fileId);
+        if (fileIndex > -1) {
+          this.filesFromBack.splice(fileIndex, 1);
+        }
+      },
+      error: (err) => {
+        this._toastr.error(err.error.error);
+      }
+    });
+  }
+
+  public async convertFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
   }
 
   validateCellphoneNumber(control: any) {

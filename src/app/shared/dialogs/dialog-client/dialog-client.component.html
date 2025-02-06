@@ -50,7 +50,7 @@
       </div>
       <div class="col-md-6 mb-3">
         <mat-form-field appearance="outline">
-          <mat-label>Flag</mat-label>
+          <mat-label>Bandeira</mat-label>
           <mat-select formControlName="flag">
             <mat-option *ngFor="let flag of flags" [value]="flag">
               {{ flag }}
@@ -120,6 +120,46 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
+
+      <div class="mt-3" >
+        <div class="col-12 mb-3">
+          <span class="fw-bold fs-5 address">Anexos</span>
+        </div>
+        <div id="files">
+          @for(img of filesFromBack; track img) {
+            <div class="file" matTooltip="{{img.name}}" (click)="openImgInAnotherTab(img.path)">
+              <div class="delete">
+                <i class="fa-solid fa-close" (click)="prepareFileToRemoveFromBack(img.id, $index);"></i>
+              </div>
+              <img [src]="img.path" alt="{{img.name}}"
+                   style="max-width: 100%; max-height: 100%;"
+                   (error)="imgLoadError($event, img)" />
+              <i *ngIf="img.path" class="fa-solid fa-file"></i>
+            </div>
+          }
+
+          @for(img of filesToSend; track img) {
+            <div class="file" matTooltip="{{img.file.name}}">
+              <div class="delete">
+                <i class="fa-solid fa-close" (click)="removeFileFromSendToFiles($index);"></i>
+              </div>
+              @if(img.preview) {
+                <img [src]="img.preview" alt="{{img.file.name}}" style="max-width: 100%; max-height: 100%;" />
+              }
+              @else {
+                <i class="fa-solid fa-file"></i>
+              }
+            </div>
+          }
+        </div>
+        <div matRipple id="inputFileAdd" class="mt-2">
+          <div id="text">
+            <i class="fa-solid fa-plus"></i>
+            <span>Adicionar Arquivo</span>
+          </div>
+          <input type="file" (change)="onFileSelected($event)" [multiple]="true" title=" " />
+        </div>
       </div>
 
     </div>

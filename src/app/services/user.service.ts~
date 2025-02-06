@@ -19,7 +19,7 @@ export class UserService {
   }
 
   public deleteItemFile(id: number): Observable<DeleteApiResponse> {
-    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/attachment/${id}`);
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/file/${id}`);
   }
 
   public getUsers(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<User>> {
