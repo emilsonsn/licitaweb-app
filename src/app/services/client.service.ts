@@ -34,6 +34,10 @@ export class ClientService {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/client/${id}`);
   }
 
+  public deleteItemFile(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/client/attachment/${id}`);
+  }
+
 }
 
 

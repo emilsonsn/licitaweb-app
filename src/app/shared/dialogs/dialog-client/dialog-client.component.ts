@@ -8,6 +8,7 @@ import { UtilsService } from '@services/utils.service';
 import { Utils } from '@shared/utils';
 import { ToastrService } from 'ngx-toastr';
 import { from, map, ReplaySubject } from 'rxjs';
+import {ClientService} from "@services/client.service";
 
 @Component({
   selector: 'app-dialog-client',
@@ -59,7 +60,8 @@ export class DialogClientComponent {
     private readonly _fb: FormBuilder,
     private readonly _toastr : ToastrService,
     private readonly _utilsService : UtilsService,
-    private readonly _userService : UserService
+    private readonly _userService : UserService,
+    private readonly _clientService : ClientService
   ) { }
 
   ngOnInit(): void {
@@ -259,7 +261,7 @@ export class DialogClientComponent {
   }
 
   public deleteAttachment(fileId: number) {
-    this._userService.deleteItemFile(fileId).subscribe({
+    this._clientService.deleteItemFile(fileId).subscribe({
       next: () => {
         this._toastr.success("Anexo deletado com sucesso");
 
