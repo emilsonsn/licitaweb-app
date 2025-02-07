@@ -25,6 +25,7 @@ import { DialogFilterRequestComponent } from './dialog-filter-request/dialog-fil
 import { DialogFilterTenderComponent } from './dialog-filter-tender/dialog-filter-tender.component';
 import { DialogFilterClientComponent } from './dialog-filter-client/dialog-filter-client.component';
 import { DialogFilterSupplierComponent } from './dialog-filter-supplier/dialog-filter-supplier.component';
+import { DialogFiterProductComponent } from './dialog-fiter-product/dialog-fiter-product.component';
 
 const filters = [
   DialogFilterOrderComponent,
@@ -39,6 +40,7 @@ const filters = [
     DialogFilterClientComponent,
     DialogFilterClientComponent,
     DialogFilterSupplierComponent,
+    DialogFiterProductComponent,
   ],
   imports: [
     CommonModule,

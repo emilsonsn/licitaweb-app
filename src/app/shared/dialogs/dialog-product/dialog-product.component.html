@@ -1,0 +1,154 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{title}}</span>
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome do produto</mat-label>
+          <input matInput type="text" formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Código interno/SKU</mat-label>
+          <input matInput type="text" formControlName="sku">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Categoria</mat-label>
+          <input matInput type="text" formControlName="category">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 mb-3">
+        <span class="fw-bolder">Descrição detalhada</span>
+        <mat-form-field appearance="outline">
+          <textarea matInput formControlName="detailed_description" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 mb-3">
+        <span class="fw-bold fs-5 address">Especificações técnicas</span>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <span class="fw-bolder">Informção tecnica padrão</span>
+        <mat-form-field appearance="outline">
+          <textarea matInput formControlName="technical_information" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Medida do produto</mat-label>
+          <input matInput type="text" formControlName="size">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Marca</mat-label>
+          <input matInput type="text" formControlName="brand">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Origem</mat-label>
+          <mat-select formControlName="origin" placeholder="Origem" >
+            @for (origin of OriginEnum; track origin) {
+              <mat-option [value]="origin">{{ origin }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Modelo</mat-label>
+          <input matInput type="text" formControlName="model">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 mb-3">
+        <span class="fw-bold fs-5 address">Custo do produto</span>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Custo de aquisição</mat-label>
+          <input type="text" formControlName="purchase_cost" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Frete</mat-label>
+          <input type="text" formControlName="freight" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Impostos e taxas</mat-label>
+          <input type="text" formControlName="taxes_fees" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Custo total</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="total_cost" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div> -->
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Margem de lucro (%)</mat-label>
+          <input [ngStyle]="{'text-align': 'right'}" type="number" formControlName="profit_margin" matInput />
+          <span [ngStyle]="{'margin-right': '5px'}" matSuffix><i class="fa-solid fa-percent"></i></span>
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Preço de venda</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="sale_price" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div> -->
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Responsável Interno</mat-label>
+          <mat-select formControlName="supplier_id">
+            <mat-option *ngFor="let supplier of suppliers
+            " [value]="supplier.id">
+              {{ supplier.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      @if(loading) {
+        <div matRipple class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit(form)">{{isNewProduct ? 'Criar' :
+            'Salvar'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

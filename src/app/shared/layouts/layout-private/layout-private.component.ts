@@ -48,6 +48,11 @@ export class LayoutPrivateComponent {
           icon: 'fa-solid fa-calendar-days',
           route: '/painel/tender/task'
         },
+        {
+          label: 'Produtos',
+          icon: 'fa-solid fa-boxes-stacked',
+          route: '/painel/product'
+        },
       ]
     },
     {

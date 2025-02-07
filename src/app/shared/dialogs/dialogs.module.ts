@@ -50,6 +50,7 @@ import { DialogsNotificationComponent } from './dialogs-notification/dialogs-not
 import { DialogSupplierComponent } from './dialog-supplier/dialog-supplier.component';
 import { DialogOccurrenceClientComponent } from './dialog-occurrence-client/dialog-occurrence-client.component';
 import { DialogOccurrenceSupplierComponent } from './dialog-occurrence-supplier/dialog-occurrence-supplier.component';
+import { DialogProductComponent } from './dialog-product/dialog-product.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -95,7 +96,8 @@ const MY_DATE_FORMATS = {
     DialogsNotificationComponent,
     DialogSupplierComponent,
     DialogOccurrenceClientComponent,
-    DialogOccurrenceSupplierComponent
+    DialogOccurrenceSupplierComponent,
+    DialogProductComponent
   ],
   imports: [
     CommonModule,

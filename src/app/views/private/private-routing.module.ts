@@ -27,6 +27,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'product',
+        loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'product'
+        }
+      },
+      {
         path: 'users',
         loadChildren: () => import('./collaborator/collaborator.module').then(m => m.CollaboratorModule),
         canActivate: [permissionGuard],
