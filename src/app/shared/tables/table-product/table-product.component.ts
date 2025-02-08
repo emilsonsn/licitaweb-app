@@ -35,9 +35,21 @@ export class TableProductComponent {
 
   public columns = [
     {
+      slug: "sku",
+      order: true,
+      title: "Código",
+      align: "start",
+    },
+    {
       slug: "name",
       order: true,
       title: "Nome",
+      align: "start",
+    },
+    {
+      slug: "brand",
+      order: true,
+      title: "Marca",
       align: "start",
     },
     {
@@ -47,15 +59,25 @@ export class TableProductComponent {
       align: "justify-content-center",
     },
     {
+      slug: "taxes_fees",
+      order: true,
+      title: "Taxas",
+      align: "justify-content-center",
+    },{
       slug: "freight",
       order: true,
       title: "Frete",
+      align: "justify-content-center",
+    },{
+      slug: "profit_margin",
+      order: true,
+      title: "Margem de Lucro %",
       align: "justify-content-center",
     },
     {
       slug: "total_cost",
       order: true,
-      title: "Valor total",
+      title: "Total",
       align: "justify-content-center",
     },
     {

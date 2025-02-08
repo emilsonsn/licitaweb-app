@@ -36,7 +36,15 @@
         <tr class="table-line-hover" style="outline: none;">
           <td>
             <div class="d-flex align-items-center ml-2" style="white-space: nowrap">
+              {{ product?.sku }}
+            </div>
+          </td><td>
+            <div class="d-flex align-items-center ml-2" style="white-space: nowrap">
               {{ product?.name }}
+            </div>
+          </td><td>
+            <div class="d-flex align-items-center ml-2" style="white-space: nowrap">
+              {{ product?.brand }}
             </div>
           </td>
           <td>
@@ -46,10 +54,18 @@
           </td>
           <td>
             <div class="text-center">
+              {{product?.taxes_fees | currencyFormat }}
+            </div>
+          </td> <td>
+            <div class="text-center">
               {{product?.freight | currencyFormat }}
             </div>
           </td>
           <td>
+            <div class="text-center">
+              {{ product?.profit_margin }}
+            </div>
+          </td><td>
             <div class="text-center">
               {{ product?.total_cost | currencyFormat }}
             </div>
@@ -58,7 +74,7 @@
             <div class="d-flex justify-content-center">
 
               <div matRipple class="buttonTemplate" matTooltip="Abrir historico" (click)="openHistoricalProductClick.emit(product?.id)">
-                <i class="fa-solid fa-file"></i>
+                <i class="fa-solid fa-clock-rotate-left"></i>
               </div>
 
               <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar" (click)="onProductClick.emit(product)">
