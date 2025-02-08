@@ -88,9 +88,7 @@ export class DialogClientComponent {
       this.title = 'Editar cliente';
       this._fillForm(this._data);
     }
-    console.log(this._data);
     if (this._data?.attachments) {
-      console.log(this._data.attachments);
       this._data.attachments.forEach((file, index) => {
         this.filesFromBack.push({
           index: index,

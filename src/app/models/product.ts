@@ -9,6 +9,7 @@ export interface Product {
   brand: string,
   origin: OriginEnum,
   model: string,
+  attachments?: any[],
   purchase_cost: number,
   freight: number,
   total_cost: number,

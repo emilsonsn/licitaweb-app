@@ -55,7 +55,7 @@ export class ProductComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            const id = +res.id;
+            const id = res.get('id');
             if (id) this._patchProduct(res);
             else this._postProduct(res);
           }
@@ -111,7 +111,7 @@ export class ProductComponent {
 
   _patchProduct(product) {
     this._initOrStopLoading();
-    const id = +product.id;
+    const id = product.get('id');
     this._productService
       .patchProduct(id, product)
       .pipe(finalize(() => this._initOrStopLoading()))
@@ -127,7 +127,7 @@ export class ProductComponent {
       });
   }
 
-  _postProduct(product: Product) {
+  _postProduct(product) {
     this._initOrStopLoading();
 
     this._productService

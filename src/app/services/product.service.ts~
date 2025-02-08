@@ -40,8 +40,4 @@ export class ProductService {
     public deleteProduct(id: number): Observable<DeleteApiResponse> {
       return this._http.delete<DeleteApiResponse>(`${environment.api}/product/${id}`);
     }
-
-  public deleteItemFile(id: number): Observable<DeleteApiResponse> {
-    return this._http.delete<DeleteApiResponse>(`${environment.api}/product/attachment/${id}`);
-  }
 }
