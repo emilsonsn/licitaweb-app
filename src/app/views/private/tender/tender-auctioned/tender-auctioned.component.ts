@@ -1,28 +1,29 @@
-import {Tender} from '@models/tender';
 import {Component, computed, Signal, signal} from '@angular/core';
+import {TenderFilters} from "@models/tenderFilters";
 import {OrderData} from "@models/dashboard";
 import {ISmallInformationCard} from "@models/cardInformation";
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {FormBuilder} from '@angular/forms';
-import {DialogNoticesComponent} from '@shared/dialogs/dialog-notices/dialog-notices.component';
-import dayjs from 'dayjs';
-import {TenderService} from '@services/tender.service';
-import {ToastrService} from 'ngx-toastr';
-import {DialogFilterTenderComponent} from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
-import {TenderFilters} from '@models/tenderFilters';
-import {finalize} from 'rxjs';
-import {DialogTaskComponent} from '@shared/dialogs/dialog-task/dialog.task.component';
-import {TenderTaskService} from '@services/tenderTask.service';
-import {FiltersService} from '@services/filters-service.service';
-import {DialogOcurrenceComponent} from '@shared/dialogs/dialog-ocurrence/dialog-ocurrence.component';
-import {TenderOccurrenceService} from '@services/tender-occurrence.service';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {FormBuilder} from "@angular/forms";
+import {TenderService} from "@services/tender.service";
+import {ToastrService} from "ngx-toastr";
+import {TenderTaskService} from "@services/tenderTask.service";
+import {FiltersService} from "@services/filters-service.service";
+import {TenderOccurrenceService} from "@services/tender-occurrence.service";
+import dayjs from "dayjs";
+import {DialogNoticesComponent} from "@shared/dialogs/dialog-notices/dialog-notices.component";
+import {finalize} from "rxjs";
+import {DialogTaskComponent} from "@shared/dialogs/dialog-task/dialog.task.component";
+import {DialogOcurrenceComponent} from "@shared/dialogs/dialog-ocurrence/dialog-ocurrence.component";
+import {
+  DialogFilterTenderAuctionedComponent
+} from "@shared/dialogs/filters/dialog-filter-tender-auctioned/dialog-filter-tender-auctioned.component";
 
 @Component({
-  selector: 'app-tender',
-  templateUrl: './tender.component.html',
-  styleUrl: './tender.component.scss'
+  selector: 'app-tender-auctioned',
+  templateUrl: './tender-auctioned.component.html',
+  styleUrl: './tender-auctioned.component.scss'
 })
-export class TenderComponent {
+export class TenderAuctionedComponent {
   public loading: boolean = false;
   public filtersFromDialog;
   public filters: TenderFilters;
@@ -93,8 +94,8 @@ export class TenderComponent {
     };
 
     this._dialog
-      .open(DialogFilterTenderComponent, {
-        data: { ...this.filtersFromDialog },
+      .open(DialogFilterTenderAuctionedComponent, {
+        data: {...this.filtersFromDialog},
         ...dialogConfig
       })
       .afterClosed()
@@ -113,9 +114,6 @@ export class TenderComponent {
       })
   }
 
-  cardMoved() {
-    this.loading = !this.loading;
-  }
 
   public openTenderDialog(data?) {
     const dialogConfig: MatDialogConfig = {
@@ -129,7 +127,7 @@ export class TenderComponent {
     this._dialog
       .open(DialogNoticesComponent, {
         ...dialogConfig,
-        data: data ? { ...data } : null,
+        data: data ? {...data} : null,
       })
       .afterClosed()
       .subscribe({
@@ -174,7 +172,7 @@ export class TenderComponent {
 
     this._dialog
       .open(DialogTaskComponent, {
-        data: { id },
+        data: {id},
         ...dialogConfig
       })
       .afterClosed()
@@ -199,7 +197,7 @@ export class TenderComponent {
 
     this._dialog
       .open(DialogOcurrenceComponent, {
-        data: { id },
+        data: {id},
         ...dialogConfig
       })
       .afterClosed()

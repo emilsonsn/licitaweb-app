@@ -15,6 +15,7 @@ import {FullCalendarModule} from "@fullcalendar/angular";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchComponent } from './search/search.component';
 import {MatPaginator} from "@angular/material/paginator";
+import { TenderAuctionedComponent } from './tender-auctioned/tender-auctioned.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {MatPaginator} from "@angular/material/paginator";
     TenderKanbanComponent,
     TenderTaskComponent,
     SearchComponent,
+    TenderAuctionedComponent,
   ],
   imports: [
     CommonModule,

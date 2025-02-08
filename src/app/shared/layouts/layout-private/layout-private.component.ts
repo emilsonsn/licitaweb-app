@@ -44,6 +44,11 @@ export class LayoutPrivateComponent {
           route: '/painel/tender'
         },
         {
+          label: 'Editais Arrematados',
+          icon: 'fa-solid fa-clipboard-check',
+          route: '/painel/tender/auctioned'
+        },
+        {
           label: 'Tarefas',
           icon: 'fa-solid fa-calendar-days',
           route: '/painel/tender/task'
