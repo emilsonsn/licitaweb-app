@@ -57,12 +57,12 @@
           <input matInput type="text" formControlName="brand">
         </mat-form-field>
       </div>
-      <div class="col-md-6 col-12">
+      <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Origem</mat-label>
-          <mat-select formControlName="origin" placeholder="Origem" >
-            @for (origin of OriginEnum; track origin) {
-              <mat-option [value]="origin">{{ origin }}</mat-option>
+          <mat-select formControlName="origin" placeholder="Origem">
+            @for (key of originKeys; track key) {
+              <mat-option [value]="key">{{ originEnum[key] }}</mat-option>
             }
           </mat-select>
         </mat-form-field>

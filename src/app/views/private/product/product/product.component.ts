@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, LOCALE_ID } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Product } from '@models/product';
 import { FiltersService } from '@services/filters-service.service';
@@ -30,7 +30,7 @@ export class ProductComponent {
   }
 
   ngOnDestroy() {
-    this.filtersService.setFilters(null, 'Client');
+    this.filtersService.setFilters(null, 'Product');
   }
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
@@ -54,7 +54,7 @@ export class ProductComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            const id = +res.get('id');
+            const id = +res.id;
             if (id) this._patchProduct(res);
             else this._postProduct(res);
           }
@@ -94,7 +94,7 @@ export class ProductComponent {
 
   _patchProduct(product) {
     this._initOrStopLoading();
-    const id = +product.get('id');
+    const id = +product.id;
     this._productService
       .patchProduct(id, product)
       .pipe(finalize(() => this._initOrStopLoading()))

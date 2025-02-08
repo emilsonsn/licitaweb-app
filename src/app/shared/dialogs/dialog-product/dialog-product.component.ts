@@ -17,7 +17,8 @@ export class DialogProductComponent {
 
   public isNewProduct: boolean = true;
   public title: string = 'Novo produto';
-  public OriginEnum : string[] = Object.values(OriginEnum);
+  public originKeys = Object.keys(OriginEnum).filter(key => isNaN(Number(key)));
+  public originEnum = OriginEnum;
 
   public form: FormGroup;
   public suppliers: SupplierClient[];
@@ -31,8 +32,6 @@ export class DialogProductComponent {
     private readonly _data: {product : Product},
     private readonly _dialogRef: MatDialogRef<DialogProductComponent>,
     private readonly _fb: FormBuilder,
-    private readonly _toastr : ToastrService,
-    private readonly _utilsService : UtilsService,
     private readonly _supplierService : SupplierService
   ) { }
 

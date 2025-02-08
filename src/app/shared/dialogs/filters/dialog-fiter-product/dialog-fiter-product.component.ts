@@ -28,8 +28,7 @@ export class DialogFiterProductComponent {
   ngOnInit(): void {
     this.form = this._fb.group({
       search_term: [''],
-      flag: [''],
-      user_id: [''],
+      supplier_id: [''],
     });
 
     if (this._data) {
@@ -37,7 +36,7 @@ export class DialogFiterProductComponent {
     }
 
     this.getSuppliers();
-    const savedFilters = this.filtersService.getFilters('Supplier');
+    const savedFilters = this.filtersService.getFilters('Product');
     if (savedFilters) {
       this.form.patchValue(savedFilters);
     }
@@ -51,7 +50,7 @@ export class DialogFiterProductComponent {
   }
 
   public onConfirm(): void {
-    this.filtersService.setFilters(this.form.value, 'Supplier');
+    this.filtersService.setFilters(this.form.value, 'Product');
     if (!this.form.valid) return;
 
     this.dialogRef.close({
@@ -65,7 +64,7 @@ export class DialogFiterProductComponent {
   public onCancel(clear?: boolean): void {
     if (clear) {
       this.dialogRef.close({ 'clear': true });
-      this.filtersService.setFilters(null, 'Supplier');
+      this.filtersService.setFilters(null, 'Product');
     }
     else
       this.dialogRef.close();
