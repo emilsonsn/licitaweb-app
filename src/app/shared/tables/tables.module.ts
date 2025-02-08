@@ -24,6 +24,7 @@ import { TableLogComponent } from './table-log/table-log.component';
 import { TableNotificationComponent } from './table-notification/table-notification.component';
 import { TableSupplierComponent } from './table-supplier/table-supplier.component';
 import { TableProductComponent } from './table-product/table-product.component';
+import { TableTenderAuctionedComponent } from './table-tender-auctioned/table-tender-auctioned.component';
 
 const tables = [
   TableOrdersComponent,
@@ -47,6 +48,7 @@ const tables = [
   declarations: [
     tables,
     TableLogComponent,
+    TableTenderAuctionedComponent,
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ const tables = [
   ],
   exports: [
     tables,
-    TableLogComponent
+    TableLogComponent,
+    TableTenderAuctionedComponent
   ],
 })
 export class TablesModule {

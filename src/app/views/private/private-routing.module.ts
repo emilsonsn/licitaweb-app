@@ -1,4 +1,3 @@
-import { AgreementModule } from './agreement/agreement.module';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutPrivateComponent} from "@shared/layouts/layout-private/layout-private.component";
