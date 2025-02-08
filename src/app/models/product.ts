@@ -18,6 +18,14 @@ export interface Product {
   supplier_id: number,
 }
 
+export interface ProductHistorical {
+  title?: string,
+  description?: string,
+  product_id?: number,
+  product?: Product,
+  created_at: Date
+}
+
 export enum OriginEnum {
   National = "Nacional",
   Imported = "Importado"

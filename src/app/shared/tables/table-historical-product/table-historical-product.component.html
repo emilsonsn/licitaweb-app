@@ -35,39 +35,18 @@
         @for (product of products; track product) {
         <tr class="table-line-hover" style="outline: none;">
           <td>
-            <div class="d-flex align-items-center ml-2" style="white-space: nowrap">
-              {{ product?.name }}
+            <div class="d-flex align-items-center gap-2" style="white-space: nowrap">
+              {{ product?.title }}
             </div>
           </td>
           <td>
             <div class="text-center">
-              {{ product?.purchase_cost | currencyFormat}}
+              {{ product?.description }}
             </div>
           </td>
           <td>
             <div class="text-center">
-              {{product?.freight | currencyFormat }}
-            </div>
-          </td>
-          <td>
-            <div class="text-center">
-              {{ product?.total_cost | currencyFormat }}
-            </div>
-          </td>
-          <td>
-            <div class="d-flex justify-content-center">
-
-              <div matRipple class="buttonTemplate" matTooltip="Abrir historico" (click)="openHistoricalProductClick.emit(product?.id)">
-                <i class="fa-solid fa-file"></i>
-              </div>
-
-              <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar" (click)="onProductClick.emit(product)">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </div>
-
-              <div matRipple class="buttonTemplate" matTooltip="Excluir" (click)="onDeleteProductClick.emit(product?.id)">
-                <i class="fa-solid fa-trash"></i>
-              </div>
+              {{product?.created_at | date: "dd/MM/YYYY HH:mm:ss"}}
             </div>
           </td>
         </tr>

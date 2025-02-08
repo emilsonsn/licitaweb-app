@@ -1,16 +1,19 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Order, PageControl } from '@models/application';
-import { Product } from '@models/product';
+import { ProductHistorical } from '@models/product';
 import { ProductService } from '@services/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'app-table-product',
-  templateUrl: './table-product.component.html',
-  styleUrl: './table-product.component.scss'
+  selector: 'app-table-historical-product',
+  templateUrl: './table-historical-product.component.html',
+  styleUrl: './table-historical-product.component.scss'
 })
-export class TableProductComponent {
+export class TableHistoricalProductComponent {
+  @Input()
+  id?: number;
+
   @Input()
   searchTerm?: string = '';
 
@@ -20,48 +23,25 @@ export class TableProductComponent {
   @Input()
   filters: any;
 
-  @Output()
-  onProductClick: EventEmitter<Product> = new EventEmitter<Product>();
-
-  @Output()
-  onDeleteProductClick: EventEmitter<number> =
-    new EventEmitter<number>();
-
-  @Output()
-  openHistoricalProductClick: EventEmitter<number> =
-    new EventEmitter<number>();
-
-  public products: Product[] = [];
+  public products: ProductHistorical[] = [];
 
   public columns = [
     {
-      slug: "name",
+      slug: "title",
       order: true,
-      title: "Nome",
+      title: "titulo",
       align: "start",
     },
     {
-      slug: "purchase_cost",
+      slug: "description",
       order: true,
-      title: "Preço",
+      title: "Descrição",
       align: "justify-content-center",
     },
     {
-      slug: "freight",
+      slug: "created_at",
       order: true,
-      title: "Frete",
-      align: "justify-content-center",
-    },
-    {
-      slug: "total_cost",
-      order: true,
-      title: "Valor total",
-      align: "justify-content-center",
-    },
-    {
-      slug: "",
-      order: true,
-      title: "Ações",
+      title: "Data",
       align: "justify-content-center",
     },
   ];
@@ -109,7 +89,7 @@ export class TableProductComponent {
   search(): void {
     this._initOrStopLoading();
     this._productService
-      .getProducts(this.pageControl, this.filters)
+      .getHistoricalProducts(this.id, this.pageControl, this.filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: res => {

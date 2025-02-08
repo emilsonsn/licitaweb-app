@@ -4,6 +4,7 @@ import { Product } from '@models/product';
 import { FiltersService } from '@services/filters-service.service';
 import { ProductService } from '@services/product.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
+import { DialogHistoricalProductComponent } from '@shared/dialogs/dialog-historical-product/dialog-historical-product.component';
 import { DialogProductComponent } from '@shared/dialogs/dialog-product/dialog-product.component';
 import { DialogFiterProductComponent } from '@shared/dialogs/filters/dialog-fiter-product/dialog-fiter-product.component';
 import { ToastrService } from 'ngx-toastr';
@@ -59,6 +60,22 @@ export class ProductComponent {
             else this._postProduct(res);
           }
         }
+      })
+  }
+
+  openDialogHistoricalProduct(id: number) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '1000px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogHistoricalProductComponent, {
+        ...dialogConfig,
+        data: id
       })
   }
 

@@ -12,6 +12,7 @@ import { StatusLicitaWebPipe } from './status-licita-web.pipe';
 import { StatusTaskPipe } from './status-task.pipe';
 import { EventStatusPipe } from './event-status.pipe';
 import { DatetimePipe } from './datetime.pipe';
+import { CurrencyFormatPipe } from './currency-format.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -24,7 +25,8 @@ const pipes = [
   CompanyPositionPipe,
   StatusLicitaWebPipe,
   StatusTaskPipe,
-  DatetimePipe
+  DatetimePipe,
+  CurrencyFormatPipe
 ];
 
 @NgModule({
@@ -33,6 +35,7 @@ const pipes = [
     CompanyPositionPipe,
     EventStatusPipe,
     DatetimePipe,
+    CurrencyFormatPipe
   ],
   imports: [
     CommonModule
