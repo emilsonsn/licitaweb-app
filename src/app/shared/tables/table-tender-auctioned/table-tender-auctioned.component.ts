@@ -35,6 +35,9 @@ export class TableTenderAuctionedComponent {
   @Output()
   openOcurrenceDialog: EventEmitter<number> = new EventEmitter<number>();
 
+  @Output()
+  openProductViewDialog: EventEmitter<number> = new EventEmitter<number>();
+
   public tender: Tender[] = [];
 
   public columns = [

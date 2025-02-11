@@ -17,6 +17,7 @@ import {DialogOcurrenceComponent} from "@shared/dialogs/dialog-ocurrence/dialog-
 import {
   DialogFilterTenderAuctionedComponent
 } from "@shared/dialogs/filters/dialog-filter-tender-auctioned/dialog-filter-tender-auctioned.component";
+import {DialogProductViewsComponent} from "@shared/dialogs/dialog-product-views/dialog-product-views.component";
 
 @Component({
   selector: 'app-tender-auctioned',
@@ -270,4 +271,26 @@ export class TenderAuctionedComponent {
     this.filters = this.filtersService.getFilters('Tender');
   }
 
+  protected readonly event = event;
+
+  openProductViewDialog($event: number) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '800px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogProductViewsComponent, {
+        data: {$event},
+        ...dialogConfig
+      })
+      .afterClosed()
+      .subscribe({
+        next: (occurrence) => {
+        }
+      })
+  }
 }

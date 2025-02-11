@@ -1,0 +1,93 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">ITEMS DO EDITAL</span>
+    <div matRipple class="close" (click)="cancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+  <div class="row gap-3">
+    <form [formGroup]="productForm" class="col-12 d-flex gap-3 align-items-center justify-content-center">
+      <mat-form-field>
+        <mat-label>Produto</mat-label>
+        <mat-select formControlName="product">
+          <ngx-mat-select-search
+            [formControl]="search_term"
+            placeholderLabel="Procure um produto..."
+            (ngModelChange)="onSearchTermChange($event)">
+          </ngx-mat-select-search>
+
+          <mat-option *ngFor="let product of products" [value]="product">
+            {{ product.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <button mat-icon-button class="button yellow" (click)="addProduct()">+</button>
+      <mat-form-field>
+        <mat-label>Quantidade</mat-label>
+        <input matInput type="number" formControlName="quantity" min="1">
+      </mat-form-field>
+      <div class="col-auto h-100">
+        <button matRipple class="button yellow h-100" (click)="addProduct()">Adicionar</button>
+      </div>
+    </form>
+
+    <table mat-table [dataSource]="selectedProducts">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nome do Produto </th>
+        <td mat-cell *matCellDef="let element"> {{ element.product.name }} </td>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantidade Necessária </th>
+        <td mat-cell *matCellDef="let element"> {{ element.quantity }} </td>
+      </ng-container>
+      <ng-container matColumnDef="unitPrice">
+        <th mat-header-cell *matHeaderCellDef> Preço Unitário </th>
+        <td mat-cell *matCellDef="let element"> {{ element.product.sale_price | currency }} </td>
+      </ng-container>
+      <ng-container matColumnDef="freight">
+        <th mat-header-cell *matHeaderCellDef> Valor do Frete </th>
+        <td mat-cell *matCellDef="let element"> {{ element.product.freight | currency }} </td>
+      </ng-container>
+      <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef> Valor Total </th>
+        <td mat-cell *matCellDef="let element"> {{ (element.quantity * element.product.sale_price + element.product.freight) | currency }} </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-icon-button color="primary" (click)="editProduct(i)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="removeProduct(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'unitPrice', 'freight', 'totalPrice', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name', 'quantity', 'unitPrice', 'freight', 'totalPrice', 'actions']; trackBy: trackByFn"></tr>
+
+    </table>
+
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="cancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="save()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>
