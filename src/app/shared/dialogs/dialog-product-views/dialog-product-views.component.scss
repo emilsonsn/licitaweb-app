@@ -1,0 +1,14 @@
+@import "variables";
+
+
+.option-button-add {
+  background: $primary;
+  color: $secondary;
+
+  &:hover {
+    background: $primary;
+    color: $secondary;
+    opacity: 0.8;
+  }
+
+}

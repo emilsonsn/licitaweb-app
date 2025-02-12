@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {ApiResponse, ApiResponsePageable, DeleteApiResponse, PageControl} from '@models/application';
 import {environment} from '@env/environment';
-import { UserSector } from '@models/user';
-import { Observable } from 'rxjs';
-import { Utils } from '@shared/utils';
-import { Tender } from '@models/tender';
+import {Observable} from 'rxjs';
+import {Utils} from '@shared/utils';
+import {Tender} from '@models/tender';
 
 @Injectable({
   providedIn: 'root'

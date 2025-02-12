@@ -1,13 +1,15 @@
-import {Component, Inject, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import { Product } from "@models/product";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { ProductService } from "@services/product.service";
-import { ToastrService } from "ngx-toastr";
-import { Order, PageControl } from "@models/application";
-import { Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged, takeUntil } from "rxjs/operators";
+import {Product} from "@models/product";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {ProductService} from "@services/product.service";
+import {ToastrService} from "ngx-toastr";
+import {Order, PageControl} from "@models/application";
+import {Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
+import {DialogProductComponent} from "@shared/dialogs/dialog-product/dialog-product.component";
+import {TenderItemService} from "@services/tender-item.service";
 
 @Component({
   selector: 'app-dialog-product-views',
@@ -37,15 +39,14 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _productService: ProductService,
     private fb: FormBuilder,
-    private cdRef: ChangeDetectorRef,
+    private _tenderItemService: TenderItemService,
+    private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService
   ) {
     this.productForm = this.fb.group({
       product: [null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]]
     });
-
-    this.products = data.products || [];
   }
 
   ngOnInit(): void {
@@ -92,25 +93,45 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
 
 
   removeProduct(index: number) {
-
+    this.selectedProducts.data.splice(index, 1);
+    this.selectedProducts._updateChangeSubscription();
   }
-
-  trackByFn(index: number, item: any) {
-    return item.product.id; // Supondo que o 'product' tenha um campo 'id'
-  }
-
 
   editProduct(index: number) {
-    const selectedItem = this.selectedProducts[index];
+    const item = this.selectedProducts.data[index];
+
+    // Preenche o formulário com os dados do produto selecionado
     this.productForm.setValue({
-      product: selectedItem.product,
-      quantity: selectedItem.quantity
+      product: item.product,
+      quantity: item.quantity
     });
-    this.removeProduct(index);
+
+    // Remove o item temporariamente da lista
+    this.selectedProducts.data.splice(index, 1);
+    this.selectedProducts._updateChangeSubscription();
   }
 
+
   save() {
-    this.dialogRef.close(this.selectedProducts);
+
+
+    let tenderItens = this.selectedProducts.data.map(item => ({
+      product_id: item.product.id,
+      tender_id: this.data.$event,
+      quantity: item.quantity
+    }));
+
+    this._tenderItemService.create({tenderItens})
+      .subscribe({
+        next: (res) => {
+          if (res.status) {
+            this._toastr.success(res.message);
+          }
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        }
+    })
   }
 
   cancel() {
@@ -121,4 +142,44 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  openCreateProductDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '1000px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogProductComponent, {
+        ...dialogConfig,
+      })
+      .afterClosed()
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this._postProduct(res);
+            this.search();
+          }
+        }
+      })
+  }
+
+  _postProduct(product) {
+    this._productService
+      .postProduct(product)
+      .subscribe({
+        next: (res) => {
+          if (res.status) {
+            this._toastr.success(res.message);
+          }
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      });
+  }
+
 }
