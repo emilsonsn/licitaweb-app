@@ -65,7 +65,7 @@
         <th mat-header-cell *matHeaderCellDef> Ações </th>
         <td mat-cell *matCellDef="let element; let i = index">
           <div class="d-flex gap-2">
-            <div matRipple class="buttonTemplate" matTooltip="Edtar" (click)="editProduct(i)">
+            <div matRipple class="buttonTemplate" matTooltip="Edtar" (click)="editProduct(element)">
               <i class="fa-solid fa-pen-to-square"></i>
             </div>
             <div matRipple class="buttonTemplate" matTooltip="Excluir" (click)="removeProduct(i)">

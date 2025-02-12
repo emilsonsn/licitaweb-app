@@ -31,8 +31,8 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
 
   filters: { search_term?: string } = { search_term: '' };
   public search_term: FormControl<string> = new FormControl<string>('');
-  searchTerm$ = new Subject<string>(); // Subject para capturar mudanças no input
-  private destroy$ = new Subject<void>(); // Para cancelar subscrição ao destruir o componente
+  searchTerm$ = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     public dialogRef: MatDialogRef<DialogProductViewsComponent>,
@@ -50,17 +50,27 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Observa mudanças no search_term e espera 500ms antes de buscar
     this.searchTerm$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      takeUntil(this.destroy$) // Cancela ao destruir o componente
+      takeUntil(this.destroy$)
     ).subscribe(term => {
       this.filters.search_term = term;
       this.search();
     });
 
-    this.search(); // Busca inicial
+    this._tenderItemService.search({id: this.data.$event}).pipe().subscribe({
+      next: res => {
+        this.selectedProducts = new MatTableDataSource(res.data);
+      },
+      error: err => {
+        this._toastr.error(
+          err?.error?.message || "Ocorreu um erro ao buscar os dados"
+        );
+      }
+    });
+
+    this.search();
   }
 
   search(): void {
@@ -85,8 +95,8 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
   addProduct() {
     if (this.productForm.valid) {
       const { product, quantity } = this.productForm.value;
-      this.selectedProducts.data.push({ product, quantity });  // Adiciona ao array de dados
-      this.selectedProducts._updateChangeSubscription();  // Atualiza a tabela
+      this.selectedProducts.data.push({product, quantity});
+      this.selectedProducts._updateChangeSubscription();
       this.productForm.reset({ quantity: 1 });
     }
   }
@@ -97,19 +107,30 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
     this.selectedProducts._updateChangeSubscription();
   }
 
-  editProduct(index: number) {
-    const item = this.selectedProducts.data[index];
+  editProduct(item: { product: Product; quantity: number }) {
+    // Verificar se o produto já está na lista de produtos
+    const productExists = this.products.some(product => product.id === item.product.id);
 
-    // Preenche o formulário com os dados do produto selecionado
+    // Se o produto não existir, adicione à lista de produtos
+    if (!productExists) {
+      this.products.push(item.product);
+    }
+
+    // Definir os valores no formulário de edição
     this.productForm.setValue({
       product: item.product,
       quantity: item.quantity
     });
 
-    // Remove o item temporariamente da lista
-    this.selectedProducts.data.splice(index, 1);
-    this.selectedProducts._updateChangeSubscription();
+    // Remover o item editado da lista
+    const index = this.selectedProducts.data.indexOf(item);
+    if (index !== -1) {
+      this.selectedProducts.data.splice(index, 1);
+      this.selectedProducts._updateChangeSubscription();
+    }
   }
+
+
 
 
   save() {
@@ -132,6 +153,9 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
           this._toastr.error(err.error.error);
         }
     })
+
+    this.dialogRef.close();
+
   }
 
   cancel() {
