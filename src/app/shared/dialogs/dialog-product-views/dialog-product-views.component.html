@@ -11,8 +11,8 @@
     <form [formGroup]="productForm" class="col-12 d-flex gap-3 align-items-center justify-content-center">
       <mat-form-field>
         <mat-label>Produto</mat-label>
-        <mat-select formControlName="product">
-          <ngx-mat-select-search
+        <mat-select formControlName="product" [compareWith]="compareProducts">
+        <ngx-mat-select-search
             [formControl]="search_term"
             placeholderLabel="Procure um produto..."
             (ngModelChange)="onSearchTermChange($event)">
@@ -36,7 +36,9 @@
         <input matInput type="number" formControlName="quantity" min="1">
       </mat-form-field>
       <div class="col-auto h-100">
-        <button matRipple class="button yellow h-100" style="color: #303030" (click)="addProduct()">Adicionar</button>
+        <button matRipple class="button yellow h-100" style="color: #303030" (click)="addProduct()">
+          {{ editingProductIndex !== null ? 'Editar' : 'Adicionar' }}
+        </button>
       </div>
     </form>
 

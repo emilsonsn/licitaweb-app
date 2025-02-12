@@ -92,49 +92,60 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
     this.searchTerm$.next(term);
   }
 
+  editingProductIndex: number | null = null; // Armazena o índice do item em edição
+
   addProduct() {
     if (this.productForm.valid) {
       const { product, quantity } = this.productForm.value;
-      this.selectedProducts.data.push({product, quantity});
+
+      if (this.editingProductIndex !== null) {
+        // Se estamos editando, atualizamos os dados do item selecionado
+        this.selectedProducts.data[this.editingProductIndex] = { product, quantity };
+        this.editingProductIndex = null; // Resetamos o índice após editar
+      } else {
+        // Verifica se o produto já existe na lista
+        const existingProduct = this.selectedProducts.data.find(item => item.product.id === product.id);
+
+        if (existingProduct) {
+          // Se já existir, apenas soma a quantidade
+          existingProduct.quantity += quantity;
+        } else {
+          // Se não existir, adiciona o novo produto
+          this.selectedProducts.data.push({ product, quantity });
+        }
+      }
+
+      // Atualiza a tabela
       this.selectedProducts._updateChangeSubscription();
+
+      // Reseta o formulário
       this.productForm.reset({ quantity: 1 });
     }
   }
 
+  editProduct(item: { product: Product; quantity: number }) {
+    // Define os valores no formulário de edição
+    this.productForm.setValue({
+      product: item.product,
+      quantity: item.quantity
+    });
+
+    // Armazena o índice do item em edição
+    this.editingProductIndex = this.selectedProducts.data.indexOf(item);
+  }
 
   removeProduct(index: number) {
     this.selectedProducts.data.splice(index, 1);
     this.selectedProducts._updateChangeSubscription();
   }
 
-  editProduct(item: { product: Product; quantity: number }) {
-    // Verificar se o produto já está na lista de produtos
-    const productExists = this.products.some(product => product.id === item.product.id);
 
-    // Se o produto não existir, adicione à lista de produtos
-    if (!productExists) {
-      this.products.push(item.product);
-    }
-
-    // Definir os valores no formulário de edição
-    this.productForm.setValue({
-      product: item.product,
-      quantity: item.quantity
-    });
-
-    // Remover o item editado da lista
-    const index = this.selectedProducts.data.indexOf(item);
-    if (index !== -1) {
-      this.selectedProducts.data.splice(index, 1);
-      this.selectedProducts._updateChangeSubscription();
-    }
+  compareProducts(p1: Product, p2: Product): boolean {
+    return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
 
 
-
-
   save() {
-
 
     let tenderItens = this.selectedProducts.data.map(item => ({
       product_id: item.product.id,
