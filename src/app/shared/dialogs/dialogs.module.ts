@@ -62,6 +62,7 @@ import {
   MatRowDef,
   MatTable
 } from "@angular/material/table";
+import { DialogContractComponent } from './dialog-contract/dialog-contract.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -110,7 +111,8 @@ const MY_DATE_FORMATS = {
     DialogOccurrenceSupplierComponent,
     DialogProductComponent,
     DialogHistoricalProductComponent,
-    DialogProductViewsComponent
+    DialogProductViewsComponent,
+    DialogContractComponent
   ],
   imports: [
     CommonModule,

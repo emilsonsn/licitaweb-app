@@ -1,7 +1,7 @@
 <mat-tab-group (selectedIndexChange)="this.loading = !this.loading">
 
   <mat-tab label="Tabela">
-    <div id="componentHeaderTemplate" class="d-flex justify-content-end mt-2">
+    <div id="componentHeaderTemplate" class="d-flex justify-content-end">
       <div id="componentHeader">
 
         <div id="options">

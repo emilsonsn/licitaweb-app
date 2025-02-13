@@ -28,7 +28,6 @@ export class DialogProductViewsComponent implements OnInit, OnDestroy {
     orderField: "id",
     order: Order.ASC,
   };
-
   filters: { search_term?: string } = { search_term: '' };
   public search_term: FormControl<string> = new FormControl<string>('');
   searchTerm$ = new Subject<string>();

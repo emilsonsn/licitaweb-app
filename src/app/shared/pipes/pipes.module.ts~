@@ -44,8 +44,7 @@ const pipes = [
   ],
   exports: [
     pipes,
-    EventStatusPipe,
-    TranslateContractStatusPipe
+    EventStatusPipe
   ]
 })
 export class PipesModule { }

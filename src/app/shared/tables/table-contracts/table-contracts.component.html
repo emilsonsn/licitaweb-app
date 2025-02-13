@@ -1,0 +1,135 @@
+<div class="table-container">
+
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        @for (col of columns; track col) {
+          <th
+            [class.hasorder]="col.order"
+            [ngStyle]="{ cursor: 'pointer' }"
+            [class.active-order]="pageControl.orderField === col.slug"
+          >
+            <!--(click)="onClickOrderBy(col.slug, col.order)" -->
+            <div
+              class="{{col.align}}"
+            >
+              {{ col.title }}
+              <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
+                {{
+                  pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
+                }}
+              </i>
+            </div>
+          </th>
+        }
+      </thead>
+      <tbody>
+      <tr *ngIf="loading">
+        <td [attr.colspan]="columns.length + 1">
+          <div id="mat-loading">
+            <mat-spinner></mat-spinner>
+          </div>
+        </td>
+      </tr>
+        @if (!loading) {
+          <tr *ngIf="!contract?.length">
+            <td [attr.colspan]="columns.length + 1" class="text-center">
+              <div>Nenhum resultado encontrado</div>
+            </td>
+          </tr>
+          @for (contract of contract; track contract) {
+            <tr
+              class="table-line-hover"
+              style="outline: none;"
+              (click)="oncontractClick.emit(contract)"
+            >
+              <!-- <td>
+                <div
+                  class="d-flex align-items-center gap-2"
+                  style="white-space: nowrap"
+                >
+                  <app-avatar
+                    [imageUrl]="collaborator?.photo"
+                    [altText]="collaborator?.name"
+                    [color]="'#e7b403'"
+                    [onCircle]="true"
+                  ></app-avatar>
+                  {{ collaborator?.name }}
+                </div>
+              </td> -->
+              <td>
+                <div class="text-center">
+                  {{ contract?.number }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ contract?.organ }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ contract?.contest_date | date: "dd/MM/YYYY" }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ contract?.items_count }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ contract?.estimated_value | currency: "BRL" }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center badge " [style]="'font-size: 0.9rem; background:' + contract?.status?.color">
+                  {{ contract?.status?.name }}
+                </div>
+              </td>
+              <td>
+                <div class="text-center">
+                  {{ contract?.user?.name }}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-end">
+
+                  @if (contract.status.id == 3) {
+                    <div matRipple class="buttonTemplate" matTooltip="Ocorrências"
+                         (click)="openProductViewDialog.emit(contract.id); $event.stopPropagation()">
+                      <i class="fa-boxes-stacked fa-solid"></i>
+                    </div>
+                  }
+
+                  <div matRipple class="buttonTemplate" matTooltip="Ocorrências"
+                       (click)="openOcurrenceDialog.emit(+contract.id); $event.stopPropagation()">
+                    <i class="fa-solid fa-tags"></i>
+                  </div>
+
+                  <div matRipple class="buttonTemplate" matTooltip="Terefas"
+                       (click)="openTaskDialog.emit(+contract.id); $event.stopPropagation()">
+                    <i class="fa-solid fa-list-check"></i>
+                  </div>
+
+                  <div matRipple class="buttonTemplate" matTooltip="Editar"
+                       (click)="oncontractClick.emit(contract); $event.stopPropagation()">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </div>
+
+                  <div matRipple class="buttonTemplate" matTooltip="Deletar"
+                       (click)="onDeletecontractClick.emit(+contract?.id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+                 [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
+
+</div>

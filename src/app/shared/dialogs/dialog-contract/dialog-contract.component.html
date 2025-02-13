@@ -1,0 +1,141 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{ title }}</span>
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="contractForm">
+    <div class="row">
+
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Nº do Contrato</mat-label>
+          <input matInput formControlName="contract_number"/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+
+        <mat-form-field>
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="client_id">
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="search_term_client"
+                placeholderLabel="Pesquise um cliente..."
+                (ngModelChange)="onSearchClientTermChangeDebounced($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let client of clients" [value]="client.id">
+              {{ client.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+
+        <mat-form-field>
+          <mat-label>Editais</mat-label>
+          <mat-select formControlName="tender_id">
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="search_term_client"
+                placeholderLabel="Pesquise um edital..."
+                (ngModelChange)="onSearchTenderTermChangeDebounced($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let tender of tenders" [value]="tender.id">
+              {{ tender.number }} | {{ tender.organ }} | {{ tender.status.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statusOptions" [value]="status">
+              {{ status | translateContractStatus }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Objeto do Contrato</mat-label>
+          <textarea matInput formControlName="contract_object"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Data de Início e Término</mat-label>
+          <mat-date-range-input [formGroup]="contractForm" [rangePicker]="picker">
+            <input matStartDate formControlName="start_date" placeholder="Data Início">
+            <input matEndDate formControlName="end_date" placeholder="Data Término">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Data de Assinatura</mat-label>
+          <input matInput [matDatepicker]="dateSignaturePicker" formControlName="signature_date"/>
+          <mat-datepicker-toggle matIconSuffix [for]="dateSignaturePicker"></mat-datepicker-toggle>
+          <mat-datepicker #dateSignaturePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Valor Total do Contrato</mat-label>
+          <input type="text" formControlName="total_contract_value" matInput currencyMask placeholder="R$ 0,00"/>
+        </mat-form-field>
+      </div>
+      <div class="col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Condições de Pagamento</mat-label>
+          <input matInput formControlName="payment_conditions"/>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Observações</mat-label>
+          <textarea matInput formControlName="observations"></textarea>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </form>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" type="submit" (click)="onSubmit(contractForm)">{{
+              isNewContract ? 'Criar' :
+                'Salvar'
+            }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>
+

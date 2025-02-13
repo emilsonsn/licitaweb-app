@@ -26,6 +26,7 @@ import { TableSupplierComponent } from './table-supplier/table-supplier.componen
 import { TableProductComponent } from './table-product/table-product.component';
 import { TableTenderAuctionedComponent } from './table-tender-auctioned/table-tender-auctioned.component';
 import { TableHistoricalProductComponent } from './table-historical-product/table-historical-product.component';
+import { TableContractsComponent } from './table-contracts/table-contracts.component';
 
 const tables = [
   TableOrdersComponent,
@@ -51,6 +52,7 @@ const tables = [
     tables,
     TableLogComponent,
     TableTenderAuctionedComponent,
+    TableContractsComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +71,8 @@ const tables = [
   exports: [
     tables,
     TableLogComponent,
-    TableTenderAuctionedComponent
+    TableTenderAuctionedComponent,
+    TableContractsComponent
   ],
 })
 export class TablesModule {
