@@ -43,74 +43,50 @@
               style="outline: none;"
               (click)="oncontractClick.emit(contract)"
             >
-              <!-- <td>
-                <div
-                  class="d-flex align-items-center gap-2"
-                  style="white-space: nowrap"
-                >
-                  <app-avatar
-                    [imageUrl]="collaborator?.photo"
-                    [altText]="collaborator?.name"
-                    [color]="'#e7b403'"
-                    [onCircle]="true"
-                  ></app-avatar>
-                  {{ collaborator?.name }}
-                </div>
-              </td> -->
               <td>
                 <div class="text-center">
-                  {{ contract?.number }}
+                  {{ contract?.contract_number }}
                 </div>
               </td>
+
               <td>
                 <div class="text-center">
-                  {{ contract?.organ }}
+                  {{ contract?.tender.organ }}
                 </div>
               </td>
+
               <td>
                 <div class="text-center">
-                  {{ contract?.contest_date | date: "dd/MM/YYYY" }}
+                  {{ contract?.signature_date | date: "dd/MM/yyyy" }}
                 </div>
               </td>
+
               <td>
                 <div class="text-center">
-                  {{ contract?.items_count }}
+                  {{ contract?.total_contract_value | currencyFormat }}
                 </div>
               </td>
+
               <td>
                 <div class="text-center">
-                  {{ contract?.estimated_value | currency: "BRL" }}
+                  {{ contract?.outstanding_balance | currencyFormat }}
                 </div>
               </td>
-              <td>
-                <div class="text-center badge " [style]="'font-size: 0.9rem; background:' + contract?.status?.color">
-                  {{ contract?.status?.name }}
-                </div>
-              </td>
+
               <td>
                 <div class="text-center">
-                  {{ contract?.user?.name }}
+                  {{ contract?.status }}
                 </div>
               </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.client.name }}
+                </div>
+              </td>
+
               <td>
                 <div class="d-flex justify-content-end">
-
-                  @if (contract.status.id == 3) {
-                    <div matRipple class="buttonTemplate" matTooltip="Ocorrências"
-                         (click)="openProductViewDialog.emit(contract.id); $event.stopPropagation()">
-                      <i class="fa-boxes-stacked fa-solid"></i>
-                    </div>
-                  }
-
-                  <div matRipple class="buttonTemplate" matTooltip="Ocorrências"
-                       (click)="openOcurrenceDialog.emit(+contract.id); $event.stopPropagation()">
-                    <i class="fa-solid fa-tags"></i>
-                  </div>
-
-                  <div matRipple class="buttonTemplate" matTooltip="Terefas"
-                       (click)="openTaskDialog.emit(+contract.id); $event.stopPropagation()">
-                    <i class="fa-solid fa-list-check"></i>
-                  </div>
 
                   <div matRipple class="buttonTemplate" matTooltip="Editar"
                        (click)="oncontractClick.emit(contract); $event.stopPropagation()">

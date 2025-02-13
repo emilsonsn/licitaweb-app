@@ -3,6 +3,7 @@ import {Order, PageControl} from "@models/application";
 import {ToastrService} from "ngx-toastr";
 import {finalize} from "rxjs";
 import {ContractService} from "@services/contract.service";
+import {Contract} from "@models/contract";
 
 @Component({
   selector: 'app-table-contracts',
@@ -37,7 +38,7 @@ export class TableContractsComponent {
   @Output()
   openProductViewDialog: EventEmitter<number> = new EventEmitter<number>();
 
-  public contract: any[] = [];
+  public contract: Contract[] = [];
 
   public columns = [
     {
@@ -50,7 +51,7 @@ export class TableContractsComponent {
       slug: "contracting_body",
       order: true,
       title: "Órgão",
-      align: "start",
+      align: "justify-content-center",
     },
     {
       slug: "contract_dates",
