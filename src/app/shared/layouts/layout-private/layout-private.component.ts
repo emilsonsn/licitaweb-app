@@ -44,6 +44,11 @@ export class LayoutPrivateComponent {
           route: '/painel/tender'
         },
         {
+          label: 'Editais Arrematados',
+          icon: 'fa-solid fa-clipboard-check',
+          route: '/painel/tender/auctioned'
+        },
+        {
           label: 'Tarefas',
           icon: 'fa-solid fa-calendar-days',
           route: '/painel/tender/task'
@@ -66,9 +71,14 @@ export class LayoutPrivateComponent {
           route: '/painel/supplier'
         },
         {
+          label: 'Produtos',
+          icon: 'fa-solid fa-boxes-stacked',
+          route: '/painel/product'
+        },
+        {
           label: 'Contratos',
           icon: 'fa-solid fa-handshake',
-          route: '/painel/agreement'
+          route: '/painel/contract'
         },
       ]
     },

@@ -5,6 +5,7 @@ import {ModalityComponent} from './modality/modality.component';
 import {StageComponent} from './stage/stage.component';
 import {TenderTaskComponent} from "@app/views/private/tender/tender-task/tender-task.component";
 import {SearchComponent} from "@app/views/private/tender/search/search.component";
+import {TenderAuctionedComponent} from "@app/views/private/tender/tender-auctioned/tender-auctioned.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: "search",
     component: SearchComponent
+  },
+  {
+    path: 'auctioned',
+    component: TenderAuctionedComponent
   }
 ];
 

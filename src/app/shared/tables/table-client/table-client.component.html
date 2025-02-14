@@ -27,7 +27,7 @@
           </td>
         </tr>
         @if (!loading) {
-        <tr *ngIf="!clients.length">
+        <tr *ngIf="!clients?.length">
           <td [attr.colspan]="columns.length + 1" class="text-center">
             <div>Nenhum resultado encontrado</div>
           </td>

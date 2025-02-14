@@ -23,6 +23,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TableLogComponent } from './table-log/table-log.component';
 import { TableNotificationComponent } from './table-notification/table-notification.component';
 import { TableSupplierComponent } from './table-supplier/table-supplier.component';
+import { TableProductComponent } from './table-product/table-product.component';
+import { TableTenderAuctionedComponent } from './table-tender-auctioned/table-tender-auctioned.component';
+import { TableHistoricalProductComponent } from './table-historical-product/table-historical-product.component';
+import { TableContractsComponent } from './table-contracts/table-contracts.component';
 
 const tables = [
   TableOrdersComponent,
@@ -39,12 +43,16 @@ const tables = [
   TableTenderComponent,
   TableNotificationComponent,
   TableSupplierComponent,
+  TableProductComponent,
+  TableHistoricalProductComponent
 ]
 
 @NgModule({
   declarations: [
     tables,
     TableLogComponent,
+    TableTenderAuctionedComponent,
+    TableContractsComponent,
   ],
   imports: [
     CommonModule,
@@ -62,7 +70,9 @@ const tables = [
   ],
   exports: [
     tables,
-    TableLogComponent
+    TableLogComponent,
+    TableTenderAuctionedComponent,
+    TableContractsComponent
   ],
 })
 export class TablesModule {

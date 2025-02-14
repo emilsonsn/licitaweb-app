@@ -1,26 +1,22 @@
-import { Tender } from '@models/tender';
-import { Component, computed, Signal, signal } from '@angular/core';
-import { OrderData } from "@models/dashboard";
-import { ISmallInformationCard } from "@models/cardInformation";
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DialogNoticesComponent } from '@shared/dialogs/dialog-notices/dialog-notices.component';
-import {
-  DialogFilterOrderComponent,
-  OrderFilters
-} from '@shared/dialogs/filters/dialog-filter-order/dialog-filter-order.component';
+import {Tender} from '@models/tender';
+import {Component, computed, Signal, signal} from '@angular/core';
+import {OrderData} from "@models/dashboard";
+import {ISmallInformationCard} from "@models/cardInformation";
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {FormBuilder} from '@angular/forms';
+import {DialogNoticesComponent} from '@shared/dialogs/dialog-notices/dialog-notices.component';
 import dayjs from 'dayjs';
-import { TenderService } from '@services/tender.service';
-import { ToastrService } from 'ngx-toastr';
-import { DialogFilterTenderComponent } from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
-import { TenderFilters } from '@models/tenderFilters';
-import { finalize } from 'rxjs';
-import { DialogTaskComponent } from '@shared/dialogs/dialog-task/dialog.task.component';
-import { TaskService } from '@services/task.service';
-import { TenderTaskService } from '@services/tenderTask.service';
-import { FiltersService } from '@services/filters-service.service';
-import { DialogOcurrenceComponent } from '@shared/dialogs/dialog-ocurrence/dialog-ocurrence.component';
-import { TenderOccurrenceService } from '@services/tender-occurrence.service';
+import {TenderService} from '@services/tender.service';
+import {ToastrService} from 'ngx-toastr';
+import {DialogFilterTenderComponent} from '@shared/dialogs/filters/dialog-filter-tender/dialog-filter-tender.component';
+import {TenderFilters} from '@models/tenderFilters';
+import {finalize} from 'rxjs';
+import {DialogTaskComponent} from '@shared/dialogs/dialog-task/dialog.task.component';
+import {TenderTaskService} from '@services/tenderTask.service';
+import {FiltersService} from '@services/filters-service.service';
+import {DialogOcurrenceComponent} from '@shared/dialogs/dialog-ocurrence/dialog-ocurrence.component';
+import {TenderOccurrenceService} from '@services/tender-occurrence.service';
+import {DialogProductViewsComponent} from "@shared/dialogs/dialog-product-views/dialog-product-views.component";
 
 @Component({
   selector: 'app-tender',
@@ -275,6 +271,27 @@ export class TenderComponent {
 
   public getFilters(): void {
     this.filters = this.filtersService.getFilters('Tender');
+  }
+
+  openProductViewDialog($event: number) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '800px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogProductViewsComponent, {
+        data: {$event},
+        ...dialogConfig
+      })
+      .afterClosed()
+      .subscribe({
+        next: (occurrence) => {
+        }
+      })
   }
 
 }

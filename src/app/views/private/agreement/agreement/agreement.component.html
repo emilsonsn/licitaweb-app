@@ -1,48 +1,43 @@
-<mat-tab-group (selectedIndexChange)="this.loading = !this.loading">
+<!--<mat-tab-group (selectedIndexChange)="this.loading = !this.loading">
 
   <mat-tab label="Tabela">
-    <div id="componentHeaderTemplate">
-      <div id="componentHeader">
-        <div>
-          <!-- <app-search-input
-            (onSearchInputChanged)="handleSearchTerm($event)">
-          </app-search-input> -->
-        </div>
 
-        <div id="options">
-          <div id="indicator">
-            <span class="label">Valor total:</span>{{ totalValue | currency:'BRL' }}
-          </div>
-
-          @if (true) {
-            <div id="filter" matRipple (click)="openTenderFilterDialog()">
-              <i class="fa-solid fa-filter" matTooltip="Filtros"></i>
-            </div>
-          }
-
-        </div>
-      </div>
-    </div>
-
-    <div id="componentTable" class="col-12 mt-4">
-      <app-table-tender
-        [loading]="loading"
-        [filters]="filters"
-        (totalValue)="changeTotalValue($event)"
-        (openOcurrenceDialog)="openOcurrenceDialog($event)"
-        (onTenderClick)="openTenderDialog($event)"
-        (onDeleteTenderClick)="deletetender($event)"
-        (openTaskDialog)="openTaskDialog($event)">
-
-      </app-table-tender>
-    </div>
   </mat-tab>
 
-  <!-- <mat-tab label="Kanban">
-    <app-tender-kanban
+</mat-tab-group>-->
+
+<div class="w-100 h-100">
+  <div id="componentHeaderTemplate" class="d-flex justify-content-end mt-2">
+    <div id="componentHeader">
+
+      <div id="options">
+        <div id="indicator">
+          <span class="label">Valor total:</span>{{ totalValue | currency:'BRL' }}
+        </div>
+
+        @if (true) {
+          <div id="filter" matRipple>
+            <i class="fa-solid fa-filter" matTooltip="Filtros" (click)="openContractFilterDialog()"></i>
+          </div>
+        }
+
+        <button matRipple class="button yellow" (click)="openDialogContract()">
+          <i class="fa-solid fa-plus"></i> Novo Cliente
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="componentTable" class="col-12 mt-4">
+    <app-table-contracts
       [loading]="loading"
-    ></app-tender-kanban>
-  </mat-tab> -->
+      [filters]="filters"
+      (totalValue)="changeTotalValue($event)"
+      (onDeletecontractClick)="deleteContract($event)"
+      (onEditContractClick)="openDialogContract($event)"
+    >
 
-</mat-tab-group>
-
+    </app-table-contracts>
+  </div>
+</div>

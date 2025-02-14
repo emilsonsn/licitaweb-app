@@ -1,4 +1,3 @@
-import { AgreementModule } from './agreement/agreement.module';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutPrivateComponent} from "@shared/layouts/layout-private/layout-private.component";
@@ -27,6 +26,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'product',
+        loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'product'
+        }
+      },
+      {
         path: 'users',
         loadChildren: () => import('./collaborator/collaborator.module').then(m => m.CollaboratorModule),
         canActivate: [permissionGuard],
@@ -35,11 +42,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'agreement',
+        path: 'contract',
         loadChildren: () => import('./agreement/agreement.module').then(m => m.AgreementModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'agreement'
+          page: 'contract'
         }
       },
       {

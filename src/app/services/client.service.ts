@@ -27,11 +27,15 @@ export class ClientService {
   }
 
   public patchClient(id: number, client: Client): Observable<ApiResponse<Client>> {
-    return this._http.patch<ApiResponse<Client>>(`${environment.api}/client/${id}`, client);
+    return this._http.post<ApiResponse<Client>>(`${environment.api}/client/${id}?_method=PATCH`, client);
   }
 
   public deleteClient(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/client/${id}`);
+  }
+
+  public deleteItemFile(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/client/attachment/${id}`);
   }
 
 }

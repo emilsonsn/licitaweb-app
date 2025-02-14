@@ -1,0 +1,194 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{title}}</span>
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome do produto</mat-label>
+          <input matInput type="text" formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Código interno/SKU</mat-label>
+          <input matInput type="text" formControlName="sku">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Categoria</mat-label>
+          <input matInput type="text" formControlName="category">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 mb-3">
+        <span class="fw-bolder">Descrição detalhada</span>
+        <mat-form-field appearance="outline">
+          <textarea matInput formControlName="detailed_description" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 mb-3">
+        <span class="fw-bold fs-5 address">Especificações técnicas</span>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <span class="fw-bolder">Informção tecnica padrão</span>
+        <mat-form-field appearance="outline">
+          <textarea matInput formControlName="technical_information" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Medida do produto</mat-label>
+          <input matInput type="text" formControlName="size">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Marca</mat-label>
+          <input matInput type="text" formControlName="brand">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Origem</mat-label>
+          <mat-select formControlName="origin" placeholder="Origem">
+            @for (key of originKeys; track key) {
+              <mat-option [value]="key">{{ originEnum[key] }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Modelo</mat-label>
+          <input matInput type="text" formControlName="model">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 mb-3">
+        <span class="fw-bold fs-5 address">Custo do produto</span>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Custo de aquisição</mat-label>
+          <input type="text" formControlName="purchase_cost" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Frete</mat-label>
+          <input type="text" formControlName="freight" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Impostos e taxas</mat-label>
+          <input type="text" formControlName="taxes_fees" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Custo total</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="total_cost" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div> -->
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Margem de lucro (%)</mat-label>
+          <input [ngStyle]="{'text-align': 'right'}" type="number" formControlName="profit_margin" matInput />
+          <span [ngStyle]="{'margin-right': '5px'}" matSuffix><i class="fa-solid fa-percent"></i></span>
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
+        <span class="fw-bolder">Preço de venda</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="sale_price" matInput currencyMask placeholder="R$ 0,00" />
+        </mat-form-field>
+      </div> -->
+      <div class="col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Fornecedor</mat-label>
+          <mat-select formControlName="supplier_id">
+            <mat-option *ngFor="let supplier of suppliers
+            " [value]="supplier.id">
+              {{ supplier.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="mt-3" >
+        <div class="col-12 mb-3">
+          <span class="fw-bold fs-5 address">Anexos</span>
+        </div>
+        <div id="files">
+          @for(img of filesFromBack; track img) {
+            <div class="file" matTooltip="{{img.name}}" (click)="openImgInAnotherTab(img.path)">
+              <div class="delete">
+                <i class="fa-solid fa-close" (click)="prepareFileToRemoveFromBack(img.id, $index);"></i>
+              </div>
+              <img [src]="img.path" alt="{{img.name}}"
+                   style="max-width: 100%; max-height: 100%;"
+                   (error)="imgLoadError($event, img)" />
+              <i *ngIf="img.path" class="fa-solid fa-file"></i>
+            </div>
+          }
+
+          @for(img of filesToSend; track img) {
+            <div class="file" matTooltip="{{img.file.name}}">
+              <div class="delete">
+                <i class="fa-solid fa-close" (click)="removeFileFromSendToFiles($index);"></i>
+              </div>
+              @if(img.preview) {
+                <img [src]="img.preview" alt="{{img.file.name}}" style="max-width: 100%; max-height: 100%;" />
+              }
+              @else {
+                <i class="fa-solid fa-file"></i>
+              }
+            </div>
+          }
+        </div>
+        <div matRipple id="inputFileAdd" class="mt-2">
+          <div id="text">
+            <i class="fa-solid fa-plus"></i>
+            <span>Adicionar Arquivo</span>
+          </div>
+          <input type="file" (change)="onFileSelected($event)" [multiple]="true" title=" " />
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      @if(loading) {
+        <div matRipple class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit(form)">{{isNewProduct ? 'Criar' :
+            'Salvar'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

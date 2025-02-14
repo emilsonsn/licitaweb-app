@@ -17,4 +17,5 @@ export interface Client {
   user: User;
   flag: string;
   cep: string;
+  attachments?: any[]
 }

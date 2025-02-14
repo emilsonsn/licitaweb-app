@@ -50,6 +50,19 @@ import { DialogsNotificationComponent } from './dialogs-notification/dialogs-not
 import { DialogSupplierComponent } from './dialog-supplier/dialog-supplier.component';
 import { DialogOccurrenceClientComponent } from './dialog-occurrence-client/dialog-occurrence-client.component';
 import { DialogOccurrenceSupplierComponent } from './dialog-occurrence-supplier/dialog-occurrence-supplier.component';
+import { DialogProductComponent } from './dialog-product/dialog-product.component';
+import { DialogHistoricalProductComponent } from './dialog-historical-product/dialog-historical-product.component';
+import { DialogProductViewsComponent } from './dialog-product-views/dialog-product-views.component';
+import {
+  MatCell, MatCellDef,
+  MatColumnDef,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef, MatRow,
+  MatRowDef,
+  MatTable
+} from "@angular/material/table";
+import { DialogContractComponent } from './dialog-contract/dialog-contract.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -95,7 +108,11 @@ const MY_DATE_FORMATS = {
     DialogsNotificationComponent,
     DialogSupplierComponent,
     DialogOccurrenceClientComponent,
-    DialogOccurrenceSupplierComponent
+    DialogOccurrenceSupplierComponent,
+    DialogProductComponent,
+    DialogHistoricalProductComponent,
+    DialogProductViewsComponent,
+    DialogContractComponent
   ],
   imports: [
     CommonModule,
@@ -130,6 +147,16 @@ const MY_DATE_FORMATS = {
     ColorChromeModule,
     AceModule,
     MatNativeDateModule,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderRow,
+    MatRowDef,
+    MatHeaderRowDef,
+    MatRow,
+    MatCellDef,
+    MatHeaderCellDef,
   ],
   providers: [
     {

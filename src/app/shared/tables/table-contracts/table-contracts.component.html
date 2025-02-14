@@ -1,0 +1,110 @@
+<div class="table-container">
+
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        @for (col of columns; track col) {
+          <th
+            [class.hasorder]="col.order"
+            [ngStyle]="{ cursor: 'pointer' }"
+            [class.active-order]="pageControl.orderField === col.slug"
+          >
+            <!--(click)="onClickOrderBy(col.slug, col.order)" -->
+            <div
+              class="{{col.align}}"
+            >
+              {{ col.title }}
+              <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
+                {{
+                  pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
+                }}
+              </i>
+            </div>
+          </th>
+        }
+      </thead>
+      <tbody>
+      <tr *ngIf="loading">
+        <td [attr.colspan]="columns.length + 1">
+          <div id="mat-loading">
+            <mat-spinner></mat-spinner>
+          </div>
+        </td>
+      </tr>
+        @if (!loading) {
+          <tr *ngIf="!contract?.length">
+            <td [attr.colspan]="columns.length + 1" class="text-center">
+              <div>Nenhum resultado encontrado</div>
+            </td>
+          </tr>
+          @for (contract of contract; track contract) {
+            <tr
+              class="table-line-hover"
+              style="outline: none;"
+            >
+              <td>
+                <div class="text-center">
+                  {{ contract?.contract_number }}
+                </div>
+              </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.tender.organ }}
+                </div>
+              </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.signature_date | date: "dd/MM/yyyy" }}
+                </div>
+              </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.total_contract_value | currencyFormat }}
+                </div>
+              </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.outstanding_balance | currencyFormat }}
+                </div>
+              </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.status | translateContractStatus }}
+                </div>
+              </td>
+
+              <td>
+                <div class="text-center">
+                  {{ contract?.client.name }}
+                </div>
+              </td>
+
+              <td>
+                <div class="d-flex justify-content-center">
+
+                  <div matRipple class="buttonTemplate" matTooltip="Editar"
+                       (click)="onEditContractClick.emit(contract); $event.stopPropagation()">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </div>
+
+                  <div matRipple class="buttonTemplate" matTooltip="Deletar"
+                       (click)="onDeletecontractClick.emit(+contract?.id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+                 [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
+
+</div>
