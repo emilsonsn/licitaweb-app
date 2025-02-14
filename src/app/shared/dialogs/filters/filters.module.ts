@@ -27,6 +27,8 @@ import { DialogFilterClientComponent } from './dialog-filter-client/dialog-filte
 import { DialogFilterSupplierComponent } from './dialog-filter-supplier/dialog-filter-supplier.component';
 import { DialogFiterProductComponent } from './dialog-fiter-product/dialog-fiter-product.component';
 import { DialogFilterTenderAuctionedComponent } from './dialog-filter-tender-auctioned/dialog-filter-tender-auctioned.component';
+import { DialogFilterContractComponent } from './dialog-filter-contract/dialog-filter-contract.component';
+import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 
 const filters = [
   DialogFilterOrderComponent,
@@ -43,6 +45,7 @@ const filters = [
     DialogFilterSupplierComponent,
     DialogFiterProductComponent,
     DialogFilterTenderAuctionedComponent,
+    DialogFilterContractComponent,
   ],
   imports: [
     CommonModule,
@@ -68,7 +71,8 @@ const filters = [
     CdkTextareaAutosize,
     CurrencyMaskModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    NgxMatSelectSearchModule
   ],
   exports: [
     filters

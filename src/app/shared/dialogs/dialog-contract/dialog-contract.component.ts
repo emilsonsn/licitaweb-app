@@ -10,6 +10,7 @@ import {ContractStatusEnum} from "@shared/enums/ContractStatusEnum";
 import dayjs from "dayjs";
 import {TenderService} from "@services/tender.service";
 import {Tender} from "@models/tender";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-dialog-contract',
@@ -24,7 +25,6 @@ export class DialogContractComponent {
   tenders: Tender[] = [];
   public search_term_client: FormControl<string> = new FormControl<string>('');
   private searchSubjectClient: Subject<string> = new Subject<string>();
-
   public search_term_tender: FormControl<string> = new FormControl<string>('');
   private searchSubjectTender: Subject<string> = new Subject<string>();
 
@@ -36,8 +36,8 @@ export class DialogContractComponent {
     orderField: "id",
     order: Order.ASC,
   };
-  filtersClient: { search_term?: string } = {search_term: ''};
   filtersTender: { search_term?: string } = {search_term: ''};
+  filtersClient: { search_term?: string } = {search_term: ''};
   statusOptions = Object.values(ContractStatusEnum);
 
   constructor(
@@ -45,10 +45,12 @@ export class DialogContractComponent {
     private contractService: ContractService,
     private clientService: ClientService,
     private tenderService: TenderService,
+    private readonly _toastr: ToastrService,
     public dialogRef: MatDialogRef<DialogContractComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.contractForm = this.fb.group({
+      id: [null],
       contract_number: [null, [Validators.required]],
       client_id: [null, [Validators.required]],
       tender_id: [null, [Validators.required]],
@@ -83,6 +85,12 @@ export class DialogContractComponent {
       this.onSearchClientTermChange(searchTerm);
     });
 
+    if (data) {
+      this.isNewContract = false;
+      this.title = 'Editar contrato';
+      this.contractForm.patchValue(data);
+    }
+
   }
 
 
@@ -107,17 +115,32 @@ export class DialogContractComponent {
       formData.end_date = dayjs(formData.end_date).format('YYYY-MM-DD');
     }
 
-    console.log('Form Value:', formData);
+    if (formData.id) {
+      this.contractService.updateContract(formData.id, formData).subscribe(
+        response => {
+          console.log('Contrato atualizado com sucesso!', response);
+          this._toastr.success('Contrato atualizado com sucesso!');
+          this.dialogRef.close(response);
+        },
+        error => {
+          this._toastr.error('Erro ao atualizar contrato');
+          console.error('Erro ao atualizar contrato', error);
+        }
+      );
+    } else {
+      this.contractService.createContract(formData).subscribe(
+        response => {
+          console.log('Contrato criado com sucesso!', response);
+          this._toastr.success('Contrato criado com sucesso!');
+          this.dialogRef.close(response);
+        },
+        error => {
+          this._toastr.error('Erro ao criar contrato');
+          console.error('Erro ao criar contrato', error);
+        }
+      );
+    }
 
-    this.contractService.createContract(formData).subscribe(
-      response => {
-        console.log('Contrato criado com sucesso!', response);
-        this.dialogRef.close(response);
-      },
-      error => {
-        console.error('Erro ao criar contrato', error);
-      }
-    );
   }
 
 

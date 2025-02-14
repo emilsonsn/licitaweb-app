@@ -21,7 +21,7 @@ export class TableContractsComponent {
   filters: any;
 
   @Output()
-  oncontractClick: EventEmitter<any> = new EventEmitter<any>();
+  onEditContractClick: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
   totalValue: EventEmitter<number> = new EventEmitter<number>();
@@ -110,6 +110,10 @@ export class TableContractsComponent {
   ngOnChanges(changes: SimpleChanges): void {
     const {filters, searchTerm, loading} = changes;
 
+    if (loading?.currentValue) {
+      this._onSearch();
+    }
+
     if (searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue) {
       this._onSearch();
     } else if (!loading?.currentValue) {
@@ -123,28 +127,35 @@ export class TableContractsComponent {
     this.loading = !this.loading;
   }
 
+  private _setLoading(state: boolean): void {
+    this.loading = state;
+  }
+
   private _onSearch() {
-    this.pageControl.search_term = this.searchTerm || '';
     this.pageControl.page = 1;
     this.search();
   }
 
   search(): void {
-    this._initOrStopLoading();
+    this._setLoading(true); // Ativa o loading antes de iniciar a requisição
+
+    console.log(this.filters);
 
     this.contractService
       .searchContracts(this.pageControl, this.filters)
-      .pipe(finalize(() => this._initOrStopLoading()))
+      .pipe(finalize(() => this._setLoading(false))) // Garante que o loading será desativado após a requisição
       .subscribe((res) => {
         this.contract = res.data;
         const result: any = res;
-        this.totalValue.emit(result?.total_value)
-
+        this.totalValue.emit(
+          (result.data as Contract[]).reduce((sum, c) => sum + (+c.total_contract_value || 0), 0)
+        );
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;
         this.pageControl.pageCount = res.last_page;
       });
   }
+
 
   pageEvent($event: any) {
     this.pageControl.page = $event.pageIndex + 1;

@@ -42,11 +42,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'agreement',
+        path: 'contract',
         loadChildren: () => import('./agreement/agreement.module').then(m => m.AgreementModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'agreement'
+          page: 'contract'
         }
       },
       {

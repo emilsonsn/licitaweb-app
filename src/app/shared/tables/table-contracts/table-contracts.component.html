@@ -41,7 +41,6 @@
             <tr
               class="table-line-hover"
               style="outline: none;"
-              (click)="oncontractClick.emit(contract)"
             >
               <td>
                 <div class="text-center">
@@ -75,7 +74,7 @@
 
               <td>
                 <div class="text-center">
-                  {{ contract?.status }}
+                  {{ contract?.status | translateContractStatus }}
                 </div>
               </td>
 
@@ -86,10 +85,10 @@
               </td>
 
               <td>
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-center">
 
                   <div matRipple class="buttonTemplate" matTooltip="Editar"
-                       (click)="oncontractClick.emit(contract); $event.stopPropagation()">
+                       (click)="onEditContractClick.emit(contract); $event.stopPropagation()">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
 

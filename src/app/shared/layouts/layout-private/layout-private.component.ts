@@ -78,7 +78,7 @@ export class LayoutPrivateComponent {
         {
           label: 'Contratos',
           icon: 'fa-solid fa-handshake',
-          route: '/painel/agreement'
+          route: '/painel/contract'
         },
       ]
     },
