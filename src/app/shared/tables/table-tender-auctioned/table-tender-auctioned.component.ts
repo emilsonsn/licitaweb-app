@@ -4,6 +4,7 @@ import {Order, PageControl} from "@models/application";
 import {ToastrService} from "ngx-toastr";
 import {TenderService} from "@services/tender.service";
 import {finalize} from "rxjs";
+import {TaskService} from "@services/task.service";
 
 @Component({
   selector: 'app-table-tender-auctioned',
@@ -39,6 +40,8 @@ export class TableTenderAuctionedComponent {
   openProductViewDialog: EventEmitter<number> = new EventEmitter<number>();
 
   public tender: Tender[] = [];
+
+  public tenderStatusId: number;
 
   public columns = [
     {
@@ -103,6 +106,7 @@ export class TableTenderAuctionedComponent {
   constructor(
     private readonly _toastr: ToastrService,
     private readonly _tenderService: TenderService,
+    private readonly _taskService: TaskService,
   ) {
   }
 
@@ -135,18 +139,25 @@ export class TableTenderAuctionedComponent {
   search(): void {
     this._initOrStopLoading();
 
-    this._tenderService
-      .getTenders(this.pageControl, {...this.filters, status_id: 3})
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe((res) => {
-        this.tender = res.data;
-        const result: any = res;
-        this.totalValue.emit(result?.total_value)
+    if (!this.tenderStatusId) {
+      this._taskService.getStatusTasks().subscribe((response: any) => {
+        this._tenderService
+          .getTenders(this.pageControl, {...this.filters, status_id: +(response.data.find((x) => x.name === "Arrematado").id)})
+          .pipe(finalize(() => this._initOrStopLoading()))
+          .subscribe((res) => {
+            this.tender = res.data;
+            const result: any = res;
+            this.totalValue.emit(result?.total_value)
 
-        this.pageControl.page = res.current_page - 1;
-        this.pageControl.itemCount = res.total;
-        this.pageControl.pageCount = res.last_page;
-      });
+            this.pageControl.page = res.current_page - 1;
+            this.pageControl.itemCount = res.total;
+            this.pageControl.pageCount = res.last_page;
+          });
+
+      })
+    }
+
+
   }
 
   onClickOrderBy(slug: string, order: boolean) {
