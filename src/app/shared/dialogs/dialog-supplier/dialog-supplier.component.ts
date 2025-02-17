@@ -1,13 +1,13 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Estados } from '@models/utils';
-import { UserService } from '@services/user.service';
-import { UtilsService } from '@services/utils.service';
-import { Utils } from '@shared/utils';
-import { ToastrService } from 'ngx-toastr';
-import { from, map, ReplaySubject } from 'rxjs';
-import { SupplierClient } from '@models/supplierClient';
+import {Component, Inject} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Estados} from '@models/utils';
+import {UserService} from '@services/user.service';
+import {UtilsService} from '@services/utils.service';
+import {Utils} from '@shared/utils';
+import {ToastrService} from 'ngx-toastr';
+import {map, ReplaySubject} from 'rxjs';
+import {SupplierClient} from '@models/supplierClient';
 
 @Component({
   selector: 'app-dialog-supplier',
@@ -48,19 +48,19 @@ export class DialogSupplierComponent {
   ngOnInit(): void {
     this.form = this._fb.group({
       id: [null],
+      state_registration: [null],
+      number: [null,],
+      complement: [null,],
+      landline_phone: [null],
+      mobile_phone: [null,],
       name: [null, [Validators.required]],
       cpf_or_cnpj: [null, [Validators.required]],
-      state_registration: [null, [Validators.required]],
       street: [null, [Validators.required]],
-      number: [null, [Validators.required]],
-      complement: [null, [Validators.required]],
       neighborhood: [null, [Validators.required]],
       city: [null, [Validators.required]],
       zip_code: [null, [Validators.required]],
-      landline_phone: [null, [Validators.required]],
-      mobile_phone: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
-      user_id: [null],
+      user_id: [null, [Validators.required]],
       state: [null, [Validators.required]],
     });
 
