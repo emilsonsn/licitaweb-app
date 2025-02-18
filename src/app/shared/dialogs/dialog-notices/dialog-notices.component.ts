@@ -121,8 +121,6 @@ export class DialogNoticesComponent {
       });
 
 
-    } else {
-      this.items.push(this.createItem());
     }
 
     this.form.get('items').valueChanges.subscribe((items) => {
@@ -174,7 +172,7 @@ export class DialogNoticesComponent {
             this.form.get('user_id').patchValue(randomUser.id);
           }
         }
-        
+
       });
   }
 
@@ -324,18 +322,10 @@ export class DialogNoticesComponent {
   public onDeleteItem(index: number): void {
     if (!this.items.value[index].id) {
       this.items.removeAt(index);
-
-      if (this.items.length === 0) {
-        this.items.push(this.createItem());
-      }
       return;
     }
 
     this.deleteItem(index)
-
-    if (this.items.length === 0) {
-      this.items.push(this.createItem());
-    }
   }
 
   // Items
