@@ -18,9 +18,8 @@ export class SearchComponent {
     orderField: 'proposal_closing_date',
     order: Order.DESC,
   };
-  isLoading = false;
+  isLoading = true;
   tendersCards: any = [];
-  loading: boolean = false;
   filtrosLocalStorage;
 
   constructor(
@@ -28,11 +27,6 @@ export class SearchComponent {
     private filtersService: FiltersService
   ) {
     this.getFilters();
-    
-  }
-
-  ngOnDestroy(){
-    // this.filtersService.setFilters(null, 'Search');
   }
 
   pageEvent($event: any) {
@@ -42,6 +36,7 @@ export class SearchComponent {
   }
 
   onSubmit(filters = null) {
+    this.isLoading = true;
     const container = document.querySelector('.container-cards');
     if (container) {
       container.scrollTo({
@@ -49,31 +44,32 @@ export class SearchComponent {
         behavior: 'smooth'
       });
     }
-    
+
     this._tenderTaskService.searchTenderCard(this.pageControl, filters)
-    .pipe(finalize(() => this.loading = true))
-    .subscribe(
-      {
-        next: (res) => {
-          if (res && res.data) {
-            this.loading = false;
-            this.tendersCards = res.data.data || [];
+      .subscribe(
+        {
+          next: (res) => {
+            if (res && res.data) {
+              this.tendersCards = res.data.data || [];
 
-            this.pageControl.page = res.data.current_page - 1;
-            this.pageControl.itemCount = res.data.total;
-            this.pageControl.pageCount = res.data.last_page;
-
-          } else {
+              this.pageControl.page = res.data.current_page - 1;
+              this.pageControl.itemCount = res.data.total;
+              this.pageControl.pageCount = res.data.last_page;
+            } else {
+              this.tendersCards = [];
+            }
+          },
+          error: (error) => {
+            console.error('Error fetching tenders', error);
             this.tendersCards = [];
+          },
+          complete: () => {
+            this.isLoading = false;
           }
-        },
-        error: (error) => {
-          console.error('Error fetching tenders', error);
-          this.tendersCards = [];
         }
-      }
-    );
+      );
   }
+
 
   public getFilters(): void{
     this.filtrosLocalStorage = this.filtersService.getFilters('Search');

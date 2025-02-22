@@ -1,95 +1,90 @@
-<form [formGroup]="form" class="row">
+<form [formGroup]="form" class="d-flex flex-column gap-3 justify-content-between" style="flex: 1">
+  <div class="row">
 
-  <div class="col-md-12 col-12 mb-3 d-flex gap-3 justify-content-between">
-    <button class="btn btn-secondary" (click)="clear()">
-      <strong>
-        <a target="_blank"
-           rel="noopener noreferrer"
-           style="text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 0.5rem; color: white;"
-        >
-          <span>Limpar</span>
-        </a>
-      </strong>
-    </button>
-  </div>
+    <div class="col-md-12 col-12 mb-2">
+      <button class="btn btn-secondary" (click)="clear()">
+        <strong>
+          <a target="_blank"
+             rel="noopener noreferrer"
+             style="text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 0.5rem; color: white;"
+          >
+            <span>Limpar</span>
+          </a>
+        </strong>
+      </button>
+    </div>
 
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Objeto</span>
-    <mat-form-field appearance="outline" class="w-100">
-      <input matInput formControlName="object" placeholder="Pesquise por Objeto">
-    </mat-form-field>
-  </div>
+    <div class="col-md-12 col-12 mb-2">
+      <span class="fw-bolder">Objeto</span>
+      <mat-form-field appearance="outline" class="w-100">
+        <input matInput formControlName="object" placeholder="Pesquise por Objeto">
+      </mat-form-field>
+    </div>
 
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Estado</span>
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-select formControlName="uf" (selectionChange)="onStateChange($event.value)">
-        <mat-option *ngFor="let estado of estados" [value]="estado.Sigla">
-          {{ estado.Nome }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Cidade</span>
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-select formControlName="city" multiple>
-        <mat-option *ngFor="let cidade of cidadesFiltradas" [value]="cidade.Nome">
-          {{ cidade.Nome }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>  
+    <div class="col-md-12 col-12 mb-2">
+      <span class="fw-bolder">Estado</span>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-select formControlName="uf" (selectionChange)="onStateChange($event.value)">
+          <mat-option *ngFor="let estado of estados" [value]="estado.Sigla">
+            {{ estado.Nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Modalidades</span>
-    <mat-form-field>
-      <mat-select formControlName="modality_ids" multiple>
-        <mat-option [value]="'5'">{{'Pregão eletrônico'}}</mat-option>
-        <mat-option [value]="'6'">{{'Dispensas e dispensas eletrônicas'}}</mat-option>
-        <mat-option [value]="'1'">{{'Convite'}}</mat-option>
-        <mat-option [value]="'2'">{{'Concorrência'}}</mat-option>
-        <mat-option [value]="'3'">{{'Leilão'}}</mat-option>
-        <mat-option [value]="'4'">{{'Tomada de preços'}}</mat-option>
-        <mat-option [value]="'8'">{{'Pregão presencial'}}</mat-option>
-        <mat-option [value]="'1'">{{'Chamada/Chamamento público'}}</mat-option>
-        <mat-option [value]="'9,10,11,12'">{{'Outros'}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <div>
+      <span class="fw-bolder">Cidade</span>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-select formControlName="city" multiple>
+          <mat-option *ngFor="let cidade of cidadesFiltradas" [value]="cidade.Nome">
+            {{ cidade.Nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Data Prazo</span>
-    <mat-form-field>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Início" formControlName="update_date_start">
-        <input matEndDate placeholder="Fim" formControlName="update_date_end">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-  </div>
+    <div class="col-md-12 col-12 mb-2">
+      <span class="fw-bolder">Modalidades</span>
+      <mat-form-field>
+        <mat-select formControlName="modality_ids" multiple>
+          <mat-option [value]="'5'">{{ 'Pregão eletrônico' }}</mat-option>
+          <mat-option [value]="'6'">{{ 'Dispensas e dispensas eletrônicas' }}</mat-option>
+          <mat-option [value]="'1'">{{ 'Convite' }}</mat-option>
+          <mat-option [value]="'2'">{{ 'Concorrência' }}</mat-option>
+          <mat-option [value]="'3'">{{ 'Leilão' }}</mat-option>
+          <mat-option [value]="'4'">{{ 'Tomada de preços' }}</mat-option>
+          <mat-option [value]="'8'">{{ 'Pregão presencial' }}</mat-option>
+          <mat-option [value]="'1'">{{ 'Chamada/Chamamento público' }}</mat-option>
+          <mat-option [value]="'9,10,11,12'">{{ 'Outros' }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">CNPJ do Órgão</span>
-    <mat-form-field appearance="outline" class="w-100">
-      <input matInput formControlName="organ_cnpj" placeholder="Pesquise por CNPJ do Órgão">
-    </mat-form-field>
-  </div>
+    <div class="col-md-12 col-12 mb-2">
+      <span class="fw-bolder">Data Prazo</span>
+      <mat-form-field>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Início" formControlName="update_date_start">
+          <input matEndDate placeholder="Fim" formControlName="update_date_end">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
 
-  <!-- <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Nome do Órgão</span>
-    <mat-form-field appearance="outline" class="w-100">
-      <input matInput formControlName="organ_name" placeholder="Pesquise por nome do Órgão">
-    </mat-form-field>
-  </div> -->
+    <div class="col-md-12 col-12 mb-2">
+      <span class="fw-bolder">CNPJ do Órgão</span>
+      <mat-form-field appearance="outline" class="w-100">
+        <input matInput formControlName="organ_cnpj" placeholder="Pesquise por CNPJ do Órgão">
+      </mat-form-field>
+    </div>
 
-  <div class="col-md-12 col-12 mb-3">
-    <span class="fw-bolder">Nº Processo</span>
-    <mat-form-field appearance="outline" class="w-100">
-      <input matInput formControlName="process" placeholder="Pesquise por Nº Processo">
-    </mat-form-field>
+    <div class="col-md-12 col-12 mb-2">
+      <span class="fw-bolder">Nº Processo</span>
+      <mat-form-field appearance="outline" class="w-100">
+        <input matInput formControlName="process" placeholder="Pesquise por Nº Processo">
+      </mat-form-field>
+    </div>
   </div>
 
   <div class="w-100">

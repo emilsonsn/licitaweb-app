@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Estados from '../../../../assets/json/Estados.json';
 import Cidades from '../../../../assets/json/Cidades.json';
 import { FiltersService } from '@services/filters-service.service';
+import estados from "@assets/json/Estados.json";
 
 @Component({
   selector: 'app-card-tender-filter',

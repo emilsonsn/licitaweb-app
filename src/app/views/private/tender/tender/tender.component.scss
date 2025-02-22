@@ -6,6 +6,17 @@
   padding-bottom: 1rem;
 }
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  overflow: auto;
+}
+
+
 .mat-mdc-tab-group {
   flex: 1 !important;
 }

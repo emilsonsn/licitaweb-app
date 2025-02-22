@@ -1,45 +1,59 @@
-.container-search {
-  width: 100%;
-  height: 100%;
+:host {
   display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: start;
-  padding-bottom: 1rem;
+  height: 100%;
+  padding-top: 1rem;
+  padding-left: 2rem !important;
+}
 
+.container-search {
+  display: flex;
+  padding-bottom: 1rem;
 
   .container-filter {
     flex: 0.6;
-    width: 100%;
-    max-height: 650px;
-    overflow-y: auto;
-    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: .5rem;
     padding: 1rem;
-    background: white;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    background: #fff;
+    box-shadow: 0 10px 15px -3px #0000001a;
+    overflow: auto;
   }
 
   .container-cards {
     flex: 1;
-    width: 100%;
-    max-height: 650px;
-    overflow-y: auto;
-    border-radius: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: 1rem;
     display: flex;
     flex-direction: column;
-
-    .cards-container{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      gap: 1rem;
-    }
-
+    justify-content: space-between;
+    gap: 1rem;
+    max-height: 100%; /* Ou defina um valor fixo, por exemplo, 400px */
   }
 
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1; /* Permite que o cards-container ocupe o máximo de altura disponível */
+    overflow-y: auto; /* Ativa o scroll interno */
+    height: 70vh;
+    padding-left: 1rem;
+    padding-right: 2rem !important;
+  }
 }
+
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 30px;
+  padding-bottom: 8px;
+  background: linear-gradient(currentColor 0 0) 0 100%/0% 3px no-repeat;
+  animation: l2 2s linear infinite;
+}
+
+.loader:before {
+  content:"Buscando editais...";
+}
+
+@keyframes l2 {to{background-size: 100% 3px}}

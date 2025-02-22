@@ -14,13 +14,12 @@ main {
     flex-direction: column;
     overflow-y: auto;
     padding-top: 0;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
     background-color: $white-200;
 
     .content {
+      overflow: hidden;
+      display: flex;
       flex: 1;
-      padding-top: 1rem;
       padding-bottom: 0;
     }
   }

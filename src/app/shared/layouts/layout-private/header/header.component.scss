@@ -13,6 +13,8 @@ header {
   height: $header-height;
   width: 100%;
   background-color: $header-background;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
 
   .title {
     display: flex;
