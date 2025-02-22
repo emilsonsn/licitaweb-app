@@ -30,9 +30,10 @@ export class SearchComponent {
   }
 
   pageEvent($event: any) {
+    console.log($event);
     this.pageControl.page = $event.pageIndex + 1;
     this.pageControl.take = $event.pageSize;
-    this.getFilters();
+    this.onSubmit();
   }
 
   onSubmit(filters = null) {
