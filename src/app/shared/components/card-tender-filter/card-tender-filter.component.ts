@@ -77,6 +77,5 @@ export class CardTenderFilterComponent {
     this.cidadesFiltradas = [];
     this.filtersService.setFilters(null, 'Search');
     this.onReset.emit();
-    this.search();
   }
 }
