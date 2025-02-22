@@ -57,6 +57,12 @@ export class TableTenderAuctionedComponent {
       align: "start",
     },
     {
+      slug: "auction_date",
+      order: true,
+      title: "Arrematado",
+      align: "justify-content-center",
+    },
+    {
       slug: "contest_date",
       order: true,
       title: "Certame",

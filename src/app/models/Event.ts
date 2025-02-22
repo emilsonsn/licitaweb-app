@@ -8,6 +8,7 @@ export interface IEventTask {
   status: EventStatus;
   tender_id: number;
   user_id?: number;
+  client_id?: number;
   user?: User;
 }
 

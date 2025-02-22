@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { Order, PageControl } from '@models/application';
-import { Client } from '@models/client';
-import { ClientService } from '@services/client.service';
-import { UserService } from '@services/user.service';
-import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
+import {Order, PageControl} from '@models/application';
+import {Client} from '@models/client';
+import {ClientService} from '@services/client.service';
+import {UserService} from '@services/user.service';
+import {ToastrService} from 'ngx-toastr';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-table-client',
@@ -166,6 +166,22 @@ export class TableClientComponent {
     this.pageControl.page = $event.pageIndex + 1;
     this.pageControl.take = $event.pageSize;
     this.search();
+  }
+
+  openWhatsapp(whatsapp: number | undefined) {
+    if (whatsapp) {
+      window.open(`https://api.whatsapp.com/send?phone=55${whatsapp}`);
+    } else {
+      this._toastr.warning("Nenhum telefone cadastrado");
+    }
+  }
+
+  openEmail(email: string | undefined) {
+    if (email) {
+      window.open(`mailto:${email}`);
+    }else {
+      this._toastr.warning("Nenhum email cadastrado");
+    }
   }
 }
 

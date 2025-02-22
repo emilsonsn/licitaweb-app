@@ -36,6 +36,7 @@ export class SearchComponent {
   }
 
   onSubmit(filters = null) {
+    filters = filters ? filters : this.filtrosLocalStorage;
     this.isLoading = true;
     const container = document.querySelector('.container-cards');
     if (container) {

@@ -95,12 +95,12 @@
               <td>
                 <div class="d-flex justify-content-end">
 
-                  @if (tender.status.id == 3) {
+                  <!--@if (tender.status.id == 3) {
                     <div matRipple class="buttonTemplate" matTooltip="Ocorrências"
                          (click)="openProductViewDialog.emit(tender.id); $event.stopPropagation()">
                       <i class="fa-boxes-stacked fa-solid"></i>
                     </div>
-                  }
+                  }-->
 
                   <div matRipple class="buttonTemplate" matTooltip="Ocorrências" (click)="openOcurrenceDialog.emit(tender.id); $event.stopPropagation()">
                     <i class="fa-solid fa-tags"></i>
