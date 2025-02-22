@@ -4,20 +4,17 @@
   </div>
   <div class="container-cards">
     <div class="cards-container">
-      @if (isLoading) {
-        <div class="w-100 d-flex justify-content-center align-items-center h-100">
-          <div class="loader"></div>
-        </div>
-      } @else {
-        @for (tender of tendersCards; track tender) {
-          <app-card-tender [tender]="tender"></app-card-tender>
-        }
-      }
+<!--      @for (tender of tendersCards; track tender) {-->
+<!--        <app-card-tender [tender]="tender"></app-card-tender>-->
+<!--      }-->
+
+      <div class="w-100 d-flex justify-content-center align-items-center h-100">
+        <div class="loader"></div>
+      </div>
     </div>
     <div style="padding-right: 2rem; padding-left: 1rem;">
       <div style="padding: 0 1rem; background: white; border-radius: 0.5rem;">
-        <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page"
-                       [pageSizeOptions]="[10, 25, 50, 100]"
+        <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
                        [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
       </div>
     </div>
