@@ -2,8 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Estados from '../../../../assets/json/Estados.json';
 import Cidades from '../../../../assets/json/Cidades.json';
-import { FiltersService } from '@services/filters-service.service';
-import estados from "@assets/json/Estados.json";
+import {FiltersService} from '@services/filters-service.service';
 
 @Component({
   selector: 'app-card-tender-filter',
@@ -20,7 +19,10 @@ export class CardTenderFilterComponent {
   @Output()
   onSearch : EventEmitter<any> = new EventEmitter();
 
-    constructor(
+  @Output()
+  onReset : EventEmitter<any> = new EventEmitter();
+
+  constructor(
       private fb: FormBuilder,
       private filtersService: FiltersService
     ) {
@@ -74,6 +76,7 @@ export class CardTenderFilterComponent {
     });
     this.cidadesFiltradas = [];
     this.filtersService.setFilters(null, 'Search');
+    this.onReset.emit();
     this.search();
   }
 }

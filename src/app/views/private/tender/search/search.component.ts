@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {Order, PageControl} from "@models/application";
-import { FiltersService } from '@services/filters-service.service';
 import {TenderTaskService} from "@services/tenderTask.service";
-import { finalize } from 'rxjs';
+import {FiltersService} from "@services/filters-service.service";
 
 @Component({
   selector: 'app-search',
@@ -20,7 +19,8 @@ export class SearchComponent {
   };
   isLoading = true;
   tendersCards: any = [];
-  filtrosLocalStorage;
+  filtrosLocalStorage: any;
+  filters: any;
 
   constructor(
     private readonly _tenderTaskService: TenderTaskService,
@@ -30,13 +30,14 @@ export class SearchComponent {
   }
 
   pageEvent($event: any) {
+    console.log($event);
     this.pageControl.page = $event.pageIndex + 1;
     this.pageControl.take = $event.pageSize;
     this.onSubmit();
   }
 
   onSubmit(filters = null) {
-    filters = filters ? filters : this.filtrosLocalStorage;
+    this.filters = filters ? filters : this.filtrosLocalStorage;
     this.isLoading = true;
     const container = document.querySelector('.container-cards');
     if (container) {
@@ -46,14 +47,14 @@ export class SearchComponent {
       });
     }
 
-    this._tenderTaskService.searchTenderCard(this.pageControl, filters)
+    this._tenderTaskService.searchTenderCard(this.pageControl, this.filters)
       .subscribe(
         {
           next: (res) => {
             if (res && res.data) {
               this.tendersCards = res.data.data || [];
 
-              this.pageControl.page = res.data.current_page - 1;
+              this.pageControl.page = res.data.current_page;
               this.pageControl.itemCount = res.data.total;
               this.pageControl.pageCount = res.data.last_page;
             } else {
@@ -75,5 +76,18 @@ export class SearchComponent {
   public getFilters(): void{
     this.filtrosLocalStorage = this.filtersService.getFilters('Search');
     this.onSubmit(this.filtrosLocalStorage);
+  }
+
+  onReset($event: any) {
+    this.filtersService.setFilters(null, 'Search');
+    this.pageControl = {
+      take: 10,
+      page: 1,
+      itemCount: 0,
+      pageCount: 0,
+      orderField: 'proposal_closing_date',
+      order: Order.DESC,
+    }
+    this.onSubmit();
   }
 }

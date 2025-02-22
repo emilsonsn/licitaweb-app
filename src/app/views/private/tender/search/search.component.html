@@ -1,6 +1,6 @@
 <div class="container-search">
   <div class="container-filter">
-    <app-card-tender-filter (onSearch)="onSubmit($event)"></app-card-tender-filter>
+    <app-card-tender-filter (onReset)="onReset($event)" (onSearch)="onSubmit($event)"></app-card-tender-filter>
   </div>
   <div class="container-cards">
     <div class="cards-container">
@@ -16,7 +16,7 @@
     </div>
     <div style="padding-right: 2rem; padding-left: 1rem;">
       <div style="padding: 0 1rem; background: white; border-radius: 0.5rem;">
-        <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page"
+        <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page - 1"
                        [pageSizeOptions]="[10, 25, 50, 100]"
                        [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
       </div>
