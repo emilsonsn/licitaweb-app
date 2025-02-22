@@ -1,5 +1,13 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, ɵFormGroupRawValue, ɵGetProperty, ɵTypedOrUntyped} from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ɵFormGroupRawValue,
+  ɵGetProperty,
+  ɵTypedOrUntyped
+} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {EventStatus, IEventTask} from "@models/Event";
 import {User} from "@models/user";
@@ -11,6 +19,8 @@ import {Order, PageControl} from "@models/application";
 import dayjs from "dayjs";
 import {DialogNoticesComponent} from "@shared/dialogs/dialog-notices/dialog-notices.component";
 import {ToastrService} from "ngx-toastr";
+import {Client} from "@models/client";
+import {ClientService} from "@services/client.service";
 
 @Component({
   selector: 'app-dialog-event',
@@ -26,7 +36,7 @@ export class DialogEventComponent {
   searchTerm?: string = '';
   filters: any;
   private searchSubject = new Subject<string>();
-
+  public search_term_client: FormControl<string> = new FormControl<string>('');
   public pageControl: PageControl = {
     take: 10,
     page: 1,
@@ -35,11 +45,14 @@ export class DialogEventComponent {
     orderField: "id",
     order: Order.ASC,
   };
+  clients: Client[] = [];
+  private searchSubjectClient: Subject<string> = new Subject<string>();
 
   constructor(
     public dialogRef: MatDialogRef<DialogEventComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IEventTask,
     private fb: FormBuilder,
+    private clientService: ClientService,
     private readonly _dialog: MatDialog,
     private readonly _userService: UserService,
     private readonly _tenderService: TenderService,
@@ -55,7 +68,8 @@ export class DialogEventComponent {
       description: [data.description || ''],
       status: [data.status || 'Pending'],
       tender_id: [data.tender_id || null, Validators.required],
-      user_id: [data.user_id || null]
+      user_id: [data.user_id || null],
+      client_id: [data.client_id || null],
     });
     this.getUsers();
     this._onSearch();
@@ -67,6 +81,20 @@ export class DialogEventComponent {
       this._onSearch();
     });
 
+    clientService.getClients(this.pageControl, this.filtersClient).subscribe(res => {
+      this.clients = res.data;
+    });
+
+    this.searchSubjectClient.pipe(
+      debounceTime(500)
+    ).subscribe(searchTerm => {
+      this.onSearchClientTermChange(searchTerm);
+    });
+
+  }
+
+  onSearchClientTermChangeDebounced(searchTerm: string): void {
+    this.searchSubjectClient.next(searchTerm);
   }
 
   public getUsers() {
@@ -206,6 +234,23 @@ export class DialogEventComponent {
 
     // Atualiza o valor do input
     event.target.value = value;
+  }
+
+  filtersClient: { search_term?: string } = {search_term: ''};
+
+  onSearchClientTermChange(searchTerm: string): void {
+    this.filtersClient.search_term = searchTerm;
+
+    this.pageControl.page = 1;
+
+    this.clientService.getClients(this.pageControl, this.filtersClient).subscribe(
+      (res) => {
+        this.clients = res.data;
+      },
+      (error) => {
+        console.error('Erro ao buscar clientes:', error);
+      }
+    );
   }
 
   protected readonly EventStatus = EventStatus;

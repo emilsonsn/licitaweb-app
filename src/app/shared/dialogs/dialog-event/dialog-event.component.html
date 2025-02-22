@@ -73,6 +73,27 @@
           </mat-form-field>
         </div>
       </div>
+
+      <div class="col-12 mb-3">
+
+        <mat-form-field>
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="client_id">
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="search_term_client"
+                placeholderLabel="Pesquise um cliente..."
+                (ngModelChange)="onSearchClientTermChangeDebounced($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let client of clients" [value]="client.id">
+              {{ client.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
       <div class="col-12 mb-3">
         <span class="fw-bolder">Descrição</span>
         <div class="d-flex align-items-center gap-3">

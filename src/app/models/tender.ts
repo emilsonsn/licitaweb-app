@@ -7,6 +7,7 @@ export interface Tender {
   organ: string;
   modality_id: string;
   contest_date: Date;
+  auction_date: Date;
   estimated_value: number;
   status: TaskStatus;
   items_count: number;
