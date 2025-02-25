@@ -1,10 +1,11 @@
 {
   "name": "licitaweb-app",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:clean": "rm -rf node_modules/.cache dist/ .angular/cache && npm install && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
