@@ -63,7 +63,7 @@ export class DialogProductComponent {
       name: [null, [Validators.required]],
       sku: [null, [Validators.required]],
       category: [null, [Validators.required]],
-      detailed_description: [null, [Validators.required]],
+      // detailed_description: [null, [Validators.required]],
       technical_information: [null, [Validators.required]],
       size: [null, [Validators.required]],
       brand: [null, [Validators.required]],
