@@ -68,18 +68,18 @@ export class DialogClientComponent {
     this.form = this._fb.group({
       id: [null],
       name: [null, [Validators.required]],
-      cpf_cnpj: [null, [Validators.required]],
-      fix_phone: [null, [Validators.required]],
-      whatsapp: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      address: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      number: [null, [Validators.required]],
-      complement: [null, [Validators.required]],
+      cpf_cnpj: [null],
+      fix_phone: [null],
+      whatsapp: [null],
+      email: [null],
+      address: [null, ],
+      city: [null, ],
+      state: [null, ],
+      number: [null,],
+      complement: [null, ],
       user_id: [null, [Validators.required]],
-      flag: [null, [Validators.required]],
-      cep: [null, [Validators.required]],
+      flag: [null,],
+      cep: [null,],
       attachments: [''],
     });
 
@@ -159,11 +159,14 @@ export class DialogClientComponent {
       formData.append('flag', form.get('flag')?.value);
       formData.append('cep', form.get('cep')?.value);
 
-      if(form.get('cpf_cnpj')?.value.length == 11){
-        formData.append('type', 'Person');
-      }
-      else{
-        formData.append('type', 'Company');
+      if (form.get('cpf_cnpj')?.value?.length > 0
+      ) {
+        if(form.get('cpf_cnpj')?.value.length == 11){
+          formData.append('type', 'Person');
+        }
+        else{
+          formData.append('type', 'Company');
+        }
       }
 
       let tender_files: File[] = [];

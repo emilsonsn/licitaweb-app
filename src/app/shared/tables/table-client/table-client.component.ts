@@ -183,6 +183,10 @@ export class TableClientComponent {
       this._toastr.warning("Nenhum email cadastrado");
     }
   }
+
+  openLogsClient(id: number | undefined) {
+
+  }
 }
 
 

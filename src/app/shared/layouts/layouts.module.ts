@@ -7,6 +7,7 @@ import { FooterComponent } from './layout-private/footer/footer.component';
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatDivider} from "@angular/material/divider";
 import { MatRippleModule } from '@angular/material/core';
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MatRippleModule } from '@angular/material/core';
     RouterLink,
     MatDivider,
     MatRippleModule,
-    RouterLinkActive
+    RouterLinkActive,
+    MatTooltip
   ]
 })
 export class LayoutsModule { }

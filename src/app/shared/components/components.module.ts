@@ -21,7 +21,8 @@ import {
   MatEndDate,
   MatStartDate
 } from "@angular/material/datepicker";
-
+import { NotificationItemsComponent } from './notification-items/notification-items.component';
+import {MatRipple} from "@angular/material/core";
 const components: any[] = [
   AccountManagerComponent,
   SmallInformationCardComponent,
@@ -32,7 +33,8 @@ const components: any[] = [
   declarations: [
     components,
     CardTenderComponent,
-    CardTenderFilterComponent
+    CardTenderFilterComponent,
+    NotificationItemsComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ const components: any[] = [
     MatEndDate,
     MatStartDate,
     MatDateRangeInput,
-    MatDateRangePicker
+    MatDateRangePicker,
+    MatRipple
   ],
   exports: [
     components,
