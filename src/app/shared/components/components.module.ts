@@ -65,7 +65,8 @@ const components: any[] = [
   exports: [
     components,
     CardTenderComponent,
-    CardTenderFilterComponent
+    CardTenderFilterComponent,
+    NotificationItemsComponent
   ]
 })
 export class ComponentsModule { }

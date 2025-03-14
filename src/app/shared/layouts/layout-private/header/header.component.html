@@ -9,14 +9,11 @@
   </div>
   <div class="container-buttons">
     <div class="dropdown">
-      <button class="h-100" matTooltip="Notificações" (click)="toggleDropdown($event)">
+      <button class="h-100" matBadge="{{ getUnreadNotifications().length }}" matBadgeHidden="{{ getUnreadNotifications().length === 0 }}" matTooltip="Notificações" (click)="toggleDropdownNotification($event)">
         <i class="fa-solid fa-bell"></i>
       </button>
-      <div class="dropdown-content" [ngClass]="show_dropdown ? 'show-dropdown' : ''">
-        <div class="dropdown-item" (click)="logout()">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          Sair
-        </div>
+      <div class="dropdown-content" [ngClass]="show_dropdown_notification ? 'show-dropdown' : ''">
+        <app-notification-items [items]="itemsNotifications" (closeEvent)="toggleDropdownNotification($event)"/>
       </div>
     </div>
     <div class="dropdown">

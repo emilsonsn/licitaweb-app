@@ -8,6 +8,8 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatDivider} from "@angular/material/divider";
 import { MatRippleModule } from '@angular/material/core';
 import {MatTooltip} from "@angular/material/tooltip";
+import {ComponentsModule} from "@shared/components/components.module";
+import {MatBadge} from "@angular/material/badge";
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatDivider,
     MatRippleModule,
     RouterLinkActive,
-    MatTooltip
+    MatTooltip,
+    ComponentsModule,
+    MatBadge
   ]
 })
 export class LayoutsModule { }

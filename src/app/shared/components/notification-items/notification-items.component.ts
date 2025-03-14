@@ -1,10 +1,5 @@
-import {Component} from '@angular/core';
-
-interface INotificationItem {
-  title: string;
-  body: string;
-  date: Date;
-}
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {INotificationItem, NotificationStatus} from "@models/INotificationItem";
 
 @Component({
   selector: 'app-notification-items',
@@ -14,34 +9,31 @@ interface INotificationItem {
 export class NotificationItemsComponent {
   title: string = 'Notificações';
 
-  items: INotificationItem[] = [
-    {
-      title: 'Título da notificação 1',
-      body: 'Descrição da notificação',
-      date: new Date()
-    },
-    {
-      title: 'Título da notificação 2',
-      body: 'Descrição da notificação',
-      date: new Date()
-    },
-    {
-      title: 'Título da notificação 3',
-      body: 'Descrição da notificação',
-      date: new Date()
-    },
-    {
-      title: 'Título da notificação 4',
-      body: 'Descrição da notificação',
-      date: new Date()
-    }
-  ]
+  @Input()
+  items: INotificationItem[];
+  @Output()
+  closeEvent: EventEmitter<Event> = new EventEmitter<Event>();
 
-  close() {
-
+  close(event: Event) {
+    this.closeEvent.emit(event);
   }
 
-  removeItem(item: INotificationItem) {
+  removeItem(item: INotificationItem, event: Event) {
+    event.stopPropagation();
+    const index = this.items.findIndex(x => x === item);
+    if (index !== -1) {
+      this.items.splice(index, 1);
+    }
+  }
 
+  clearAll(event: Event) {
+    this.items.forEach(x => x.status = NotificationStatus.READ);
+    this.closeEvent.emit(event);
+  }
+
+  protected readonly NotificationStatus = NotificationStatus;
+
+  confirmAllReads(): boolean {
+    return this.items.every(x => x.status === NotificationStatus.READ);
   }
 }
