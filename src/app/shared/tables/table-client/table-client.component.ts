@@ -5,6 +5,8 @@ import {ClientService} from '@services/client.service';
 import {UserService} from '@services/user.service';
 import {ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs';
+import {MatDialog} from "@angular/material/dialog";
+import {DialogClientLogComponent} from "@shared/dialogs/dialog-client-log/dialog-client-log.component";
 
 @Component({
   selector: 'app-table-client',
@@ -96,7 +98,8 @@ export class TableClientComponent {
   constructor(
     private readonly _toastr: ToastrService,
     private readonly _clientService: ClientService,
-    private _userService: UserService
+    private _userService: UserService,
+    private dialog: MatDialog
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -185,7 +188,9 @@ export class TableClientComponent {
   }
 
   openLogsClient(id: number | undefined) {
-
+    this.dialog.open(DialogClientLogComponent, {
+      data: {clientId: id}
+    });
   }
 }
 
