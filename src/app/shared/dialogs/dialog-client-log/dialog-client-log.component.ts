@@ -9,6 +9,7 @@ import {ClientLogService} from '@services/client-log.service';
 })
 export class DialogClientLogComponent implements OnInit {
   logs: any[] = [];
+  nameClient: string = '';
   displayedColumns: string[] = ['date', 'description', 'user', 'view_request'];
   totalItems: number = 0;
   currentPage: number = 1;

@@ -70,7 +70,7 @@
           <td>
             <div class="d-flex justify-content-end">
 
-              <div matRipple class="buttonTemplate" matTooltip="Atividades do cliente" (click)="openLogsClient(client?.id); $event.stopPropagation()">
+              <div matRipple class="buttonTemplate" matTooltip="Atividades do cliente" (click)="openLogsClient(client?.id, client?.name); $event.stopPropagation()">
                 <i class="fa-solid fa-file-lines"></i>
               </div>
 

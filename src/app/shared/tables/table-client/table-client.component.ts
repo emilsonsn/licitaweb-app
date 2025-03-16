@@ -187,9 +187,9 @@ export class TableClientComponent {
     }
   }
 
-  openLogsClient(id: number | undefined) {
+  openLogsClient(id: number | undefined, nameClient: string | undefined) {
     this.dialog.open(DialogClientLogComponent, {
-      data: {clientId: id}
+      data: {clientId: id, nameClient: nameClient}
     });
   }
 }
