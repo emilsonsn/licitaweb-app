@@ -14,6 +14,7 @@ import { EventStatusPipe } from './event-status.pipe';
 import { DatetimePipe } from './datetime.pipe';
 import { CurrencyFormatPipe } from './currency-format.pipe';
 import { TranslateContractStatusPipe } from './translate-contract-status.pipe';
+import { JsonPathPipe } from './json-path.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -37,7 +38,8 @@ const pipes = [
     EventStatusPipe,
     DatetimePipe,
     CurrencyFormatPipe,
-    TranslateContractStatusPipe
+    TranslateContractStatusPipe,
+    JsonPathPipe
   ],
   imports: [
     CommonModule
@@ -45,7 +47,8 @@ const pipes = [
   exports: [
     pipes,
     EventStatusPipe,
-    TranslateContractStatusPipe
+    TranslateContractStatusPipe,
+    JsonPathPipe
   ]
 })
 export class PipesModule { }

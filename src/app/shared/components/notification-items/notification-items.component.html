@@ -1,0 +1,40 @@
+<div class="notification-items">
+  <div class="title">
+    <span>{{title}}</span>
+    <div class="close" matRipple (click)="close($event)">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <div class="items">
+    @if (items?.length > 0) {
+      @for (item of items; track item) {
+        @if (item.status === NotificationStatus.UNREAD) {
+          <div class="item">
+            <div class="item-header">
+              <span>{{item?.title}}</span>
+              <i [matTooltip]="'Marcar como lida'" class="fa-solid fa-check-circle" (click)="removeItem(item, $event)"></i>
+            </div>
+            <div class="item-body">
+              {{item?.body}}
+            </div>
+            <div class="item-footer">
+              <span>{{item?.date | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+            </div>
+          </div>
+        }
+      }
+    }
+
+    @if (items?.length === 0 || confirmAllReads()) {
+      <div class="empty">
+        <span>Não há notificações</span>
+      </div>
+    }
+  </div>
+
+  <div class="footer">
+    <button matRipple (click)="clearAll($event)">Limpar todas</button>
+  </div>
+
+</div>

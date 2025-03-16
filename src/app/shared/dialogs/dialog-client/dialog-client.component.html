@@ -31,10 +31,10 @@
       <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline" required>
           <mat-label>Whatsapp</mat-label>
-          <input type="text" formControlName="whatsapp" matInput mask="(00)00000-0000"
-            title="Digite um número de celular válido (xx)xxxxx-xxxx" required />
+          <input type="text" formControlName="whatsapp" matInput mask="(00) 0 0000-0000"
+            title="Digite um número de celular válido (xx) x xxxx-xxxx" required />
           <mat-error *ngIf="form.get('whatsapp')?.value === '' || !validateCellphoneNumber(form.get('whatsapp'))">
-            Digite um número de celular válido (xx)xxxxx-xxxx
+            Digite um número de celular válido (xx) x xxxx-xxxx
           </mat-error>
         </mat-form-field>
       </div>

@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiResponse, ApiResponsePageable, DeleteApiResponse, PageControl } from '@models/application';
-import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
-import { Utils } from '@shared/utils';
-import { Notification } from '@models/notification';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiResponse, ApiResponsePageable, DeleteApiResponse, PageControl} from '@models/application';
+import {Observable} from 'rxjs';
+import {environment} from '@env/environment';
+import {Utils} from '@shared/utils';
+import {Notification} from '@models/notification';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +40,10 @@ export class NotificationService {
 
   public delete(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/${id}`);
+  }
+
+  public viewed(id: number): Observable<ApiResponse<any>> {
+    return this._http.get<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/viewed/${id}`);
   }
 
 

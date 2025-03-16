@@ -70,6 +70,10 @@
           <td>
             <div class="d-flex justify-content-end">
 
+              <div matRipple class="buttonTemplate" matTooltip="Atividades do cliente" (click)="openLogsClient(client?.id); $event.stopPropagation()">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+
               <div matRipple class="buttonTemplate" matTooltip="Ir para o whatsapp" (click)="openWhatsapp(client?.whatsapp); $event.stopPropagation()">
                 <i class="fa-brands fa-square-whatsapp"></i>
               </div>

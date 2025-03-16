@@ -4,4 +4,5 @@ export interface Notification {
   message?: string;
   datetime?: Date;
   tender_id?: number;
+  viewed?: boolean;
 }

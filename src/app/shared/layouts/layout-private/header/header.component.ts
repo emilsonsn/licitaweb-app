@@ -6,6 +6,8 @@ import {User} from "@models/user";
 import {AuthService} from "@services/auth.service";
 import {SessionService} from '@store/session.service';
 import {SessionQuery} from '@store/session.query';
+import {INotificationItem, NotificationStatus} from "@models/INotificationItem";
+import {NotificationService} from "@services/notification.service";
 
 @Component({
   selector: 'app-header',
@@ -16,7 +18,15 @@ export class HeaderComponent implements OnInit {
   @Input() menuItem: IMenuItem[] = [];
   activeLabel: string = '';
   show_dropdown = false;
+  show_dropdown_notification: boolean = false;
   @Output() toggleSidebar = new EventEmitter<void>();
+
+  itemsNotifications: INotificationItem[];
+
+  getUnreadNotifications(): INotificationItem[] {
+    return this.itemsNotifications?.filter((item) => item.status === NotificationStatus.UNREAD) || [];
+  }
+
 
   onToggleSidebar() {
     event.stopPropagation();
@@ -28,8 +38,56 @@ export class HeaderComponent implements OnInit {
     private readonly _sidebarService: SidebarService,
     private readonly _authService: AuthService,
     private readonly _sessionService: SessionService,
-    private readonly _sessionQuery: SessionQuery
+    private readonly _sessionQuery: SessionQuery,
+    private readonly _notificationService: NotificationService
   ) {
+    const pollingInterval = 60000; // 1 minuto fixo
+
+    this.fetchNotifications();
+
+    // Inicia o polling
+    setInterval(() => this.fetchNotifications(), pollingInterval);
+  }
+
+  private fetchNotifications() {
+    // Certificando-se de que itemsNotifications é um array válido
+    if (!this.itemsNotifications) {
+      this.itemsNotifications = [];
+    }
+
+    this._notificationService.search(null, {
+      viewed: 0
+    }).subscribe({
+      next: (res) => {
+        if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+          res.data.forEach((item: any) => {
+            const existingNotification = this.itemsNotifications.find(
+              (n) => n.id === item.id
+            );
+
+            if (existingNotification) {
+              // Atualiza o status se mudou
+              const newStatus = item.viewed ? NotificationStatus.READ : NotificationStatus.UNREAD;
+              if (existingNotification.status !== newStatus) {
+                existingNotification.status = newStatus;
+              }
+            } else {
+              // Adiciona nova notificação se não existir
+              this.itemsNotifications.push({
+                status: item.viewed ? NotificationStatus.READ : NotificationStatus.UNREAD,
+                id: item.id,
+                title: item.description,
+                body: item.message,
+                date: item.datetime,
+              });
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao buscar notificações:', error);
+      },
+    });
   }
 
   ngOnInit() {
@@ -74,6 +132,10 @@ export class HeaderComponent implements OnInit {
     if (!target.closest('.dropdown') && this.show_dropdown) {
       this.show_dropdown = false;
     }
+
+    if (!target.closest('.dropdown') && this.show_dropdown_notification) {
+      this.show_dropdown_notification = false;
+    }
   }
 
   // Utils
@@ -90,5 +152,10 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this._authService.logout();
+  }
+
+  toggleDropdownNotification($event: Event) {
+    $event.stopPropagation();
+    this.show_dropdown_notification = !this.show_dropdown_notification;
   }
 }
