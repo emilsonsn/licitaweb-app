@@ -7,6 +7,7 @@ import {AuthService} from "@services/auth.service";
 import {SessionService} from '@store/session.service';
 import {SessionQuery} from '@store/session.query';
 import {INotificationItem, NotificationStatus} from "@models/INotificationItem";
+import {NotificationService} from "@services/notification.service";
 
 @Component({
   selector: 'app-header',
@@ -20,40 +21,12 @@ export class HeaderComponent implements OnInit {
   show_dropdown_notification: boolean = false;
   @Output() toggleSidebar = new EventEmitter<void>();
 
-  itemsNotifications: INotificationItem[] = [
-    {
-      id: 1,
-      title: 'Título da notificação 1',
-      body: 'Descrição da notificação',
-      date: new Date(),
-      status: NotificationStatus.UNREAD
-    },
-    {
-      id: 2,
-      title: 'Título da notificação 2',
-      body: 'Descrição da notificação',
-      date: new Date(),
-      status: NotificationStatus.UNREAD
-    },
-    {
-      id: 3,
-      title: 'Título da notificação 3',
-      body: 'Descrição da notificação',
-      date: new Date(),
-      status: NotificationStatus.UNREAD
-    },
-    {
-      id: 4,
-      title: 'Título da notificação 4',
-      body: 'Descrição da notificação',
-      date: new Date(),
-      status: NotificationStatus.UNREAD
-    }
-  ]
+  itemsNotifications: INotificationItem[];
 
   getUnreadNotifications(): INotificationItem[] {
-    return this.itemsNotifications.filter((item) => item.status === NotificationStatus.UNREAD);
+    return this.itemsNotifications?.filter((item) => item.status === NotificationStatus.UNREAD) || [];
   }
+
 
   onToggleSidebar() {
     event.stopPropagation();
@@ -65,8 +38,56 @@ export class HeaderComponent implements OnInit {
     private readonly _sidebarService: SidebarService,
     private readonly _authService: AuthService,
     private readonly _sessionService: SessionService,
-    private readonly _sessionQuery: SessionQuery
+    private readonly _sessionQuery: SessionQuery,
+    private readonly _notificationService: NotificationService
   ) {
+    const pollingInterval = 60000; // 1 minuto fixo
+
+    this.fetchNotifications();
+
+    // Inicia o polling
+    setInterval(() => this.fetchNotifications(), pollingInterval);
+  }
+
+  private fetchNotifications() {
+    // Certificando-se de que itemsNotifications é um array válido
+    if (!this.itemsNotifications) {
+      this.itemsNotifications = [];
+    }
+
+    this._notificationService.search(null, {
+      viewed: 0
+    }).subscribe({
+      next: (res) => {
+        if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+          res.data.forEach((item: any) => {
+            const existingNotification = this.itemsNotifications.find(
+              (n) => n.id === item.id
+            );
+
+            if (existingNotification) {
+              // Atualiza o status se mudou
+              const newStatus = item.viewed ? NotificationStatus.READ : NotificationStatus.UNREAD;
+              if (existingNotification.status !== newStatus) {
+                existingNotification.status = newStatus;
+              }
+            } else {
+              // Adiciona nova notificação se não existir
+              this.itemsNotifications.push({
+                status: item.viewed ? NotificationStatus.READ : NotificationStatus.UNREAD,
+                id: item.id,
+                title: item.description,
+                body: item.message,
+                date: item.datetime,
+              });
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao buscar notificações:', error);
+      },
+    });
   }
 
   ngOnInit() {

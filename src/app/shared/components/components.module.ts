@@ -23,6 +23,7 @@ import {
 } from "@angular/material/datepicker";
 import { NotificationItemsComponent } from './notification-items/notification-items.component';
 import {MatRipple} from "@angular/material/core";
+import {MatTooltip} from "@angular/material/tooltip";
 const components: any[] = [
   AccountManagerComponent,
   SmallInformationCardComponent,
@@ -60,7 +61,8 @@ const components: any[] = [
     MatStartDate,
     MatDateRangeInput,
     MatDateRangePicker,
-    MatRipple
+    MatRipple,
+    MatTooltip
   ],
   exports: [
     components,

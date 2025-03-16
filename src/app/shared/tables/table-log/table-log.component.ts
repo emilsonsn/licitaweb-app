@@ -64,7 +64,7 @@ export class TableLogComponent implements OnChanges {
     itemCount: 0,
     pageCount: 0,
     orderField: "id",
-    order: Order.ASC,
+    order: Order.DESC,
   };
 
   constructor(

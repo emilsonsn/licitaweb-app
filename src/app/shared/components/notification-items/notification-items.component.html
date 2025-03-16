@@ -7,13 +7,13 @@
   </div>
 
   <div class="items">
-    @if (items.length > 0) {
+    @if (items?.length > 0) {
       @for (item of items; track item) {
         @if (item.status === NotificationStatus.UNREAD) {
           <div class="item">
             <div class="item-header">
               <span>{{item?.title}}</span>
-              <i class="fa-solid fa-trash" (click)="removeItem(item, $event)"></i>
+              <i [matTooltip]="'Marcar como lida'" class="fa-solid fa-check-circle" (click)="removeItem(item, $event)"></i>
             </div>
             <div class="item-body">
               {{item?.body}}
@@ -26,7 +26,7 @@
       }
     }
 
-    @if (items.length === 0 || confirmAllReads()) {
+    @if (items?.length === 0 || confirmAllReads()) {
       <div class="empty">
         <span>Não há notificações</span>
       </div>
