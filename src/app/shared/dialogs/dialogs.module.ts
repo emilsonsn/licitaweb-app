@@ -64,6 +64,8 @@ import {
 } from "@angular/material/table";
 import { DialogContractComponent } from './dialog-contract/dialog-contract.component';
 import { DialogClientLogComponent } from './dialog-client-log/dialog-client-log.component';
+import { DialogCommitmentNotesComponent } from './dialog-commitment-notes/dialog-commitment-notes.component';
+import { DialogAlertComponent } from './dialog-alert/dialog-alert.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -114,7 +116,9 @@ const MY_DATE_FORMATS = {
     DialogHistoricalProductComponent,
     DialogProductViewsComponent,
     DialogContractComponent,
-    DialogClientLogComponent
+    DialogClientLogComponent,
+    DialogCommitmentNotesComponent,
+    DialogAlertComponent
   ],
   imports: [
     CommonModule,

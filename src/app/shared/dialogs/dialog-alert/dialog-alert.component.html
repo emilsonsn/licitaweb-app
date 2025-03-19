@@ -1,0 +1,34 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5"><i class="fa-solid fa-triangle-exclamation dialog-icon"></i> {{ title }}</span>
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <div class="row">
+
+    <div class="col-md-12 mb-3">
+      <p>
+        <i class="fa fa-info-circle dialog-info-icon" aria-hidden="true"></i>
+        <strong>ATENÇÃO:</strong> Os dados apresentados nesta página são <strong>fictícios</strong> e estão em fase de desenvolvimento.
+        <strong>Favor não considerar como informações definitivas.</strong>
+      </p>
+    </div>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

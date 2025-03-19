@@ -80,6 +80,11 @@ export class LayoutPrivateComponent {
           icon: 'fa-solid fa-handshake',
           route: '/painel/contract'
         },
+        {
+          label: 'Notas de Empenho',
+          icon: 'fa-solid fa-file-invoice-dollar',
+          route: '/painel/commitment-notes'
+        },
       ]
     },
     {

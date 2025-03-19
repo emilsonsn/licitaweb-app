@@ -1,0 +1,11 @@
+@import "_variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  overflow: auto;
+}

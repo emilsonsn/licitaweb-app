@@ -1,0 +1,33 @@
+.dialog-title {
+  display: flex;
+  align-items: center;
+}
+
+.dialog-icon {
+  margin-right: 10px;
+  color: #ff9800; /* Cor do ícone de alerta */
+}
+
+.dialog-content {
+  font-size: 16px;
+  text-align: center;
+  margin: 20px;
+}
+
+.dialog-info-icon {
+  color: #2196f3; /* Cor do ícone de informação */
+  margin-right: 10px;
+}
+
+.dialog-actions {
+  text-align: center;
+}
+
+.close-button {
+  display: flex;
+  align-items: center;
+}
+
+.close-button i {
+  margin-right: 8px;
+}

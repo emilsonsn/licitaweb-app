@@ -14,17 +14,21 @@ export class SidebarComponent {
   constructor(
     protected readonly _sidebarService: SidebarService,
     protected readonly router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.menuItem.forEach(item => {
       item.active = this.router.url === item.route;
 
+      // Se tiver filhos, verifica se algum filho está ativo e abre o dropdown
       if (item.children) {
-        item.children.forEach(child => child.active = this.router.url === child.route);
+        item.children.forEach(child => {
+          child.active = this.router.url === child.route;
+          if (child.active) {
+            item.isOpen = true; // Abre o dropdown do pai se um filho estiver ativo
+          }
+        });
       }
-
     });
   }
 
@@ -39,23 +43,27 @@ export class SidebarComponent {
   public navigateToRoute(item: IMenuItem, event?: Event): void {
     event.stopPropagation();
 
+    // Reseta todos os itens e filhos
     this.menuItem.forEach(item => {
       item.active = false;
-
       if (item.children) {
         item.children.forEach(child => child.active = false);
       }
-
     });
 
+    // Navega e ativa o item
     if (item.route) {
       this.router.navigate([item.route]).then(_ => {
         item.active = true;
       });
     }
+
+    // Abre o dropdown ao clicar num item filho
+    if (item.children) item.isOpen = !item.isOpen;
   }
 
-  routerActive(url: string, child: IMenuItem) {
+  // Mantém o menu ativo ao carregar e navegar
+  routerActive(url: string, child: IMenuItem): boolean {
     const urls = url.split('/');
     const routes = child.route.split('/');
 
