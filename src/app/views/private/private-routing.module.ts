@@ -74,6 +74,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'commitment-notes',
+        loadChildren: () => import('./commitment-notes/commitment-notes.module').then(m => m.CommitmentNotesModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'commitment-notes'
+        }
+      },
+      {
         path: 'logs',
         loadChildren: () => import('./logs/logs.module').then(m => m.LogsModule),
         canActivate: [permissionGuard],
