@@ -27,6 +27,8 @@ import { TableProductComponent } from './table-product/table-product.component';
 import { TableTenderAuctionedComponent } from './table-tender-auctioned/table-tender-auctioned.component';
 import { TableHistoricalProductComponent } from './table-historical-product/table-historical-product.component';
 import { TableContractsComponent } from './table-contracts/table-contracts.component';
+import { TableCommitmentNotesComponent } from './table-commitment-notes/table-commitment-notes.component';
+import {MatSort} from "@angular/material/sort";
 
 const tables = [
   TableOrdersComponent,
@@ -53,6 +55,7 @@ const tables = [
     TableLogComponent,
     TableTenderAuctionedComponent,
     TableContractsComponent,
+    TableCommitmentNotesComponent,
   ],
   imports: [
     CommonModule,
@@ -66,13 +69,15 @@ const tables = [
     MatRippleModule,
     PipesModule,
     AvatarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSort
   ],
   exports: [
     tables,
     TableLogComponent,
     TableTenderAuctionedComponent,
-    TableContractsComponent
+    TableContractsComponent,
+    TableCommitmentNotesComponent
   ],
 })
 export class TablesModule {
