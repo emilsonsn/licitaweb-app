@@ -1,6 +1,7 @@
 import {Tender} from "@models/tender";
 import {Client} from "@models/client";
 
+export type ContractKeys = keyof Contract;
 
 export interface Contract {
   id: number,
