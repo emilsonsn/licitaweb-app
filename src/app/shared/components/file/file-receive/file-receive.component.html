@@ -1,4 +1,4 @@
-<h6>Arquivos Recebidos</h6>
+<h6 *ngIf="filesFromBack.length > 0">Arquivos Recebidos</h6>
 
 <section>
   @for(file of filesFromBack; track file) {
