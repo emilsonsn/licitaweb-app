@@ -15,6 +15,7 @@ import { DatetimePipe } from './datetime.pipe';
 import { CurrencyFormatPipe } from './currency-format.pipe';
 import { TranslateContractStatusPipe } from './translate-contract-status.pipe';
 import { JsonPathPipe } from './json-path.pipe';
+import { ContractPaymentPipe } from './contract-payment.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -28,7 +29,8 @@ const pipes = [
   StatusLicitaWebPipe,
   StatusTaskPipe,
   DatetimePipe,
-  CurrencyFormatPipe
+  CurrencyFormatPipe,
+  ContractPaymentPipe
 ];
 
 @NgModule({
