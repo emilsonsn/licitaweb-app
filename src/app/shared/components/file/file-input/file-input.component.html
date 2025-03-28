@@ -1,0 +1,25 @@
+<h6>Envio de Arquivos</h6>
+
+<main id="files">
+  @for(file of filesToSend; track file) {
+    <div class="file" matTooltip="{{file.file.name}}">
+      <div class="delete">
+        <i class="fa-solid fa-close" (click)="removeFile(file, $index);"></i>
+      </div>
+      @if(file.preview) {
+        <img [src]="file.preview" alt="{{file.file.name}}" style="max-width: 100%; max-height: 100%;" />
+      }
+      @else {
+        <i class="fa-solid fa-file"></i>
+      }
+    </div>
+  }
+</main>
+
+<section matRipple id="inputFileAdd">
+  <div id="text">
+    <i class="fa-solid fa-plus"></i>
+    <span>Adicionar Arquivo</span>
+  </div>
+  <input type="file" (change)="onFileSelected($event)" [multiple]="true" title=" " />
+</section>

@@ -1,0 +1,16 @@
+
+<h6>Arquivos Recebidos</h6>
+
+<section>
+  @for(file of filesFromBack; track file) {
+    <div class="file" matTooltip="{{file.name}}" (click)="openImgInAnotherTab(file.path)">
+      <div class="delete">
+        <i class="fa-solid fa-close" (click)="removeFile(file, $index);"></i>
+      </div>
+      <img [src]="file.path" alt="{{file.name}}" (error)="imgLoadError($event, file)" />
+      @if(file.path) {
+        <i class="fa-solid fa-file"></i>
+      }
+    </div>
+  }
+</section>
