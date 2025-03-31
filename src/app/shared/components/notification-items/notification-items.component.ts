@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { INotificationItem, NotificationStatus } from "@models/INotificationItem";
+import {INotificationItem, NotificationStatus, NotificationType} from "@models/INotificationItem";
 import {NotificationService} from "@services/notification.service";
 
 @Component({
@@ -55,4 +55,6 @@ export class NotificationItemsComponent {
     // Verifica se existe pelo menos um item antes de verificar o status
     return this.items?.length ? this.items.every(x => x.status === NotificationStatus.READ) : true;
   }
+
+  protected readonly NotificationType = NotificationType;
 }

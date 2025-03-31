@@ -28,6 +28,12 @@
     flex-direction: column;
     gap: 0.5rem;
 
+    .task-item {
+      background-color: #f3f4f6; /* Cor de fundo para tarefa */
+      color: #d9534f; /* Cor do texto para destacar como tarefa */
+    }
+
+
     .item {
       display: flex;
       flex-direction: column;
@@ -82,7 +88,6 @@
         justify-content: end;
         font-size: 0.8em;
       }
-
     }
 
     .empty {

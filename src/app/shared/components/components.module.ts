@@ -36,6 +36,7 @@ import { MatRipple } from '@angular/material/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { FileInputComponent } from './file/file-input/file-input.component';
 import { FileReceiveComponent } from './file/file-receive/file-receive.component';
+import {RouterLink} from "@angular/router";
 
 const components = [
   AccountManagerComponent,
@@ -76,6 +77,7 @@ const components = [
     MatDateRangePicker,
     MatRipple,
     MatTooltip,
+    RouterLink,
   ],
   exports: [
     components,

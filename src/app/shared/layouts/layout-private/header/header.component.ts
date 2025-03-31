@@ -6,8 +6,9 @@ import {User} from "@models/user";
 import {AuthService} from "@services/auth.service";
 import {SessionService} from '@store/session.service';
 import {SessionQuery} from '@store/session.query';
-import {INotificationItem, NotificationStatus} from "@models/INotificationItem";
+import {INotificationItem, NotificationStatus, NotificationType} from "@models/INotificationItem";
 import {NotificationService} from "@services/notification.service";
+import {EventTaskService} from "@services/event.service";
 
 @Component({
   selector: 'app-header',
@@ -39,6 +40,7 @@ export class HeaderComponent implements OnInit {
     private readonly _authService: AuthService,
     private readonly _sessionService: SessionService,
     private readonly _sessionQuery: SessionQuery,
+    private readonly _eventService: EventTaskService,
     private readonly _notificationService: NotificationService
   ) {
     const pollingInterval = 60000; // 1 minuto fixo
@@ -79,6 +81,7 @@ export class HeaderComponent implements OnInit {
                 title: item.description,
                 body: item.message,
                 date: item.datetime,
+                type: NotificationType.NOTIFICATION
               });
             }
           });
@@ -88,6 +91,28 @@ export class HeaderComponent implements OnInit {
         console.error('Erro ao buscar notificações:', error);
       },
     });
+
+    this._eventService.searchIEventTasks({status: "Pending"}).subscribe({
+      next: (response) => {
+        // Excluir todos os itens com NotificationType.TASK
+        this.itemsNotifications = this.itemsNotifications.filter(notification => notification.type !== NotificationType.TASK);
+
+        // Adicionar os novos itens
+        response.data.forEach(task => {
+          this.itemsNotifications.push({
+            status: task.status === 'Pending' ? NotificationStatus.UNREAD : NotificationStatus.READ,
+            id: (task.id * 1000 + 1) * -1,
+            title: task.name,
+            body: task.description,
+            date: task.due_date,
+            type: NotificationType.TASK
+          });
+        });
+      },
+    });
+
+
+
   }
 
   ngOnInit() {

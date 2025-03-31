@@ -22,8 +22,8 @@ export class EventTaskService {
   }
 
   // Rota para buscar tarefas com query params
-  searchIEventTasks(queryParams: any): Observable<ApiResponse<IEventTask>> {
-    return this._http.get<ApiResponse<IEventTask>>(`${this.apiUrl}/search`, {params: queryParams});
+  searchIEventTasks(queryParams: any): Observable<ApiResponsePageable<IEventTask>> {
+    return this._http.get<ApiResponsePageable<IEventTask>>(`${this.apiUrl}/search`, {params: queryParams});
   }
 
   // Rota para criar uma nova tarefa

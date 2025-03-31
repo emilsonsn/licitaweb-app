@@ -4,9 +4,17 @@ export interface INotificationItem {
   body: string;
   date: Date;
   status: NotificationStatus;
+  type: NotificationType;
 }
 
 export enum NotificationStatus {
   UNREAD,
   READ
+}
+
+export enum NotificationType {
+  TASK = 'TASK',
+  REQUEST = 'REQUEST',
+  TENDER = 'TENDER',
+  NOTIFICATION = 'NOTIFICATION'
 }
