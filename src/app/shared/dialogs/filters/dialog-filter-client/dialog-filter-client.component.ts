@@ -25,11 +25,14 @@ export class DialogFilterClientComponent {
 
   ) { }
 
+  public sortOptions = ['asc', 'desc'];
+
   ngOnInit(): void {
     this.form = this._fb.group({
       search_term: [''],
       flag: [''],
       user_id: [''],
+      sort_direction: ['desc'], // Novo campo para ordenar
     });
 
     if (this._data) {
@@ -42,6 +45,7 @@ export class DialogFilterClientComponent {
       this.form.patchValue(savedFilters);
     }
   }
+
 
   public getUsers() {
     this._user.getUsers()
