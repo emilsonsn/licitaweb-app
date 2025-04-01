@@ -6,6 +6,7 @@ import { DialogContractComponent } from '@shared/dialogs/dialog-contract/dialog-
 import { Contract } from '@models/contract';
 import { ContractService } from '@services/contract.service';
 import { DialogFilterContractComponent } from '@shared/dialogs/filters/dialog-filter-contract/dialog-filter-contract.component';
+import { DialogContractProductComponent } from '@shared/dialogs/dialog-contract-product/dialog-contract-product.component';
 
 @Component({
   selector: 'app-agreement',
@@ -39,6 +40,15 @@ export class AgreementComponent {
         this.loading = true;
       }
     });
+  }
+
+  openContractProducts(contract?: Contract) {
+    const dialogRef = this._dialog.open(DialogContractProductComponent, {
+      data: { contract_id: contract.id },
+      width: '850px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   changeTotalValue(value) {

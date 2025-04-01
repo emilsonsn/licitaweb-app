@@ -66,6 +66,7 @@ import { DialogContractComponent } from './dialog-contract/dialog-contract.compo
 import { DialogClientLogComponent } from './dialog-client-log/dialog-client-log.component';
 import { DialogCommitmentNotesComponent } from './dialog-commitment-notes/dialog-commitment-notes.component';
 import { DialogAlertComponent } from './dialog-alert/dialog-alert.component';
+import { DialogContractProductComponent } from './dialog-contract-product/dialog-contract-product.component';
 
 const DEFAULT_ACE_CONFIG: AceConfigInterface = {
   mode: 'json',
@@ -118,7 +119,8 @@ const MY_DATE_FORMATS = {
     DialogContractComponent,
     DialogClientLogComponent,
     DialogCommitmentNotesComponent,
-    DialogAlertComponent
+    DialogAlertComponent,
+    DialogContractProductComponent
   ],
   imports: [
     CommonModule,

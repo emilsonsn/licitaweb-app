@@ -1,0 +1,78 @@
+<div class="table-container">
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        @for (col of columns; track col) {
+        <th [class.hasorder]="col.order" [ngStyle]="{ cursor: 'pointer' }"
+          [class.active-order]="pageControl.orderField === col.slug">
+          <!--(click)="onClickOrderBy(col.slug, col.order)" -->
+          <div class="{{col.align}}">
+            <!-- style="color: #a2a1a8" -->
+            {{ col.title }}
+            <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
+              {{
+              pageControl.order === "DESC" ? "arrow_downward" : "arrow_upward"
+              }}
+            </i>
+          </div>
+        </th>
+        }
+      </thead>
+      <tbody>
+        <tr *ngIf="loading">
+          <td [attr.colspan]="columns.length + 1">
+            <div id="mat-loading">
+              <mat-spinner></mat-spinner>
+            </div>
+          </td>
+        </tr>
+        @if (!loading) {
+        <tr *ngIf="!data.length">
+          <td [attr.colspan]="columns.length + 1" class="text-center">
+            <div>Nenhum resultado encontrado</div>
+          </td>
+        </tr>
+        @for (obj of data; track obj) {
+        <tr class="table-line-hover" style="outline: none;">
+          <td>
+            <div class="d-flex align-items-center ml-2" style="white-space: nowrap">
+              {{ obj?.product_id }}
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center ml-2" style="white-space: nowrap">
+              {{ obj?.quantity }}
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              {{ obj?.sale_value | currencyFormat}}
+            </div>
+          </td>
+          <td>
+            <div class="d-flex justify-content-center">
+
+              <div matRipple class="buttonTemplate" matTooltip="Abrir historico">
+                <!-- (click)="openHistoricalProductClick.emit(obj?.id)"-->
+                <i class="fa-solid fa-clock-rotate-left"></i>
+              </div>
+
+              <div matRipple class="buttonTemplate" matTooltip="Ver/Edtar"> <!-- (click)="onProductClick.emit(obj)" -->
+                <i class="fa-solid fa-pen-to-square"></i>
+              </div>
+
+              <div matRipple class="buttonTemplate" matTooltip="Excluir">
+                <!-- (click)="onDeleteProductClick.emit(obj?.id)" -->
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [length]="pageControl.itemCount" [pageIndex]="pageControl.page" [pageSizeOptions]="[10, 25, 50, 100]"
+    [pageSize]="pageControl.take" (page)="pageEvent($event)"></mat-paginator>
+</div>

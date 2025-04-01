@@ -129,45 +129,6 @@
       </div>
       }
 
-      <h5 class="mb-3">Produtos</h5>
-
-      <div formArrayName="products" class="d-flex flex-column">
-        @for(product of products.controls; track product) {
-        <div class="row" [formGroupName]="$index">
-          <div class="col-md-4 mb-3">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Produto </mat-label>
-              <mat-select formControlName="name">
-                <mat-option *ngFor="let prod of productList" [value]="prod.name">{{ prod.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-md-4 mb-3">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Valor Unitário</mat-label>
-              <input matInput type="text" formControlName="unit_price" placeholder="Valor Unitário"
-                [mask]="'separator.2'" prefix="R$ " [dropSpecialCharacters]="false" />
-            </mat-form-field>
-          </div>
-          <div class="col-md-3 mb-3">
-            <mat-form-field>
-              <mat-label>Quantidade </mat-label>
-              <input matInput type="number" formControlName="quantity" placeholder="Quantidade" min="1" />
-            </mat-form-field>
-          </div>
-          <div class="col-md-1 d-flex justify-content-md-center justify-content-end mb-3">
-            <button mat-icon-button (click)="removeProduct($index)" aria-label="Remover Produto">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
-        </div>
-        }
-        <button mat-raised-button color="primary" (click)="addProduct()" class="ms-auto">
-          <i class="fa-solid fa-plus"></i>
-          Produto
-        </button>
-      </div>
-
       <h5 class="mb-3">Anotações</h5>
 
       <div class="col-md-12 mb-3">

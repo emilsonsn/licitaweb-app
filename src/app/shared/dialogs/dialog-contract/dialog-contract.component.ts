@@ -24,6 +24,8 @@ import {
   ContractKeys,
   ContractPaymentCondtion,
 } from '@models/contract';
+import { Product } from '@models/product';
+import { ProductService } from '@services/product.service';
 
 @Component({
   selector: 'app-dialog-contract',
@@ -88,7 +90,6 @@ export class DialogContractComponent {
       ],
       payment_conditions: [ContractPaymentCondtion.CASH, [Validators.required]],
       observations: [''],
-      products: this._fb.array([]),
       attachments: [null],
     });
 
@@ -213,26 +214,6 @@ export class DialogContractComponent {
     this.filesIdsToDeleteFromBack.push(file.id);
   }
 
-  // Products
-  productList = [
-    { name: 'Produto A', unit_price: 1 },
-    { name: 'Produto B', unit_price: 1 },
-    { name: 'Produto C', unit_price: 1 },
-  ];
-
-  protected addProduct() {
-    const product = this._fb.group({
-      name: ['', Validators.required],
-      unit_price: [{ value: 0, disabled: true}, [Validators.required, Validators.min(0.01)]],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-    });
-    this.products.push(product);
-  }
-
-  protected removeProduct(index: number) {
-    this.products.removeAt(index);
-  }
-
   // Utils
   protected onCancel(): void {
     this._dialogRef.close();
@@ -240,10 +221,6 @@ export class DialogContractComponent {
 
   protected toggleLoading() {
     this.loading = !this.loading;
-  }
-
-  protected get products(): FormArray {
-    return this.contractForm.get('products') as FormArray;
   }
 
   // Filters

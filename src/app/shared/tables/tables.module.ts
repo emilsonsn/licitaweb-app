@@ -29,6 +29,7 @@ import { TableHistoricalProductComponent } from './table-historical-product/tabl
 import { TableContractsComponent } from './table-contracts/table-contracts.component';
 import { TableCommitmentNotesComponent } from './table-commitment-notes/table-commitment-notes.component';
 import {MatSort} from "@angular/material/sort";
+import { TableContractProductComponent } from './table-contract-product/table-contract-product.component';
 
 const tables = [
   TableOrdersComponent,
@@ -46,7 +47,8 @@ const tables = [
   TableNotificationComponent,
   TableSupplierComponent,
   TableProductComponent,
-  TableHistoricalProductComponent
+  TableHistoricalProductComponent,
+  TableContractProductComponent
 ]
 
 @NgModule({

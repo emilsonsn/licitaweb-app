@@ -1,0 +1,60 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">Produtos</span>
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+  <div>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Produto </mat-label>
+            <mat-select formControlName="product_id">
+              <mat-option *ngFor="let prod of filteredProducts | async" [value]="prod.id">{{ prod.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 mb-3">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Valor Unitário</mat-label>
+            <input matInput type="text" formControlName="sale_value" placeholder="Valor Unitário" [mask]="'separator.2'"
+              prefix="R$ " [dropSpecialCharacters]="false" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 mb-3">
+          <mat-form-field>
+            <mat-label>Quantidade </mat-label>
+            <input matInput type="number" formControlName="quantity" placeholder="Quantidade" min="1" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button matRipple type="submit" class="button yellow" (click)="onSubmit()">
+          <i class="fa-solid fa-{{!editMode ? 'plus' : 'pen-to-square'}}"></i>
+          {{!editMode ? 'Adicionar' : 'Salvar'}}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div>
+    <app-table-contract-product [contract_id]="_data?.contract_id" [loading]="false" [filters]="null"
+      [searchTerm]="null" />
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

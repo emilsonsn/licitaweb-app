@@ -24,6 +24,9 @@ export class TableContractsComponent {
   onEditContractClick: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
+  openContractProductsClick: EventEmitter<Contract> = new EventEmitter<Contract>();
+
+  @Output()
   totalValue: EventEmitter<number> = new EventEmitter<number>();
 
   @Output()
