@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {OriginEnum, Product} from '@models/product';
@@ -55,7 +55,10 @@ export class DialogProductComponent {
     private readonly _toastr: ToastrService,
     private readonly _supplierService : SupplierService,
     private readonly _productService : ProductService,
+    private cdr: ChangeDetectorRef
   ) { }
+
+  private isUpdatingForm = false; // Flag para controlar atualização
 
   ngOnInit(): void {
     this.form = this._fb.group({
@@ -73,13 +76,13 @@ export class DialogProductComponent {
       freight: [null, [Validators.required]],
       taxes_fees: [null, [Validators.required]],
       attachments: [''],
-      // total_cost: [null, [Validators.required]],
+      total_cost: [{ value: null, disabled: true }],
       profit_margin: [null, [Validators.required]],
-      // sale_price: [null, [Validators.required]],
+      sale_price: [{ value: null, disabled: true }],
       supplier_id: [null, [Validators.required]],
     });
 
-    this._supplierService.getSuppliers().subscribe()
+    this._supplierService.getSuppliers().subscribe();
 
     if (this._data) {
       this.isNewProduct = false;
@@ -100,10 +103,54 @@ export class DialogProductComponent {
 
     this.getSuppliers();
 
-    this.form.patchValue({
-      ...this._data,
+    // Marca que estamos atualizando o formulário
+    this.isUpdatingForm = true;
+    this.form.patchValue({ ...this._data });
+
+    // Aguarda Angular processar antes de liberar valueChanges
+    setTimeout(() => {
+      this.isUpdatingForm = false;
+      this.cdr.detectChanges();
+      this.calculateTotalCost();
+      this.calculateSalePrice();
+    });
+
+    // Agora sim ativamos os cálculos automáticos
+    this.setupAutoCalculation();
+  }
+
+
+  setupAutoCalculation(): void {
+    this.form.valueChanges.subscribe(() => {
+      this.calculateTotalCost();
+      this.calculateSalePrice();
     });
   }
+
+  calculateTotalCost(): void {
+    if (this.isUpdatingForm) return; // Evita cálculo durante atualização inicial
+
+    const purchaseCost = Number(this.form.get('purchase_cost')?.value) || 0;
+    const freight = Number(this.form.get('freight')?.value) || 0;
+    const taxesFees = Number(this.form.get('taxes_fees')?.value) || 0;
+
+    const totalCost = purchaseCost + freight + taxesFees;
+
+    this.form.get('total_cost')?.setValue(totalCost.toFixed(2), { emitEvent: false });
+  }
+
+
+  calculateSalePrice(): void {
+    if (this.isUpdatingForm) return; // Evita cálculo durante atualização inicial
+
+    const totalCost = Number(this.form.get('total_cost')?.value) || 0;
+    const profitMargin = Number(this.form.get('profit_margin')?.value) || 0;
+
+    const salePrice = totalCost * (1 + (profitMargin / 100));
+
+    this.form.get('sale_price')?.setValue(salePrice.toFixed(2), { emitEvent: false });
+  }
+
 
   private getSuppliers() {
     this._supplierService.getSuppliers()
