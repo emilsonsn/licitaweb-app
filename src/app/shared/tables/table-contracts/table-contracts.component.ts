@@ -142,8 +142,6 @@ export class TableContractsComponent {
   search(): void {
     this._setLoading(true); // Ativa o loading antes de iniciar a requisição
 
-    console.log(this.filters);
-
     this.contractService
       .searchContracts(this.pageControl, this.filters)
       .pipe(finalize(() => this._setLoading(false))) // Garante que o loading será desativado após a requisição

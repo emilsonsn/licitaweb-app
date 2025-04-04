@@ -56,11 +56,12 @@
 
     <div class="col-md-12 mb-3">
       <span class="fw-bolder">Produtos</span>
-      <div formArrayName="products">
+      <div formArrayName="products" class="mt-3">
         <div *ngFor="let product of products.controls; let i = index" [formGroupName]="i" class="product-card mb-3">
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <h5>Produto {{i + 1}}</h5>
+              <h5># {{ i + 1 }} {{ (product.get('productName')?.value.name || '').slice(0, 20) }}{{ (product.get('productName')?.value.name || '').length > 20 ? '...' : '' }}</h5>
+
               <!-- Botão Remover -->
               <div class="card-notes-container-remove">
                 <button mat-icon-button (click)="removeProduct(i)" aria-label="Remover Produto" class="remove-product-button">
@@ -73,14 +74,29 @@
                 <div class="card-notes-container-body">
                   <!-- Produto -->
                   <div class="card-notes-container-produto">
+                    <!-- Produto -->
                     <span class="fw-bolder">Produto</span>
                     <mat-form-field appearance="outline" class="full-width">
-                      <mat-select formControlName="productName" required>
-                        <mat-option value="" disabled>Escolha o Produto</mat-option>
-                        <mat-option *ngFor="let prod of productList" [value]="prod.name">{{ prod.name }}</mat-option>
+                      <mat-select formControlName="productName" (selectionChange)="onProductChange($event, i)" required>
+                        <mat-option>
+                          <ngx-mat-select-search
+                            [formControl]="productFilterCtrl"
+                            placeholderLabel="Buscar Produto"
+                            i18n-placeholderLabel
+                            noEntriesFoundLabel="Produto não encontrado"
+                            i18n-noEntriesFoundLabel>
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let prod of filteredProducts$ | async" [value]="prod">
+                          {{ prod.name }}
+                        </mat-option>
                       </mat-select>
-                      <mat-error *ngIf="product.get('productName').hasError('required')">Campo obrigatório</mat-error>
+                      <mat-error *ngIf="product.get('productName')?.hasError('required')">
+                        Campo obrigatório
+                      </mat-error>
                     </mat-form-field>
+
+
 
                   </div>
 
@@ -88,17 +104,15 @@
                   <div class="card-notes-container-quantidade">
                     <span class="fw-bolder">Quantidade</span>
                     <div class="quantity-container">
-                      <button type="button" (click)="decrementQuantity()">-</button>
+                      <button type="button" (click)="decrementQuantity(i)">-</button>
                       <input
                         type="number"
                         formControlName="quantity"
                         placeholder="Quantidade"
                         required
                         min="1"
-                        [value]="quantity"
-                        (input)="onQuantityChange($event)"
-                      />
-                      <button type="button" (click)="incrementQuantity()">+</button>
+                        (input)="updateTotal(i)"/>
+                      <button type="button" (click)="incrementQuantity(i)">+</button>
                     </div>
                     <div class="error" *ngIf="product.get('quantity').hasError('required')">Campo obrigatório</div>
                     <div class="error" *ngIf="product.get('quantity').hasError('min')">Quantidade mínima é 1</div>
@@ -107,22 +121,47 @@
                 </div>
 
                 <div class="card-notes-container-footer">
-                  <!-- Preço Unitário -->
-                  <span class="fw-bolder">Preço Unitário</span>
+
+                  <!-- Preço Unitário (Desativado) -->
+                  <span class="fw-bolder">Preço Sugerido</span>
                   <mat-form-field appearance="outline" class="full-width">
                     <input
+                      readonly
                       matInput
                       type="text"
-                      formControlName="unitPrice"
+                      formControlName="sale_price"
                       placeholder="Preço Unitário"
                       required
                       [mask]="'separator.2'"
                       prefix="R$ "
-                      [dropSpecialCharacters]="false"/>
-                    <mat-error *ngIf="product.get('unitPrice').hasError('required')">Campo obrigatório</mat-error>
+                      [dropSpecialCharacters]="false"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="card-notes-container-footer">
+                  <!-- Preço Ajustado -->
+                  <span class="fw-bolder">Preço Atual</span>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="adjustedPrice"
+                      placeholder="Preço Ajustado"
+                      [mask]="'separator.2'"
+                      prefix="R$ "
+                      [dropSpecialCharacters]="false"
+                      (input)="validateAdjustedPrice(i)"/>
+                    <mat-hint
+                      *ngIf="toNumber(product.get('adjustedPrice')?.value) < toNumber(product.get('sale_price')?.value)">
+                      ⚠️ O preço ajustado está menor que o preço unitário.
+                    </mat-hint>
+
                   </mat-form-field>
 
+
                 </div>
+
+                <h3 class="fw-bolder">Total: R$ {{ getTotal(i) }}</h3>
               </div>
             </div>
           </div>
