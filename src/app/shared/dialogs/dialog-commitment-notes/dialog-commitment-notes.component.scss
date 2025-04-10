@@ -8,6 +8,7 @@
     align-items: start;
     justify-content: space-between;
     display: flex;
+    gap: 1rem;
   }
 
   .card-notes-container-footer{
@@ -50,4 +51,32 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+
+.error {
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.6);
+  display: block;
+  font-family: "Myriad Pro", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  height: 22px;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 17px;
+  padding-right: 0px;
+  padding-top: 0px;
+  pointer-events: auto;
+  text-align: left;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 

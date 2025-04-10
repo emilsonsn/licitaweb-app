@@ -11,7 +11,6 @@ import {CommitmentNote, CommitmentNoteProduct} from '@models/CommitmentNote';
 import {IStatus} from '@models/status';
 import {minLengthArray} from "@shared/helpers/minLengthArray";
 import dayjs from "dayjs";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-dialog-commitment-notes',
@@ -42,7 +41,7 @@ export class DialogCommitmentNotesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogCommitmentNotesComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private readonly _toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _productService: ProductService,
     private readonly _contractService: ContractService,
     private readonly _commitmentNotesService: CommitmentNotesService,
@@ -163,10 +162,10 @@ export class DialogCommitmentNotesComponent implements OnInit {
 
       this._commitmentNotesService.create(commitmentNotes).subscribe({
         next: (res: any) => {
-          this._toastr.success(res.message);
+          console.log(res);
         },
         error: (err: any) => {
-          this._toastr.error(err.error.error);
+          console.error(err);
         }
       });
 

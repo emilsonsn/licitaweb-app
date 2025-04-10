@@ -1,0 +1,38 @@
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {IStatus} from "@models/status";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StatusService {
+  private readonly baseUrl = `${environment.api}/notes-status`;
+
+  constructor(private readonly _http: HttpClient) {
+  }
+
+  getAll(): Observable<{ data: IStatus[] }> {
+    return this._http.get<{ data: IStatus[] }>(`${this.baseUrl}/all`);
+  }
+
+  search(search_term?: string, take: number = 10): Observable<any> {
+    let params = new HttpParams().set('take', take.toString());
+    if (search_term) params = params.set('search_term', search_term);
+
+    return this._http.get(`${this.baseUrl}/search`, {params});
+  }
+
+  create(data: IStatus): Observable<any> {
+    return this._http.post(`${this.baseUrl}/create`, data);
+  }
+
+  update(id: number, data: IStatus): Observable<any> {
+    return this._http.patch(`${this.baseUrl}/${id}`, data);
+  }
+
+  delete(id: number): Observable<any> {
+    return this._http.delete(`${this.baseUrl}/${id}`);
+  }
+}

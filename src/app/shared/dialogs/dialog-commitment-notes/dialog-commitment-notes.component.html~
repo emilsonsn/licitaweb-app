@@ -16,6 +16,7 @@
       <span class="fw-bolder">N° da Nota</span>
       <mat-form-field appearance="outline" class="full-width">
         <input matInput formControlName="noteNumber" placeholder="Digite o número da nota" />
+        <mat-hint>Informe o número da nota</mat-hint>
       </mat-form-field>
     </div>
 
@@ -37,6 +38,7 @@
             {{ contract.contract_number }} - {{ contract.client?.name || 'Sem cliente' }}
           </mat-option>
         </mat-select>
+        <mat-hint>Selecione o contrato associado à nota</mat-hint>
       </mat-form-field>
     </div>
 
@@ -47,6 +49,7 @@
         <input matInput [matDatepicker]="receivedDatePicker" formControlName="receivedDate" placeholder="Escolha a data" />
         <mat-datepicker-toggle matSuffix [for]="receivedDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #receivedDatePicker></mat-datepicker>
+        <mat-hint>Selecione a data de recebimento</mat-hint>
       </mat-form-field>
     </div>
 
@@ -57,6 +60,7 @@
         <input matInput [matDatepicker]="deliveryDatePicker" formControlName="deliveryDeadline" placeholder="Escolha o prazo" />
         <mat-datepicker-toggle matSuffix [for]="deliveryDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #deliveryDatePicker></mat-datepicker>
+        <mat-hint>Informe a data de prazo de entrega</mat-hint>
       </mat-form-field>
     </div>
 
@@ -78,6 +82,7 @@
             {{ status.name }}
           </mat-option>
         </mat-select>
+        <mat-hint>Selecione o status da nota de empenho</mat-hint>
       </mat-form-field>
     </div>
 
@@ -86,6 +91,7 @@
       <span class="fw-bolder">Observações</span>
       <mat-form-field appearance="outline" class="full-width">
         <textarea matInput formControlName="observations" placeholder="Digite suas observações"></textarea>
+        <mat-hint>Informe observações adicionais, se necessário</mat-hint>
       </mat-form-field>
     </div>
 
@@ -126,6 +132,7 @@
                       <mat-error *ngIf="product.get('productName')?.hasError('required')">
                         Campo obrigatório
                       </mat-error>
+                      <mat-hint>Selecione o produto desejado</mat-hint>
                     </mat-form-field>
                   </div>
 

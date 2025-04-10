@@ -12,12 +12,12 @@ import {DialogAlertComponent} from "@shared/dialogs/dialog-alert/dialog-alert.co
 })
 export class CommitmentNotesComponent {
   constructor(private dialog: MatDialog) {
-    this.openAlertDialog();
+    // this.openAlertDialog();
   }
 
   openModal() {
     this.dialog.open(DialogCommitmentNotesComponent, {
-      width: '500px'
+      width: '600px'
     });
   }
 
